@@ -1,0 +1,24 @@
+version: '3'
+services:
+    app:
+        image: node:11
+        hostname: app
+        volumes:
+            - ./app:/src
+            - /src/node_modules
+        working_dir: /src
+        command: sh -c "npm install && npm install -g n && n stable && npm run dev"
+        ports:
+            - 127.0.0.1:8080:8080
+
+    api:
+        image: node:11
+        hostname: api
+        volumes:
+            - ./api:/src
+            - /src/node_modules
+        working_dir: /src
+        command: sh -c "npm install && npm start"
+        expose:
+            - "3000"
+
