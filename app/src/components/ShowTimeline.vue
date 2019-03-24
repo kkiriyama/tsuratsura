@@ -34,7 +34,8 @@ export default {
   computed: {
     formattedCreatedTime () {
       const d = new Date(this.post.created_at.integerValue * 1)
-      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${d.getMinutes()}`
+      const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
     }
   }
 }

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-12 col-md-offset-2">
+                        <div class="col-md-12 col-mdhhoffset-2">
                             <button type="submit" class="btn btn-primary center-block">投稿</button>
                         </div>
                     </div>
@@ -50,7 +50,15 @@ export default {
         created_at: new Date().getTime(),
         enable: true
       })
+        .then((res) => {
+            this.clearForm()
+            setTimeout(this.$store.dispatch('getTimeline'), 1000)
+            })
         .catch(e => console.error(e))
+    },
+    clearForm () {
+        this.username = ''
+        this.text = ''
     }
   }
 }
