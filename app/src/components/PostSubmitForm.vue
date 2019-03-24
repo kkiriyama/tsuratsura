@@ -5,12 +5,12 @@
                 <fieldset>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="text" class="form-control" id="inputUsername" placeholder="ハンドルネーム">
+                            <input v-model="username" type="text" class="form-control" id="inputUsername" placeholder="ハンドルネーム">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <textarea class="form-control" rows=3 id="inputText" placeholder="投稿内容"></textarea>
+                            <textarea v-model="text" class="form-control" rows=3 id="inputText" placeholder="投稿内容"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -26,6 +26,13 @@
 
 <script>
 
+import firebase from 'firebase'
+import 'firebase/firestore'
+
+const serviceAccount = require('../.firebaseconfig/apiconfig.json')
+const firebaseApp = firebase.initializeApp(serviceAccount, 'exercise-vue')
+const firestore = firebaseApp.firestore()
+
 export default {
   data () {
     return {
@@ -36,6 +43,15 @@ export default {
   computed: {
   },
   methods: {
+    sendPost () {
+      firestore.collection('posts').add({
+        username: this.username,
+        body: this.text,
+        created_at: new Date().getTime(),
+        enable: true
+      })
+        .catch(e => console.error(e))
+    }
   }
 }
 </script>
