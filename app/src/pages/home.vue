@@ -4,10 +4,10 @@
             <h2> TsuraTsura </h2>
         </div>
         <div class="row">
-            <div class="col-sm-4" id="submit-post">
+            <div class="col-sm-3" id="submit-post">
                 <post-submit-form/>
             </div>
-            <div class="col-sm-8" id="timeline">
+            <div class="col-sm-6" id="timeline">
                 <show-timeline
                     v-for="(post, index) in posts"
                     :key="index"

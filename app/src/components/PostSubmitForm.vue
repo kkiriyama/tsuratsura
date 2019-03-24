@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="form-horizontal" id="post">
+        <div class="form-horizontal submit-post-form" id="post">
             <form @submit.prevent="sendPost">
                 <fieldset>
                     <div class="form-group">
@@ -55,3 +55,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.submit-post-form {
+    width: auto;
+}
+</style>

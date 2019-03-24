@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card p-2 mb-2 float-lg-left">
+        <div class="card p-2 mb-2">
             <div class="card-header text-left">
                 {{ post.username.stringValue }}
             </div>
@@ -9,7 +9,7 @@
             </div>
             <div class="card-footer text-right">
                 <small class="text-muted">posted at</small>
-                <span>{{ post.created_at.integerValue }}</span>
+                <span>{{ formattedCreatedTime }}</span>
             </div>
         </div>
     </div>
@@ -32,6 +32,17 @@ export default {
   methods: {
   },
   computed: {
+    formattedCreatedTime () {
+      const d = new Date(this.post.created_at.integerValue * 1)
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${d.getMinutes()}`
+    }
   }
 }
 </script>
+
+<style>
+.card {
+    width: 80%;
+    margin: 10px auto;
+}
+</style>
