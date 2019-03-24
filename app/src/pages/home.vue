@@ -3,14 +3,16 @@
         <div id="title">
             <h2> TsuraTsura </h2>
         </div>
-        <div class="container" id="submit-post">
-            <post-submit-form/>
-        </div>
-        <div class="container" id="timeline">
-            <show-timeline
-                v-for="(post, index) in posts"
-                :key="index"
-                :post="post"/>
+        <div class="row">
+            <div class="col-sm-4" id="submit-post">
+                <post-submit-form/>
+            </div>
+            <div class="col-sm-8" id="timeline">
+                <show-timeline
+                    v-for="(post, index) in posts"
+                    :key="index"
+                    :post="post"/>
+            </div>
         </div>
     </div>
 </template>
@@ -29,12 +31,11 @@ export default {
     return {}
   },
   created () {
-    // this.$store.dispatch('setTimeline')
+    this.$store.dispatch('getTimeline')
   },
   computed: {
     posts () {
-      return {}
-      // return this.$store.state.posts
+      return this.$store.state.posts.data
     }
   }
 }
