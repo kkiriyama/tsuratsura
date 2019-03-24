@@ -9,7 +9,7 @@
             </div>
             <div class="card-footer text-right">
                 <small class="text-muted">posted at</small>
-                <span>{{ post.created_at }}</span>
+                <span>{{ post.created_at.timestampValue.seconds }}</span>
             </div>
         </div>
     </div>
