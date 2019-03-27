@@ -25,13 +25,11 @@
 </template>
 
 <script>
-
 import firebase from 'firebase'
-import 'firebase/firestore'
-
 const serviceAccount = require('../.firebaseconfig/apiconfig.json')
-const firebaseApp = firebase.initializeApp(serviceAccount, 'exercise-vue')
-const firestore = firebaseApp.firestore()
+firebase.initializeApp(serviceAccount)
+
+const firestore = firebase.firestore()
 
 export default {
   data () {
