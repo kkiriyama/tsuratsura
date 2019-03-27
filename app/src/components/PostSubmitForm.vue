@@ -25,13 +25,11 @@
 </template>
 
 <script>
-
 import firebase from 'firebase'
-import 'firebase/firestore'
-
 const serviceAccount = require('../.firebaseconfig/apiconfig.json')
-const firebaseApp = firebase.initializeApp(serviceAccount, 'exercise-vue')
-const firestore = firebaseApp.firestore()
+firebase.initializeApp(serviceAccount)
+
+const firestore = firebase.firestore()
 
 export default {
   data () {
@@ -51,14 +49,14 @@ export default {
         enable: true
       })
         .then((res) => {
-            this.clearForm()
-            setTimeout(this.$store.dispatch('getTimeline'), 1000)
-            })
+          this.clearForm()
+          setTimeout(this.$store.dispatch('getTimeline'), 1000)
+        })
         .catch(e => console.error(e))
     },
     clearForm () {
-        this.username = ''
-        this.text = ''
+      this.username = ''
+      this.text = ''
     }
   }
 }

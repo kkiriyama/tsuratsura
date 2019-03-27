@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div id="header">
+            <button @click="signOut">ログアウト</button>
+        </div>
         <div id="title">
             <h2> TsuraTsura </h2>
         </div>
@@ -18,6 +21,8 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 import PostSubmitForm from '@/components/PostSubmitForm'
 import ShowTimeline from '@/components/ShowTimeline'
 
@@ -28,7 +33,8 @@ export default {
     'show-timeline': ShowTimeline
   },
   data () {
-    return {}
+    return {
+    }
   },
   created () {
     this.$store.dispatch('getTimeline')
@@ -36,6 +42,22 @@ export default {
   computed: {
     posts () {
       return this.$store.state.posts.data
+    },
+    isLoggedIn () {
+      return firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+  },
+  methods: {
+    signOut () {
+      firebase.auth().signOut().then(() => {
+        this.$router.push('/signin')
+      })
     }
   }
 }
