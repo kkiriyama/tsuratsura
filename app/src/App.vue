@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <router-link to="/">タイムライン</router-link>
+    <router-link to="/signup">新規登録</router-link>
+    <router-link to="/signin">ログイン</router-link>
     <router-view/>
   </div>
 </template>

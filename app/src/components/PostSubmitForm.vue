@@ -51,14 +51,14 @@ export default {
         enable: true
       })
         .then((res) => {
-            this.clearForm()
-            setTimeout(this.$store.dispatch('getTimeline'), 1000)
-            })
+          this.clearForm()
+          setTimeout(this.$store.dispatch('getTimeline'), 1000)
+        })
         .catch(e => console.error(e))
     },
     clearForm () {
-        this.username = ''
-        this.text = ''
+      this.username = ''
+      this.text = ''
     }
   }
 }
