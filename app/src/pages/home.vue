@@ -1,16 +1,14 @@
 <template>
     <div>
         <div id="header">
-            <button @click="signOut">ログアウト</button>
-        </div>
-        <div id="title">
-            <h2> TsuraTsura </h2>
+            <common-header
+                :is-logged-in="isLoggedIn"/>
         </div>
         <div class="row">
-            <div class="col-sm-3" id="submit-post">
+            <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
                 <post-submit-form/>
             </div>
-            <div class="col-sm-6" id="timeline">
+            <div class="col-lg-6" id="timeline">
                 <show-timeline
                     v-for="(post, index) in posts"
                     :key="index"
@@ -21,16 +19,16 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-
 import PostSubmitForm from '@/components/PostSubmitForm'
 import ShowTimeline from '@/components/ShowTimeline'
+import Header from '@/components/Header'
 
 export default {
   name: 'Timeline',
   components: {
     'post-submit-form': PostSubmitForm,
-    'show-timeline': ShowTimeline
+    'show-timeline': ShowTimeline,
+    'common-header': Header
   },
   data () {
     return {
@@ -38,27 +36,17 @@ export default {
   },
   created () {
     this.$store.dispatch('getTimeline')
+    this.$store.dispatch('getLoginState')
   },
   computed: {
     posts () {
       return this.$store.state.posts.data
     },
     isLoggedIn () {
-      return firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          return true
-        } else {
-          return false
-        }
-      })
+      return this.$store.state.isLoggedIn
     }
   },
   methods: {
-    signOut () {
-      firebase.auth().signOut().then(() => {
-        this.$router.push('/signin')
-      })
-    }
   }
 }
 </script>

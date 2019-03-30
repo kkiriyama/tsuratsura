@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <router-link to="/">タイムライン</router-link>
-    <router-link to="/signup">新規登録</router-link>
-    <router-link to="/signin">ログイン</router-link>
     <router-view/>
   </div>
 </template>
@@ -21,6 +18,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 </style>
