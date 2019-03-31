@@ -37,13 +37,17 @@ export default {
   created () {
     this.$store.dispatch('getTimeline')
     this.$store.dispatch('getLoginState')
+    this.$store.dispatch('getUserInfoState')
   },
   computed: {
     posts () {
-      return this.$store.state.posts.data
+      return this.$store.state.posts
     },
     isLoggedIn () {
       return this.$store.state.isLoggedIn
+    },
+    username () {
+      return this.$store.state.userInfo.username
     }
   },
   methods: {

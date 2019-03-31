@@ -5,13 +5,14 @@ import firebase from 'firebase'
 
 Vue.use(Vuex)
 
-const API_URL = 'http://127.0.0.1:3000'
+const API_URL = 'http://localhost:3000'
 
 export default new Vuex.Store({
   state: {
     posts: {},
     isLoggedIn: false,
-    userInfo: {}
+    userInfo: {},
+    postsWithCondition: {}
   },
   mutations: {
     setTimeline (state, payload) {
@@ -19,19 +20,42 @@ export default new Vuex.Store({
     },
     setLoginState (state, payload) {
       state.isLoggedIn = payload.loginState
-      state.userIndo = payload.user
+    },
+    setUserInfoState (state, payload) {
+      state.userInfo = payload.data
+    },
+    setTimelineWithCondition (state, payload) {
+      state.postsWithCondition = payload.data
     }
   },
   actions: {
     async getTimeline () {
       const data = await axios.get(API_URL + '/timeline')
         .catch(e => console.error(e))
-      this.commit('setTimeline', {data: data.data})
+      this.commit('setTimeline', {data: data.data.data})
     },
     async getLoginState () {
       firebase.auth().onAuthStateChanged(user => {
-          this.commit('setLoginState', {loginState: user ? true : false, user: user})
+        this.commit('setLoginState', {loginState: !!user})
       })
+    },
+    async getUserInfoState () {
+      firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          const userData = await axios.get(API_URL + '/getuser?id=' + user.uid)
+          this.commit('setUserInfoState', {data: userData.data.data})
+        }
+      })
+    },
+    async getPostsWithCondition (state, params) {
+      let queryList = []
+      if (params.email) {
+        queryList.push('email=' + params.email)
+      }
+      const query = '?' + queryList.join('&')
+      let data = await axios.get(API_URL + '/timeline' + query)
+        .catch(e => console.error(e))
+      this.commit('setTimelineWithCondition', {data: data.data})
     }
   }
 })

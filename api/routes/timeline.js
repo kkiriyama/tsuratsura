@@ -1,23 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin')
-const cors = require('cors')
-
-var serviceAccount = require("../.firebaseconfig/tsuratsura-0000-firebase-adminsdk-8wioi-c0cb2e6460.json")
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-})
 
 var db = admin.firestore()
 
-router.get('/', cors(), function(req, res, next) {
+router.get('/', function(req, res, next) {
     (async () => {
-        const data = await db.collection('posts').get()
-        let postData = []
-        data._docs().forEach(doc => postData.push(doc._fieldsProto))
+        const dataWithPromise = await db.collection('posts').orderBy('created_at').get()
+            .then((snapshot) => {
+                const posts = []
+                const authors = []
+                snapshot.forEach((doc) => {
+                    posts.push(doc.data())
+                    authors.push(doc.data().author.get())
+                })
+                return {posts: posts, authors: authors}
+            })
+        data = []
+        for (i=0; i<dataWithPromise.posts.length; i++) {
+            a = await dataWithPromise.authors[i]
+                .then(doc => doc.data())
+            data.push({posts: dataWithPromise.posts[i], author: a})
+        }
         res.send({
-                data: postData
+            data: data.reverse()
         })
     })().catch(next)
 });
