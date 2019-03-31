@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Home from '@/pages/home.vue'
 import Signup from '@/pages/Signup.vue'
 import Signin from '@/pages/Signin.vue'
+import MyPage from '@/pages/MyPage.vue'
 import firebase from 'firebase'
 
 Vue.use(VueRouter)
@@ -28,6 +29,11 @@ const router = new VueRouter({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/mypage',
+      name: 'MyPage',
+      component: MyPage
     }
   ]
 })

@@ -2,10 +2,10 @@
     <div>
         <div class="card p-2 mb-2">
             <div class="card-header text-left">
-                {{ post.username.stringValue }}
+                {{ post.author.username }}
             </div>
             <div class="card-body text-left">
-                <span class="card-text">{{ post.body.stringValue }}</span>
+                <span class="card-text">{{ post.posts.body }}</span>
             </div>
             <div class="card-footer text-right">
                 <small class="text-muted">posted at</small>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     formattedCreatedTime () {
-      const d = new Date(this.post.created_at.integerValue * 1)
+      const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
       return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
     }
