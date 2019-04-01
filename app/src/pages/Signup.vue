@@ -1,7 +1,7 @@
 <template>
     <div>
     <common-header
-        :is-logged-in="isLoggedin"/>
+        :is-logged-in="isLoggedIn"/>
         <div class="siginup container">
             <h2> ユーザー登録 </h2>
             <div class="form-horizontal" id="signup">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group col-md-8 signup-form">
                             <div>
-                                <input v-model="passwordConfirm" type="password" class="form-control" id="registerPassword" placeholder="パスワード(確認)">
+                                <input v-model="passwordConfirm" type="password" class="form-control" id="confirmPassword" placeholder="パスワード(確認)">
                             </div>
                         </div>
 
@@ -50,6 +50,8 @@
 import firebase from 'firebase'
 import Header from '@/components/Header'
 
+const firestore = firebase.firestore()
+
 export default {
   name: 'Signup',
   data () {
@@ -64,6 +66,14 @@ export default {
   components: {
     'common-header': Header
   },
+  created () {
+    this.$store.dispatch('getLoginState')
+  },
+  computed: {
+    isLoggedIn () {
+      return this.$store.state.isLoggedIn
+    }
+  },
   methods: {
     addUserInfo () {
       if (this.password !== this.passwordConfirm) {
@@ -72,6 +82,17 @@ export default {
       }
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
+          firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              firestore.collection('users').add({
+                auth_id: user.uid,
+                icon_URL: '',
+                last_login: new Date(),
+                twitter: this.twitter,
+                username: this.username
+              })
+            }
+          })
           alert('登録が正常に完了しました。トップページに移ります。')
           this.$router.push('/')
         })

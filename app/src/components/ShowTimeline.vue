@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="card p-2 mb-2">
-            <div class="card-header text-left">
-                {{ post.author.username }}
+            <div class="card-header text-left"> {{ post.author.username }}
             </div>
             <div class="card-body text-left">
                 <span class="card-text">{{ post.posts.body }}</span>
@@ -10,18 +9,42 @@
             <div class="card-footer text-right">
                 <small class="text-muted">posted at</small>
                 <span>{{ formattedCreatedTime }}</span>
+                <div>
+                    <span @click="toggle_too_bad">
+                        <v-icon name="sad-tear" scale="1.2" focusable="true" color="blue"/>
+                        <span>{{ num_that_is_too_bad }}</span>
+                    </span>
+                    <span @click="toggle_alright">
+                        <v-icon name="hand-holding-heart" scale="1.2" color="pink"/>
+                        <span>{{ num_you_are_alright }}</span>
+                    </span>
+                    <span @click="toggle_good_job">
+                        <v-icon name="thumbs-up" scale="1.2" color="green"/>
+                        <span>{{ num_good_job }}</span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Icon from 'vue-awesome/components/Icon'
+import firebase from 'firebase'
+
+const firestore = firebase.firestore()
+
 export default {
   name: 'Timeline',
+  components: {
+    'v-icon': Icon
+  },
   data () {
     return {}
   },
-  mounted () {
+  created () {
+    this.$store.dispatch('getUserInfoState')
+    this.$store.dispatch('getTimeline')
   },
   props: {
     post: {
@@ -29,13 +52,72 @@ export default {
       required: true
     }
   },
-  methods: {
-  },
   computed: {
+    num_that_is_too_bad () {
+      return this.post.posts.that_is_too_bad_list.length
+    },
+    num_you_are_alright () {
+      return this.post.posts.you_are_alright_list.length
+    },
+    num_good_job () {
+      return this.post.posts.good_job_list.length
+    },
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
       return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+    }
+  },
+  methods: {
+    async toggle_too_bad () {
+      const newRef = firestore.doc('/users/' + this.post.author.user_id)
+      const refList = this.post.posts.that_is_too_bad_list
+      const idList = this.post.posts.too_bad_id_list
+      const index = idList.findIndex(item => item === this.post.author.user_id)
+      if (index === -1) {
+        refList.push(newRef)
+      } else {
+        refList.splice(index, 1)
+      }
+      firestore.collection('posts').doc(this.post.posts.id).update({
+        that_is_too_bad_list: refList
+      })
+        .then(() => this.$store.dispatch('getTimeline'))
+        .catch(e => console.error(e))
+    },
+    async toggle_alright () {
+      const newRef = firestore.doc('/users/' + this.post.author.user_id)
+      const refList = this.post.posts.you_are_alright_list
+      const idList = this.post.posts.alright_id_list
+      const index = idList.findIndex(item => item === this.post.author.user_id)
+      if (index === -1) {
+        refList.push(newRef)
+      } else {
+        refList.splice(index, 1)
+      }
+      firestore.collection('posts').doc(this.post.posts.id).update({
+        you_are_alright_list: refList
+      })
+        .then(() => this.$store.dispatch('getTimeline'))
+        .catch(e => console.error(e))
+    },
+    toggle_good_job () {
+      const newRef = firestore.doc('/users/' + this.post.author.user_id)
+      const refList = this.post.posts.good_job_list
+      const idList = this.post.posts.good_job_id_list
+      console.log(idList)
+      console.log(this.post.author.user_id)
+      const index = idList.findIndex(item => item === this.post.author.user_id)
+      if (index === -1) {
+        refList.push(newRef)
+      } else {
+        refList.splice(index, 1)
+      }
+      firestore.collection('posts').doc(this.post.posts.id).update({
+        good_job_list: refList
+      })
+        .then(() => this.$store.dispatch('getTimeline'))
+        .catch(e => console.error(e))
     }
   }
 }

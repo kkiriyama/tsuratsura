@@ -5,6 +5,9 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+const serviceAccount = require('./.firebaseconfig/apiconfig.json')
+firebase.initializeApp(serviceAccount)
 
 export default {
   name: 'App'

@@ -35,9 +35,9 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getTimeline')
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
+    this.$store.dispatch('getTimeline')
   },
   computed: {
     posts () {
