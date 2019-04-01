@@ -9,17 +9,10 @@
                             <tr>
                                 <th>ハンドルネーム</th>
                                 <td>{{ userInfo.username }}</td>
-                                <td><button class="button">編集</button></td>
-                            </tr>
-                            <tr>
-                                <th>メールアドレス</th>
-                                <td>{{ userInfo.email }}</td>
-                                <td><button class="button">編集</button></td>
                             </tr>
                             <tr>
                                 <th> Twitter ID </th>
                                 <td> {{ userInfo.twitter }} </td>
-                                <td><button class="button">編集</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,7 +40,7 @@ export default {
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    this.$store.dispatch('getPostsWithCondition', {email: this.userInfo.email})
+    this.$store.dispatch('getTimeline')
   },
   computed: {
     isLoggedIn () {
@@ -57,7 +50,10 @@ export default {
       return this.$store.state.userInfo
     },
     userPosts () {
-      return this.$store.state.postsWithCondition.data
+      const userPosts = this.$store.state.posts.filter((item) => {
+        return item.author.user_id === this.$store.state.userInfo.user_id
+      })
+      return userPosts
     }
   },
   methods: {

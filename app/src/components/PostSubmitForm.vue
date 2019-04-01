@@ -21,8 +21,6 @@
 
 <script>
 import firebase from 'firebase'
-const serviceAccount = require('../.firebaseconfig/apiconfig.json')
-firebase.initializeApp(serviceAccount)
 
 const firestore = firebase.firestore()
 
@@ -47,9 +45,9 @@ export default {
         body: this.text,
         created_at: new Date().getTime(),
         enable: true,
-        num_alright: 0,
-        num_good_job: 0,
-        num_that_is_too_bad: 0,
+        that_is_too_bad_list: [],
+        you_are_alright_list: [],
+        good_job_list: [],
         author: firestore.doc('/users/' + this.user_id)
       })
         .then((res) => {
