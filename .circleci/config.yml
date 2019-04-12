@@ -30,4 +30,3 @@ jobs:
             - run:
                 name: FrontCode test
                 working_directory: app
-
