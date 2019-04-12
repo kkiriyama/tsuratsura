@@ -1,11 +1,10 @@
-const express = require('express');
-const router = express.Router();
+const functions = require('firebase-functions');
+
 const admin = require('firebase-admin')
+admin.initializeApp()
+const db = admin.firestore()
 
-var db = admin.firestore()
-
-router.get('/', function(req, res, next) {
-    (async () => {
+exports.timeline = functions.https.onRequest(async (req, res, next) => {
         const dataWithPromise = await db.collection('posts').orderBy('created_at').get()
             .then((snapshot) => {
                 const posts = []
@@ -62,7 +61,23 @@ router.get('/', function(req, res, next) {
         res.send({
             data: data.reverse()
         })
-    })().catch(next)
-});
+})
 
-module.exports = router;
+exports.getuser = functions.https.onRequest(async (req, res, next) => {
+        const userDoc = db.collection('users').where('auth_id', '==', req.query.id)
+        const data = await userDoc.get()
+            .then((snapshot) => {
+                let data = {}
+                let index = ''
+                snapshot.forEach((doc) => {
+                    data = doc.data()
+                    index = doc.id
+                })
+                data.user_id = index
+                return data
+            })
+        res.send({
+            data: data
+        })
+})
+
