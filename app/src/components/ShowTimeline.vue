@@ -66,58 +66,68 @@ export default {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
       return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+    },
+    user_id () {
+      return this.$store.state.userInfo.user_id
     }
   },
   methods: {
     async toggle_too_bad () {
-      const newRef = firestore.doc('/users/' + this.post.author.user_id)
-      const refList = this.post.posts.that_is_too_bad_list
-      const idList = this.post.posts.too_bad_id_list
-      const index = idList.findIndex(item => item === this.post.author.user_id)
-      if (index === -1) {
-        refList.push(newRef)
-      } else {
-        refList.splice(index, 1)
+      if (!this.$store.state.isLoggedIn) {
+        alert('スタンプを押すにはログインしてください')
+        return
       }
-      firestore.collection('posts').doc(this.post.posts.id).update({
-        that_is_too_bad_list: refList
-      })
-        .then(() => this.$store.dispatch('getTimeline'))
-        .catch(e => console.error(e))
+      const newRef = firestore.doc('/users/' + this.user_id)
+      const idList = this.post.posts.too_bad_id_list
+      const index = idList.findIndex(item => item === this.user_id)
+      if (index === -1) {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          that_is_too_bad_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
+      } else {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          that_is_too_bad_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
+      }
+      this.$store.dispatch('getTimeline')
     },
     async toggle_alright () {
-      const newRef = firestore.doc('/users/' + this.post.author.user_id)
-      const refList = this.post.posts.you_are_alright_list
-      const idList = this.post.posts.alright_id_list
-      const index = idList.findIndex(item => item === this.post.author.user_id)
-      if (index === -1) {
-        refList.push(newRef)
-      } else {
-        refList.splice(index, 1)
+      if (!this.$store.state.isLoggedIn) {
+        alert('スタンプを押すにはログインしてください')
+        return
       }
-      firestore.collection('posts').doc(this.post.posts.id).update({
-        you_are_alright_list: refList
-      })
-        .then(() => this.$store.dispatch('getTimeline'))
-        .catch(e => console.error(e))
+      const newRef = firestore.doc('/users/' + this.user_id)
+      const idList = this.post.posts.alright_id_list
+      const index = idList.findIndex(item => item === this.user_id)
+      if (index === -1) {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          you_are_alright_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
+      } else {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          you_are_alright_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
+      }
+      this.$store.dispatch('getTimeline')
     },
     toggle_good_job () {
-      const newRef = firestore.doc('/users/' + this.post.author.user_id)
-      const refList = this.post.posts.good_job_list
-      const idList = this.post.posts.good_job_id_list
-      console.log(idList)
-      console.log(this.post.author.user_id)
-      const index = idList.findIndex(item => item === this.post.author.user_id)
-      if (index === -1) {
-        refList.push(newRef)
-      } else {
-        refList.splice(index, 1)
+      if (!this.$store.state.isLoggedIn) {
+        alert('スタンプを押すにはログインしてください')
+        return
       }
-      firestore.collection('posts').doc(this.post.posts.id).update({
-        good_job_list: refList
-      })
-        .then(() => this.$store.dispatch('getTimeline'))
-        .catch(e => console.error(e))
+      const newRef = firestore.doc('/users/' + this.user_id)
+      const idList = this.post.posts.good_job_id_list
+      const index = idList.findIndex(item => item === this.user_id)
+      if (index === -1) {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          good_job_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
+      } else {
+        firestore.collection('posts').doc(this.post.posts.id).update({
+          good_job_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
+      }
+      this.$store.dispatch('getTimeline')
     }
   }
 }
