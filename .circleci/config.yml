@@ -10,24 +10,13 @@ jobs:
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
-                    - v1-dependencies-{{ checksum "api/package-json" }}
             - run:
                 name: FrontCode lint
                 working_directory: app
                 command: |
                     npm install
                     npm run lint
-            - save_cache:
-                <<: *app_save_cache
 
-            - run:
-                name: API lint
-                working_directory: api
-                command: |
-                    npm install
-                    npm run lint
-            - save_cache:
-                <<: *api_save_cache
     test_front:
         docker:
             - image: circleci/node:11
@@ -42,24 +31,3 @@ jobs:
                 name: FrontCode test
                 working_directory: app
                 command: |
-                    npm install
-                    npm run test
-            - save_cache:
-                <<: *app_save_cache
-    test_api:
-        docker:
-            - image: circleci/node:11
-        working_directory: ~/repo
-
-        steps:
-            - checkout
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "api/package.json" }}
-            - run:
-                name: API test
-                working_directory: api
-                command: |
-                    npm install
-                    npm start
-
