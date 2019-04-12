@@ -10,7 +10,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 col-mdhhoffset-2">
-                            <button type="submit" class="btn btn-primary center-block">投稿</button>
+                            <button :disabled="isProcessing" type="submit" class="btn btn-primary center-block">投稿</button>
                         </div>
                     </div>
                 </fieldset>
@@ -27,7 +27,8 @@ const firestore = firebase.firestore()
 export default {
   data () {
     return {
-      text: ''
+      text: '',
+      isProcessing: false
     }
   },
   computed: {
@@ -39,7 +40,18 @@ export default {
     }
   },
   methods: {
+    startProcessing () {
+      this.isProcessing = true
+    },
+    endProcessing () {
+      this.isProcessing = false
+    },
     sendPost () {
+      if (this.text === '') {
+        alert('投稿内容を入力してください')
+        return
+      }
+      this.startProcessing()
       firestore.collection('posts').add({
         username: this.username,
         body: this.text,
@@ -53,8 +65,12 @@ export default {
         .then((res) => {
           this.clearForm()
           this.$store.dispatch('getTimeline')
+          this.endProcessing()
         })
-        .catch(e => console.error(e))
+        .catch(e => {
+          console.error(e)
+          this.endProcessing()
+        })
     },
     clearForm () {
       this.text = ''

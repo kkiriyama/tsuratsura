@@ -11,6 +11,8 @@ firebase-debug.log*
 
 # server private key
 *.pem
+dist/
+config/
 
 # Firebase config
 .firebaseconfig/

@@ -5,7 +5,8 @@ import firebase from 'firebase'
 
 Vue.use(Vuex)
 
-const API_URL = 'https://tsuratsura-0000.firebaseapp.com'
+// const API_URL = 'https://tsuratsura-0000.firebaseapp.com'
+const API_URL = 'http://localhost:5001/tsuratsura-0000/us-central1'
 
 export default new Vuex.Store({
   state: {

@@ -34,7 +34,7 @@
                         </div>
 
                         <div>
-                            <button class="button" type="submit">登録</button>
+                            <button :disable="isProcessing" class="button" type="submit">登録</button>
                         </div>
                     </fieldset>
                 </form>
@@ -60,7 +60,8 @@ export default {
       password: '',
       passwordConfirm: '',
       username: '',
-      twitter: ''
+      twitter: '',
+      isProcessing: false
     }
   },
   components: {
@@ -75,11 +76,18 @@ export default {
     }
   },
   methods: {
+    startProcessing () {
+      this.isProcessing = true
+    },
+    endProcessing () {
+      this.isProcessing = false
+    },
     addUserInfo () {
       if (this.password !== this.passwordConfirm) {
         alert('パスワードを確認してください')
         return
       }
+      this.startProcessing()
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
           firebase.auth().onAuthStateChanged((user) => {
@@ -93,10 +101,14 @@ export default {
               })
             }
           })
+          this.endProcessing()
           alert('登録が正常に完了しました。トップページに移ります。')
           this.$router.push('/')
         })
-        .catch(e => console.error(e))
+        .catch(e => {
+          console.error(e)
+          this.endProcessing()
+        })
     }
   }
 }

@@ -4,7 +4,10 @@ const admin = require('firebase-admin')
 admin.initializeApp()
 const db = admin.firestore()
 
-exports.timeline = functions.https.onRequest(async (req, res, next) => {
+const cors = require('cors')({origin: true})
+
+exports.timeline = functions.https.onRequest((req, res, next) => {
+    cors(req, res, async () => {
         const dataWithPromise = await db.collection('posts').orderBy('created_at').get()
             .then((snapshot) => {
                 const posts = []
@@ -61,9 +64,11 @@ exports.timeline = functions.https.onRequest(async (req, res, next) => {
         res.send({
             data: data.reverse()
         })
+    })
 })
 
 exports.getuser = functions.https.onRequest(async (req, res, next) => {
+    cors(req, res, async () => {
         const userDoc = db.collection('users').where('auth_id', '==', req.query.id)
         const data = await userDoc.get()
             .then((snapshot) => {
@@ -79,5 +84,6 @@ exports.getuser = functions.https.onRequest(async (req, res, next) => {
         res.send({
             data: data
         })
+    })
 })
 

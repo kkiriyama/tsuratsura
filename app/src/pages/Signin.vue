@@ -18,7 +18,7 @@
                         </div>
                         <p>※ログイン処理には1-2秒かかります</p>
                         <div>
-                            <button class="button" type="submit">ログイン</button>
+                            <button :disable="isProcessing" class="button" type="submit">ログイン</button>
                         </div>
                     </fieldset>
                 </form>
@@ -43,7 +43,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      isProcessing: false
     }
   },
   created () {
@@ -55,13 +56,24 @@ export default {
     }
   },
   methods: {
+    startProcessing () {
+      this.isProcessing = true
+    },
+    endProcessing () {
+      this.isProcessing = false
+    },
     confirmUserInfo () {
+      this.startProcessing()
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
+          this.endProcessing()
           alert('ログインに成功しました')
           this.$router.push('/')
         })
-        .catch(error => alert(error.message))
+        .catch(error => {
+          alert(error.message)
+          this.endProcessing()
+        })
     }
   }
 }
