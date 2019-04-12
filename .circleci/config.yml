@@ -15,8 +15,3 @@ jobs:
                 working_directory: app
                 command: |
                     npm install
-<<<<<<< HEAD
-=======
-                    npm run lint
->>>>>>> abc737106d96a99cb9b9011a7c12d3614f12a75f
-
