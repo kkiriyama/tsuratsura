@@ -32,6 +32,8 @@ export default {
   methods: {
     signOut () {
       firebase.auth().signOut().then(() => {
+        this.$store.dispatch('getLoginState')
+        this.$store.dispatch('getUserInfoState')
         this.$router.push('/signin')
       })
     }
