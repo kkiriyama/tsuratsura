@@ -1,6 +1,6 @@
 version: 2
 jobs:
-    lint:
+    build:
         docker:
             - image: circleci/node:11
         working_directory: ~/repo
@@ -17,16 +17,3 @@ jobs:
                     npm install
                     npm run lint
 
-    test_front:
-        docker:
-            - image: circleci/node:11
-        working_directory: ~/repo
-        steps:
-            - checkout
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "app/package.json" }}
-
-            - run:
-                name: FrontCode test
-                working_directory: app
