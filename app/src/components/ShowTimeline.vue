@@ -48,7 +48,10 @@ export default {
   },
   created () {
     this.$store.dispatch('getUserInfoState')
-    this.$store.dispatch('getTimeline')
+    firestore.collection('posts')
+      .onSnapshot((querySnapshot) => {
+        this.$store.dispatch('getTimeline')
+      })
   },
   props: {
     post: {
@@ -97,7 +100,6 @@ export default {
           that_is_too_bad_list: firebase.firestore.FieldValue.arrayRemove(newRef)
         })
       }
-      this.$store.dispatch('getTimeline')
     },
     toggle_alright () {
       if (!this.$store.state.isLoggedIn) {
@@ -116,7 +118,6 @@ export default {
           you_are_alright_list: firebase.firestore.FieldValue.arrayRemove(newRef)
         })
       }
-      this.$store.dispatch('getTimeline')
     },
     toggle_good_job () {
       if (!this.$store.state.isLoggedIn) {
@@ -135,7 +136,6 @@ export default {
           good_job_list: firebase.firestore.FieldValue.arrayRemove(newRef)
         })
       }
-      this.$store.dispatch('getTimeline')
     },
     deletePost () {
       console.log(this.post.posts_id)
