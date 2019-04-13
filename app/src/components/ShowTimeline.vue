@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="card p-2 mb-2">
-            <div class="card-header text-left"> {{ post.author.username }}
+            <div class="card-header text-left">
+                {{ post.author.username }}
+                <span v-if="isAuthor" @click="deletePost">
+                    <small>削除</small>
+                </span>
             </div>
             <div class="card-body text-left">
                 <span class="card-text">{{ post.posts.body }}</span>
@@ -69,10 +73,14 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    isAuthor () {
+      if (this.user_id === undefined) return false
+      return this.user_id === this.post.author.user_id
     }
   },
   methods: {
-    async toggle_too_bad () {
+    toggle_too_bad () {
       if (!this.$store.state.isLoggedIn) {
         alert('スタンプを押すにはログインしてください')
         return
@@ -91,7 +99,7 @@ export default {
       }
       this.$store.dispatch('getTimeline')
     },
-    async toggle_alright () {
+    toggle_alright () {
       if (!this.$store.state.isLoggedIn) {
         alert('スタンプを押すにはログインしてください')
         return
@@ -128,6 +136,15 @@ export default {
         })
       }
       this.$store.dispatch('getTimeline')
+    },
+    deletePost () {
+      console.log(this.post.posts_id)
+      if (confirm('投稿を削除しますか?')) {
+        firestore.collection('posts').doc(this.post.posts.id).delete().then(() => {
+          alert('投稿が削除されました')
+        })
+          .catch(e => alert('投稿を削除できませんでした。管理者にお問い合わせください。'))
+      }
     }
   }
 }
