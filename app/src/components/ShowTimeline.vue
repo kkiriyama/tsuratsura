@@ -7,7 +7,7 @@
                     <small>削除</small>
                 </span>
             </div>
-            <div class="card-body text-left">
+            <div class="card-body text-left show-newline">
                 <span class="card-text">{{ post.posts.body }}</span>
             </div>
             <div class="card-footer text-right">
@@ -154,5 +154,9 @@ export default {
 .card {
     width: 80%;
     margin: 10px auto;
+}
+.show-newline {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 </style>
