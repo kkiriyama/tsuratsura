@@ -2,7 +2,9 @@
     <div>
         <div class="card p-2 mb-2">
             <div class="card-header text-left">
-                {{ post.author.username }}
+                <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                    {{ post.author.username }}
+                </router-link>
                 <span v-if="isAuthor" @click="deletePost">
                     <small>削除</small>
                 </span>
@@ -76,6 +78,9 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    author_auth_id () {
+      return this.post.author.auth_id
     },
     isAuthor () {
       if (this.user_id === undefined) return false

@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '@/pages/home.vue'
-import Signup from '@/pages/Signup.vue'
-import Signin from '@/pages/Signin.vue'
-import MyPage from '@/pages/MyPage.vue'
+import Home from '@/pages/home'
+import Signup from '@/pages/Signup'
+import Signin from '@/pages/Signin'
+import UserPage from '@/pages/UserPage'
 import firebase from 'firebase'
 
 Vue.use(VueRouter)
@@ -31,9 +31,9 @@ const router = new VueRouter({
       component: Signin
     },
     {
-      path: '/mypage',
-      name: 'MyPage',
-      component: MyPage
+      path: '/user/:id',
+      name: 'UserPage',
+      component: UserPage
     }
   ]
 })
