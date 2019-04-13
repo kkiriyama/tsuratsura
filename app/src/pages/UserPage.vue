@@ -8,11 +8,15 @@
                         <tbody>
                             <tr>
                                 <th>ハンドルネーム</th>
-                                <td>{{ userInfo.username }}</td>
+                                <td>{{ visitedUserInfo.username }}</td>
                             </tr>
                             <tr>
                                 <th> Twitter ID </th>
-                                <td> {{ userInfo.twitter }} </td>
+                                <td> {{ visitedUserInfo.twitter }} </td>
+                            </tr>
+                            <tr>
+                                <th> 自己紹介 </th>
+                                <td> {{ visitedUserInfo.bio }} </td>
                             </tr>
                         </tbody>
                     </table>
@@ -40,19 +44,28 @@ export default {
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
+    const visitedUserID = this.$route.params.id
+    this.$store.dispatch('getVisitedUserInfoState', visitedUserID)
     this.$store.dispatch('getTimeline')
   },
   computed: {
     isLoggedIn () {
       return this.$store.state.isLoggedIn
     },
-    userInfo () {
+    visitingUserInfo () {
       return this.$store.state.userInfo
     },
+    visitedUserInfo () {
+      return this.$store.state.visitedUserInfo
+    },
     userPosts () {
-      const userPosts = this.$store.state.posts.filter((item) => {
-        return item.author.user_id === this.$store.state.userInfo.user_id
-      })
+      const timeline = this.$store.state.posts
+      const userPosts = []
+      for (let k of Object.keys(timeline)) {
+        if (timeline[k].author.user_id === this.visitedUserInfo.user_id) {
+          userPosts.push(timeline[k])
+        }
+      }
       return userPosts
     }
   },

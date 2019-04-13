@@ -13,7 +13,8 @@ export default new Vuex.Store({
     posts: {},
     isLoggedIn: false,
     userInfo: {},
-    postsWithCondition: {}
+    postsWithCondition: {},
+    visitedUserInfo: {}
   },
   mutations: {
     setTimeline (state, payload) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     setUserInfoState (state, payload) {
       state.userInfo = payload.data
+    },
+    setVisitedUserInfoState (state, payload) {
+      state.visitedUserInfo = payload.data
     },
     setTimelineWithCondition (state, payload) {
       state.postsWithCondition = payload.data
@@ -47,6 +51,12 @@ export default new Vuex.Store({
           this.commit('setUserInfoState', {data: userData.data.data})
         }
       })
+    },
+    async getVisitedUserInfoState (state, userAuthId) {
+      (async () => {
+        const visitedUserData = await axios.get(API_URL + '/getuser?id=' + userAuthId)
+        this.commit('setVisitedUserInfoState', {data: visitedUserData.data.data})
+      })().catch(e => console.error(e))
     },
     async getPostsWithCondition (state, params) {
       let queryList = []
