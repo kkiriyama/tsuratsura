@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar toggleable="md" type="dark" variant="info">
             <b-navbar-brand><router-link class="header-link" to="/"> TsuraTsura ~つらいひとのSNS~ </router-link></b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
