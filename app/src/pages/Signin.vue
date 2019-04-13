@@ -16,8 +16,7 @@
                                 <input v-model="password" type="password" class="form-control" id="confirmPassword" placeholder="パスワード">
                             </div>
                         </div>
-                        <p>※ログイン処理には1-2秒かかります</p>
-                        <div>
+                        <div class="col-sm-4 signin-form">
                             <button :disable="isProcessing" class="button" type="submit">ログイン</button>
                         </div>
                     </fieldset>
