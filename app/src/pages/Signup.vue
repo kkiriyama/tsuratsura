@@ -87,6 +87,10 @@ export default {
         alert('パスワードを確認してください')
         return
       }
+      if (this.username.length > 10) {
+        alert('ハンドルネームは10文字以内にしてください')
+        return
+      }
       this.startProcessing()
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {
