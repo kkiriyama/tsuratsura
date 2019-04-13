@@ -51,6 +51,10 @@ export default {
         alert('投稿内容を入力してください')
         return
       }
+      if (this.text.length > 140) {
+        alert('投稿は140文字以内にしてください')
+        return
+      }
       this.startProcessing()
       firestore.collection('posts').add({
         username: this.username,
