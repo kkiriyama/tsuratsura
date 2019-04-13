@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                        <div>
+                        <div class="col-md-8 signup-form">
                             <button :disable="isProcessing" class="button" type="submit">登録</button>
                         </div>
                     </fieldset>
