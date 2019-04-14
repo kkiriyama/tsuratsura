@@ -19,8 +19,7 @@
                                 <td> {{ visitedUserInfo.bio }} </td>
                             </tr>
                         </tbody>
-                    </table>
-                </div>
+                    </table> </div>
                 <div class="col-lg-6 col-top">
                     <show-timeline
                         v-for="(post, index) in userPosts"
@@ -43,10 +42,10 @@ export default {
   },
   created () {
     this.$store.dispatch('getLoginState')
-    this.$store.dispatch('getUserInfoState')
-    const visitedUserID = this.$route.params.id
-    this.$store.dispatch('getVisitedUserInfoState', visitedUserID)
     this.$store.dispatch('getTimeline')
+  },
+  mounted () {
+    this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
   },
   computed: {
     isLoggedIn () {
@@ -58,18 +57,24 @@ export default {
     visitedUserInfo () {
       return this.$store.state.visitedUserInfo
     },
+    visitedUserID () {
+      return this.$route.params.id
+    },
     userPosts () {
       const timeline = this.$store.state.posts
-      const userPosts = []
+      const posts = []
       for (let k of Object.keys(timeline)) {
         if (timeline[k].author.user_id === this.visitedUserInfo.user_id) {
-          userPosts.push(timeline[k])
+          posts.push(timeline[k])
         }
       }
-      return userPosts
+      return posts
     }
   },
-  methods: {
+  watch: {
+    visitedUserID: function (newId, oldId) {
+      this.$store.dispatch('getVisitedUserInfoState', newId)
+    }
   }
 }
 

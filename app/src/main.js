@@ -7,7 +7,9 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store'
-import 'vue-awesome/icons'
+import 'vue-awesome/icons/sad-tear'
+import 'vue-awesome/icons/hand-holding-heart'
+import 'vue-awesome/icons/thumbs-up'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

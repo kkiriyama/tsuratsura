@@ -7,7 +7,7 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item v-if=!isLoggedIn><router-link class="header-link" to='/signin'>ログイン</router-link></b-nav-item>
                     <b-nav-item v-if=!isLoggedIn><router-link class="header-link" to='/signup'>新規登録</router-link></b-nav-item>
-                    <b-nav-item v-if=isLoggedIn><router-link class="header-link" to='/mypage'>マイページ</router-link></b-nav-item>
+                    <b-nav-item v-if=isLoggedIn><router-link class="header-link" :to="{name: 'UserPage', params: {id: userAuthId}}">マイページ</router-link></b-nav-item>
                     <b-nav-item v-if=isLoggedIn @click="signOut">ログアウト</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import FixedHeader from 'vue-fixed-header'
 import firebase from 'firebase'
 
 export default {
@@ -26,8 +25,10 @@ export default {
       required: true
     }
   },
-  components: {
-    'fixed-header': FixedHeader
+  computed: {
+    userAuthId () {
+      return this.$store.state.userInfo.auth_id
+    }
   },
   methods: {
     signOut () {
