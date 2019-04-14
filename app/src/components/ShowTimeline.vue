@@ -49,11 +49,6 @@ export default {
     return {}
   },
   created () {
-    this.$store.dispatch('getUserInfoState')
-    firestore.collection('posts')
-      .onSnapshot((querySnapshot) => {
-        this.$store.dispatch('getTimeline')
-      })
   },
   props: {
     post: {
