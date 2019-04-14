@@ -22,6 +22,9 @@
 import PostSubmitForm from '@/components/PostSubmitForm'
 import ShowTimeline from '@/components/ShowTimeline'
 import Header from '@/components/Header'
+import firebase from 'firebase'
+
+const db = firebase.firestore()
 
 export default {
   name: 'Timeline',
@@ -37,7 +40,10 @@ export default {
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    this.$store.dispatch('getTimeline')
+    db.collection('posts')
+          .onSnapshot((querySnapshot) => {
+              this.$store.dispatch('getTimeline')
+          })
   },
   computed: {
     posts () {
