@@ -5,8 +5,58 @@ import firebase from 'firebase'
 
 Vue.use(Vuex)
 
+const db = firebase.firestore()
+
 const API_URL = 'https://tsuratsura-0000.firebaseapp.com'
 // const API_URL = 'http://localhost:5001/tsuratsura-0000/us-central1'
+
+const snapshot2PostData = async function (snapshot) {
+  const data = Array(snapshot.length)
+  const authorPromiseList = []
+  snapshot.forEach((doc) => {
+    authorPromiseList.push(doc.author.get())
+  })
+  let authorList = []
+  await Promise.all(authorPromiseList).then((a) => {
+    authorList = a
+  })
+  snapshot.forEach((doc, idx) => {
+    const author = authorList[idx]
+    const authorData = author.data()
+
+    // それはつらいスタンプ
+    const tooBadRefList = doc.that_is_too_bad_list
+    const tooBadUserList = []
+    for (let i = 0; i < tooBadRefList.length; i++) {
+      const userDoc = tooBadRefList[i]
+      const userId = userDoc.id
+      tooBadUserList.push(userId)
+    }
+    doc.too_bad_id_list = tooBadUserList
+
+    // よしよしスタンプ
+    const alrightRefList = doc.you_are_alright_list
+    const alrightUserList = []
+    for (let i = 0; i < alrightRefList.length; i++) {
+      const userDoc = alrightRefList[i]
+      const userId = userDoc.id
+      alrightUserList.push(userId)
+    }
+    doc.alright_id_list = alrightUserList
+
+    // 頑張ったねスタンプ
+    const goodJobRefList = doc.good_job_list
+    const goodJobUserList = []
+    for (let i = 0; i < goodJobRefList.length; i++) {
+      const userDoc = goodJobRefList[i]
+      const userId = userDoc.id
+      goodJobUserList.push(userId)
+    }
+    doc.good_job_id_list = goodJobUserList
+    data[idx] = {posts: doc, author: authorData, uid: doc.id}
+  })
+  return data
+}
 
 export default new Vuex.Store({
   state: {
@@ -34,10 +84,31 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getTimeline () {
-      const data = await axios.get(API_URL + '/timeline')
-        .catch(e => console.error(e))
-      this.commit('setTimeline', {data: data.data.data})
+    async getTimeline (state, payload) {
+      let newPosts = []
+      let numPosts = 0
+      if (payload !== undefined) {
+        newPosts = payload.newPosts
+        numPosts = payload.numPosts
+      } else {
+        newPosts = undefined
+        numPosts = undefined
+      }
+      if (newPosts === undefined) {
+        const num = numPosts !== undefined ? numPosts : 20
+        const snapshot = await db.collection('posts').orderBy('created_at', 'desc').limit(num).get()
+        const newPosts = []
+        snapshot.forEach((doc) => {
+          const docData = doc.data()
+          docData.id = doc.id
+          newPosts.push(docData)
+        })
+        const postData = await snapshot2PostData(newPosts)
+        this.commit('setTimeline', {data: postData})
+      } else {
+        const postData = await snapshot2PostData(newPosts)
+        this.commit('setTimeline', {data: postData})
+      }
     },
     async getLoginState () {
       firebase.auth().onAuthStateChanged(user => {

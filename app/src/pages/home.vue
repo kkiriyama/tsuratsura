@@ -13,6 +13,7 @@
                     v-for="(post, index) in posts"
                     :key="index"
                     :post="post"/>
+                <button class="button" @click="showMore">もっと見る</button>
             </div>
         </div>
     </div>
@@ -35,15 +36,29 @@ export default {
   },
   data () {
     return {
+      showLength: 10
     }
   },
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
+    this.$store.dispatch('getTimeline')
     db.collection('posts')
-          .onSnapshot((querySnapshot) => {
-              this.$store.dispatch('getTimeline')
-          })
+      .onSnapshot((querySnapshot) => {
+        const newPosts = []
+        querySnapshot.forEach((doc, idx) => {
+          const docData = doc.data()
+          docData.id = doc.id
+          if (idx < this.showLength) {
+            newPosts.push(docData)
+          }
+        })
+        newPosts.sort((a, b) => {
+          if (a.created_at > b.created_at) return -1
+          else return 1
+        })
+        this.$store.dispatch('getTimeline', {newPosts: newPosts, numPosts: undefined})
+      })
   },
   computed: {
     posts () {
@@ -57,6 +72,10 @@ export default {
     }
   },
   methods: {
+    showMore () {
+      this.showLength += 10
+      this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: this.showLength})
+    }
   }
 }
 </script>
