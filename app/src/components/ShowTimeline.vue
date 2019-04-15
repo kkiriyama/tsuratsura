@@ -16,16 +16,16 @@
                 <small class="text-muted">posted at</small>
                 <span>{{ formattedCreatedTime }}</span>
                 <div>
-                    <span @click="toggle_too_bad">
-                        <v-icon name="sad-tear" scale="1.2" focusable="true" color="blue"/>
+                    <span class="stamp" @click="toggle_too_bad">
+                        <v-icon name="sad-tear" scale="1.5" focusable="true" color="blue"/>
                         <span>{{ num_that_is_too_bad }}</span>
                     </span>
-                    <span @click="toggle_alright">
-                        <v-icon name="hand-holding-heart" scale="1.2" color="pink"/>
+                    <span class="stamp" @click="toggle_alright">
+                        <v-icon name="hand-holding-heart" scale="1.5" color="pink"/>
                         <span>{{ num_you_are_alright }}</span>
                     </span>
-                    <span @click="toggle_good_job">
-                        <v-icon name="thumbs-up" scale="1.2" color="green"/>
+                    <span class="stamp" @click="toggle_good_job">
+                        <v-icon name="thumbs-up" scale="1.5" color="green"/>
                         <span>{{ num_good_job }}</span>
                     </span>
                 </div>
@@ -46,7 +46,11 @@ export default {
     'v-icon': Icon
   },
   data () {
-    return {}
+    return {
+      too_bad_spin: false,
+      alright_spin: false,
+      good_job_spin: false
+    }
   },
   created () {
   },
@@ -158,5 +162,8 @@ export default {
 .show-newline {
     white-space: pre-wrap;
     word-wrap: break-word;
+}
+.stamp {
+    padding: 10px 10px;
 }
 </style>
