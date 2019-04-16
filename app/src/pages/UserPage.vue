@@ -42,7 +42,7 @@ export default {
   },
   created () {
     this.$store.dispatch('getLoginState')
-    this.$store.dispatch('getTimeline')
+    this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: 1000})
   },
   mounted () {
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)

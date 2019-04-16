@@ -23,6 +23,7 @@ const snapshot2PostData = async function (snapshot) {
   snapshot.forEach((doc, idx) => {
     const author = authorList[idx]
     const authorData = author.data()
+    authorData.user_id = author.id
 
     // それはつらいスタンプ
     const tooBadRefList = doc.that_is_too_bad_list
