@@ -42,22 +42,25 @@ export default {
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    this.$store.dispatch('getTimeline')
     db.collection('posts')
       .onSnapshot((querySnapshot) => {
         const newPosts = []
-        querySnapshot.forEach((doc, idx) => {
+        querySnapshot.forEach((doc) => {
           const docData = doc.data()
           docData.id = doc.id
-          if (idx < this.showLength) {
-            newPosts.push(docData)
-          }
+          newPosts.push(docData)
         })
         newPosts.sort((a, b) => {
           if (a.created_at > b.created_at) return -1
           else return 1
         })
-        this.$store.dispatch('getTimeline', {newPosts: newPosts, numPosts: undefined})
+        const limitedNewPosts = []
+        newPosts.forEach((doc, idx) => {
+          if (idx < this.showLength) {
+            limitedNewPosts.push(doc)
+          }
+        })
+        this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.showLength})
       })
   },
   computed: {

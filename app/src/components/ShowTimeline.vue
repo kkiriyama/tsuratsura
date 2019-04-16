@@ -47,9 +47,6 @@ export default {
   },
   data () {
     return {
-      too_bad_spin: false,
-      alright_spin: false,
-      good_job_spin: false
     }
   },
   created () {
