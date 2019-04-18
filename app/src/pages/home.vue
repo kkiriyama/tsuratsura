@@ -36,7 +36,8 @@ export default {
   },
   data () {
     return {
-      showLength: 10
+      showLength: 10,
+      maxPosts: 1000
     }
   },
   created () {
@@ -56,11 +57,11 @@ export default {
         })
         const limitedNewPosts = []
         newPosts.forEach((doc, idx) => {
-          if (idx < this.showLength) {
+          if (idx < this.maxPosts) {
             limitedNewPosts.push(doc)
           }
         })
-        this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.showLength})
+        this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
       })
   },
   computed: {
