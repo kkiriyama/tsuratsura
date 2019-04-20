@@ -1,10 +1,12 @@
 <template>
     <div id="user-info">
-        <common-header :is-logged-in="isLoggedIn"/>
+        <common-header
+            :is-logged-in="isLoggedIn"
+            mode="other"/>
         <now-loading v-if="isLoading"/>
-        <div class="container" v-if="!isLoading">
+        <div v-if="!isLoading">
             <div class="row">
-                <div class="col-lg-5 col-top">
+                <div class="col-lg-4 col-top">
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
@@ -45,10 +47,20 @@
                     </form>
                 </div>
                 <div class="col-lg-6 col-top">
-                    <show-timeline
-                        v-for="(post, index) in userPosts"
-                        :key="index"
-                        :post="post"/>
+                    <b-tabs content-class="mt-2">
+                        <b-tab title="つらいTL" active>
+                            <show-tsurai-timeline
+                                v-for="(post, index) in userTsuraiPosts"
+                                :key="index"
+                                :post="post"/>
+                        </b-tab>
+                        <b-tab title="えらいTL">
+                            <show-erai-timeline
+                                v-for="(post, index) in userEraiPosts"
+                                :key="index"
+                                :post="post"/>
+                        </b-tab>
+                    </b-tabs>
                 </div>
             </div>
         </div>
@@ -58,7 +70,8 @@
 <script>
 import Header from '@/components/Header'
 import NowLoading from '@/components/NowLoading'
-import ShowTimeline from '@/components/ShowTimeline'
+import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
+import ShowEraiTimeline from '@/components/ShowEraiTimeline'
 
 import firebase from 'firebase'
 
@@ -67,7 +80,8 @@ const db = firebase.firestore()
 export default {
   components: {
     'common-header': Header,
-    'show-timeline': ShowTimeline,
+    'show-tsurai-timeline': ShowTsuraiTimeline,
+    'show-erai-timeline': ShowEraiTimeline,
     'now-loading': NowLoading
   },
   data () {
@@ -81,7 +95,8 @@ export default {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
-    await this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: 1000})
+    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: 1000})
+    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: 1000})
     this.isLoading = false
   },
   computed: {
@@ -100,8 +115,18 @@ export default {
     isMyPage () {
       return this.visitedUserID === this.visitingUserInfo.auth_id
     },
-    userPosts () {
-      const timeline = this.$store.state.posts
+    userTsuraiPosts () {
+      const timeline = this.$store.state.postsTsurai
+      const posts = []
+      for (let k of Object.keys(timeline)) {
+        if (timeline[k].author.user_id === this.visitedUserInfo.user_id) {
+          posts.push(timeline[k])
+        }
+      }
+      return posts
+    },
+    userEraiPosts () {
+      const timeline = this.$store.state.postsErai
       const posts = []
       for (let k of Object.keys(timeline)) {
         if (timeline[k].author.user_id === this.visitedUserInfo.user_id) {

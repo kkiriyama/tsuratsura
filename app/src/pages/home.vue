@@ -2,7 +2,9 @@
     <div>
         <div id="header">
             <common-header
-                :is-logged-in="isLoggedIn"/>
+                :is-logged-in="isLoggedIn"
+                :mode="mode"
+                :key="mode"/>
         </div>
         <now-loading v-if="isLoading"/>
         <posting-button
@@ -12,12 +14,20 @@
         <div class="row" v-if="!isLoading">
             <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
                 <post-submit-form
+                    :mode="mode"
                     :is-mobile="isMobile"
                     :show-modal="showPostModal"
                     @close="closeModal()"/>
             </div>
-            <div class="col-lg-6" id="timeline">
-                <show-timeline
+            <div class="col-lg-6" id="timeline" v-if="mode==='tsurai'">
+                <show-tsurai-timeline
+                    v-for="(post, index) in posts"
+                    :key="index"
+                    :post="post"/>
+                <button class="button" @click="showMore">もっと見る</button>
+            </div>
+            <div class="col-lg-6" id="timeline" v-if="mode==='erai'">
+                <show-erai-timeline
                     v-for="(post, index) in posts"
                     :key="index"
                     :post="post"/>
@@ -29,7 +39,8 @@
 
 <script>
 import PostSubmitForm from '@/components/PostSubmitForm'
-import ShowTimeline from '@/components/ShowTimeline'
+import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
+import ShowEraiTimeline from '@/components/ShowEraiTimeline'
 import Header from '@/components/Header'
 import NowLoading from '@/components/NowLoading'
 import firebase from 'firebase'
@@ -42,7 +53,8 @@ export default {
   name: 'Timeline',
   components: {
     'post-submit-form': PostSubmitForm,
-    'show-timeline': ShowTimeline,
+    'show-tsurai-timeline': ShowTsuraiTimeline,
+    'show-erai-timeline': ShowEraiTimeline,
     'common-header': Header,
     'now-loading': NowLoading,
     'posting-button': PostingButton
@@ -56,10 +68,25 @@ export default {
       isMobile: IsMobile.any
     }
   },
+  watch: {
+    async mode (newMode, oldMode) {
+      if (newMode === 'tsurai') {
+        this.isLoading = true
+        await this.$store.dispatch('getTsuraiTimeline')
+        this.isLoading = false
+      }
+      if (newMode === 'erai') {
+        this.isLoading = true
+        await this.$store.dispatch('getEraiTimeline')
+        this.isLoading = false
+      }
+    }
+  },
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    db.collection('posts')
+    const modeCollection = this.mode === 'tsurai' ? 'posts' : 'posts_erai'
+    db.collection(modeCollection)
       .onSnapshot(async (querySnapshot) => {
         const newPosts = []
         querySnapshot.forEach((doc) => {
@@ -77,13 +104,21 @@ export default {
             limitedNewPosts.push(doc)
           }
         })
-        await this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        if (this.mode === 'tsurai') {
+          await this.$store.dispatch('getTsuraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        }
+        if (this.mode === 'erai') {
+          await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        }
         this.isLoading = false
       })
   },
   computed: {
+    mode () {
+      return this.$route.params.mode
+    },
     posts () {
-      return this.$store.state.posts
+      return this.mode === 'tsurai' ? this.$store.state.postsTsurai : this.$store.state.postsErai
     },
     isLoggedIn () {
       return this.$store.state.isLoggedIn

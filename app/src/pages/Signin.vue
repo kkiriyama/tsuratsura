@@ -67,7 +67,7 @@ export default {
         .then(user => {
           this.endProcessing()
           alert('ログインに成功しました')
-          this.$router.push('/')
+          this.$router.push('/timeline/tsurai')
         })
         .catch(error => {
           alert(error.message)

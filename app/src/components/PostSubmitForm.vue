@@ -5,7 +5,7 @@
                 <fieldset>
                     <div class="form-group row">
                         <div class="col-md-4 offset-md-4">
-                            <textarea v-model="text" class="form-control form-margin" rows=5 id="inputText" placeholder="今日のつらかったこと"></textarea>
+                            <textarea v-model="text" class="form-control form-margin" rows=5 id="inputText" :placeholder="placeholderMassage"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -22,7 +22,7 @@
                 <fieldset>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <textarea v-model="text" class="form-control" rows=3 id="inputText" placeholder="今日のつらかったこと"></textarea>
+                            <textarea v-model="text" class="form-control" rows=3 id="inputText" :placeholder=placeholderMassage></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -57,9 +57,22 @@ export default {
     showModal: {
       type: Boolean,
       default: false
+    },
+    mode: {
+      type: String,
+      required: true
     }
   },
   computed: {
+    placeholderMassage () {
+      if (this.mode === 'tsurai') {
+        return '今日のつらかったこと'
+      }
+      if (this.mode === 'erai') {
+        return '今日やったえらいこと'
+      }
+      return ''
+    },
     username () {
       return this.$store.state.userInfo.username
     },
@@ -83,25 +96,48 @@ export default {
         alert('投稿は140文字以内にしてください')
         return
       }
-      this.startProcessing()
-      firestore.collection('posts').add({
-        username: this.username,
-        body: this.text,
-        created_at: new Date().getTime(),
-        enable: true,
-        that_is_too_bad_list: [],
-        you_are_alright_list: [],
-        good_job_list: [],
-        author: firestore.doc('/users/' + this.user_id)
-      })
-        .then((res) => {
-          this.clearForm()
-          this.$store.dispatch('getTimeline')
-          this.endProcessing()
+      if (this.mode === 'tsurai') {
+        this.startProcessing()
+        firestore.collection('posts').add({
+          username: this.username,
+          body: this.text,
+          created_at: new Date().getTime(),
+          enable: true,
+          that_is_too_bad_list: [],
+          you_are_alright_list: [],
+          good_job_list: [],
+          author: firestore.doc('/users/' + this.user_id)
         })
-        .catch(e => {
-          this.endProcessing()
+          .then((res) => {
+            this.clearForm()
+            this.$store.dispatch('getTsuraiTimeline')
+            this.endProcessing()
+          })
+          .catch(e => {
+            this.endProcessing()
+          })
+      }
+      if (this.mode === 'erai') {
+        this.startProcessing()
+        firestore.collection('posts_erai').add({
+          username: this.username,
+          body: this.text,
+          created_at: new Date().getTime(),
+          enable: true,
+          great_list: [],
+          congrat_list: [],
+          genius_list: [],
+          author: firestore.doc('/users/' + this.user_id)
         })
+          .then((res) => {
+            this.clearForm()
+            this.$store.dispatch('getEraiTimeline')
+            this.endProcessing()
+          })
+          .catch(e => {
+            this.endProcessing()
+          })
+      }
     },
     clearForm () {
       this.text = ''

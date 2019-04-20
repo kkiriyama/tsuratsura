@@ -18,8 +18,8 @@ const router = new VueRouter({
       redirect: '/signin'
     },
     {
-      path: '/',
-      name: 'Home',
+      path: '/timeline/:mode',
+      name: 'Timeline',
       component: Home
     },
     {
