@@ -5,9 +5,16 @@
                 :is-logged-in="isLoggedIn"/>
         </div>
         <now-loading v-if="isLoading"/>
+        <posting-button
+            @popPost="popPost()"
+            @toTop="toTop()"
+            @toHome="toHome()"/>
         <div class="row" v-if="!isLoading">
             <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
-                <post-submit-form/>
+                <post-submit-form
+                    :is-mobile="isMobile"
+                    :show-modal="showPostModal"
+                    @close="closeModal()"/>
             </div>
             <div class="col-lg-6" id="timeline">
                 <show-timeline
@@ -26,6 +33,8 @@ import ShowTimeline from '@/components/ShowTimeline'
 import Header from '@/components/Header'
 import NowLoading from '@/components/NowLoading'
 import firebase from 'firebase'
+import PostingButton from '@/components/PostingButton'
+import IsMobile from 'ismobilejs'
 
 const db = firebase.firestore()
 
@@ -35,13 +44,16 @@ export default {
     'post-submit-form': PostSubmitForm,
     'show-timeline': ShowTimeline,
     'common-header': Header,
-    'now-loading': NowLoading
+    'now-loading': NowLoading,
+    'posting-button': PostingButton
   },
   data () {
     return {
       showLength: 10,
       maxPosts: 1000,
-      isLoading: true
+      isLoading: true,
+      showPostModal: false,
+      isMobile: IsMobile.any
     }
   },
   created () {
@@ -78,12 +90,27 @@ export default {
     },
     username () {
       return this.$store.state.userInfo.username
+    },
+    user_id () {
+      return this.$store.state.userInfo.auth_id
     }
   },
   methods: {
     showMore () {
       this.showLength += 10
       this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: this.showLength})
+    },
+    popPost () {
+      this.showPostModal = true
+    },
+    closeModal () {
+      this.showPostModal = false
+    },
+    toTop () {
+      scrollTo(0, 0)
+    },
+    toHome () {
+      this.$router.push('/user/' + this.user_id)
     }
   }
 }

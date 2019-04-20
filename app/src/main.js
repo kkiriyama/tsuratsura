@@ -7,11 +7,13 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import store from './store'
+import VueFab from 'vue-float-action-button'
 import 'vue-awesome/icons/sad-tear'
 import 'vue-awesome/icons/hand-holding-heart'
 import 'vue-awesome/icons/thumbs-up'
 
 Vue.use(BootstrapVue)
+Vue.use(VueFab)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
