@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-top">
-                    <table class="table table-hover">
+                    <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
                                 <th>ハンドルネーム</th>
@@ -19,7 +19,30 @@
                                 <td> {{ visitedUserInfo.bio }} </td>
                             </tr>
                         </tbody>
-                    </table> </div>
+                        <button v-if="isMyPage" type="button" @click="editProfile()">編集</button>
+                    </table>
+                    <form v-if="isEditing" @submit.prevent="editUserInfo">
+                        <fieldset class="row">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>ハンドルネーム</th>
+                                        <input v-model="visitedUserInfo.username" type="text" class="form-control" id="editUsername">
+                                    </tr>
+                                    <tr>
+                                        <th>Twitter ID</th>
+                                        <input v-model="visitedUserInfo.twitter" type="text" class="form-control" id="editTwitterID">
+                                    </tr>
+                                    <tr>
+                                        <th>自己紹介</th>
+                                        <input v-model="visitedUserInfo.bio" type="textarea" class="form-control" id="editBio">
+                                    </tr>
+                                </tbody>
+                                <button v-if="isMyPage" type="button" @click="completeEdit()">完了</button>
+                            </table>
+                        </fieldset>
+                    </form>
+                </div>
                 <div class="col-lg-6 col-top">
                     <show-timeline
                         v-for="(post, index) in userPosts"
@@ -35,13 +58,24 @@
 import Header from '@/components/Header'
 import ShowTimeline from '@/components/ShowTimeline'
 
+import firebase from 'firebase'
+
+const db = firebase.firestore()
+
 export default {
   components: {
     'common-header': Header,
     'show-timeline': ShowTimeline
   },
+  data () {
+    return {
+      isEditing: false,
+      editedUserInfo: this.visitedUserInfo
+    }
+  },
   created () {
     this.$store.dispatch('getLoginState')
+    this.$store.dispatch('getUserInfoState')
     this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: 1000})
   },
   mounted () {
@@ -54,11 +88,14 @@ export default {
     visitingUserInfo () {
       return this.$store.state.userInfo
     },
+    visitedUserID () {
+      return this.$route.params.id
+    },
     visitedUserInfo () {
       return this.$store.state.visitedUserInfo
     },
-    visitedUserID () {
-      return this.$route.params.id
+    isMyPage () {
+      return this.visitedUserID === this.visitingUserInfo.auth_id
     },
     userPosts () {
       const timeline = this.$store.state.posts
@@ -69,6 +106,32 @@ export default {
         }
       }
       return posts
+    }
+  },
+  methods: {
+    editProfile () {
+      this.isEditing = true
+    },
+    completeEdit () {
+      if (!this.visitedUserInfo.username) {
+        alert('ユーザーネームを入力してください')
+        return
+      }
+      if (!this.visitedUserInfo.bio) {
+        this.visitedUserInfo.bio = ''
+      }
+      if (!this.visitedUserInfo.twitter) {
+        this.visitedUserInfo.bio = ''
+      }
+      db.collection('users').doc(this.visitedUserInfo.user_id).update({
+        username: this.visitedUserInfo.username,
+        twitter: this.visitedUserInfo.twitter,
+        bio: this.visitedUserInfo.bio
+      })
+        .then(() => {
+          alert('プロフィールが正常に更新されました')
+        })
+      this.isEditing = false
     }
   },
   watch: {
