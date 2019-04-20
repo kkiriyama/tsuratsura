@@ -1,7 +1,8 @@
 <template>
     <div id="user-info">
         <common-header :is-logged-in="isLoggedIn"/>
-        <div class="container">
+        <now-loading v-if="isLoading"/>
+        <div class="container" v-if="!isLoading">
             <div class="row">
                 <div class="col-lg-5 col-top">
                     <table v-if="!isEditing" class="table table-hover">
@@ -56,6 +57,7 @@
 
 <script>
 import Header from '@/components/Header'
+import NowLoading from '@/components/NowLoading'
 import ShowTimeline from '@/components/ShowTimeline'
 
 import firebase from 'firebase'
@@ -65,21 +67,22 @@ const db = firebase.firestore()
 export default {
   components: {
     'common-header': Header,
-    'show-timeline': ShowTimeline
+    'show-timeline': ShowTimeline,
+    'now-loading': NowLoading
   },
   data () {
     return {
       isEditing: false,
+      isLoading: true,
       editedUserInfo: this.visitedUserInfo
     }
   },
-  created () {
+  async created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: 1000})
-  },
-  mounted () {
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
+    await this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: 1000})
+    this.isLoading = false
   },
   computed: {
     isLoggedIn () {

@@ -4,7 +4,8 @@
             <common-header
                 :is-logged-in="isLoggedIn"/>
         </div>
-        <div class="row">
+        <now-loading v-if="isLoading"/>
+        <div class="row" v-if="!isLoading">
             <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
                 <post-submit-form/>
             </div>
@@ -23,6 +24,7 @@
 import PostSubmitForm from '@/components/PostSubmitForm'
 import ShowTimeline from '@/components/ShowTimeline'
 import Header from '@/components/Header'
+import NowLoading from '@/components/NowLoading'
 import firebase from 'firebase'
 
 const db = firebase.firestore()
@@ -32,19 +34,21 @@ export default {
   components: {
     'post-submit-form': PostSubmitForm,
     'show-timeline': ShowTimeline,
-    'common-header': Header
+    'common-header': Header,
+    'now-loading': NowLoading
   },
   data () {
     return {
       showLength: 10,
-      maxPosts: 1000
+      maxPosts: 1000,
+      isLoading: true
     }
   },
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     db.collection('posts')
-      .onSnapshot((querySnapshot) => {
+      .onSnapshot(async (querySnapshot) => {
         const newPosts = []
         querySnapshot.forEach((doc) => {
           const docData = doc.data()
@@ -61,7 +65,8 @@ export default {
             limitedNewPosts.push(doc)
           }
         })
-        this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        await this.$store.dispatch('getTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        this.isLoading = false
       })
   },
   computed: {
