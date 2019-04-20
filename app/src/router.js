@@ -5,6 +5,8 @@ import Home from '@/pages/home'
 import Signup from '@/pages/Signup'
 import Signin from '@/pages/Signin'
 import UserPage from '@/pages/UserPage'
+import About from '@/pages/About'
+import Contact from '@/pages/Contact'
 import firebase from 'firebase'
 
 Vue.use(VueRouter)
@@ -19,6 +21,16 @@ const router = new VueRouter({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact
     },
     {
       path: '/signup',
