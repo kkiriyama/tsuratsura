@@ -8,6 +8,8 @@
                     <b-nav-item v-if=!isLoggedIn><router-link class="header-link" to='/signin'>ログイン</router-link></b-nav-item>
                     <b-nav-item v-if=!isLoggedIn><router-link class="header-link" to='/signup'>新規登録</router-link></b-nav-item>
                     <b-nav-item v-if=isLoggedIn><router-link class="header-link" :to="{name: 'UserPage', params: {id: userAuthId}}">マイページ</router-link></b-nav-item>
+                    <b-nav-item><router-link class="header-link" :to="{name: 'About'}">About</router-link></b-nav-item>
+                    <b-nav-item v-if=isLoggedIn><router-link class="header-link" :to="{name: 'Contact'}">Contact</router-link></b-nav-item>
                     <b-nav-item v-if=isLoggedIn @click="signOut">ログアウト</b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
