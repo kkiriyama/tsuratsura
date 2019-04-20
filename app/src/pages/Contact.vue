@@ -1,6 +1,8 @@
 <template>
     <div>
-        <common-header :is-logged-in="isLoggedIn"/>
+        <common-header
+            :is-logged-in="isLoggedIn"
+            mode="other"/>
         <div class="container">
             <h2>Contact</h2>
             <p>バグの報告・要望・改善要求などを書いてください。</p>

@@ -11,6 +11,9 @@ import VueFab from 'vue-float-action-button'
 import 'vue-awesome/icons/sad-tear'
 import 'vue-awesome/icons/hand-holding-heart'
 import 'vue-awesome/icons/thumbs-up'
+import 'vue-awesome/icons/laugh-squint'
+import 'vue-awesome/icons/award'
+import 'vue-awesome/icons/user-graduate'
 
 Vue.use(BootstrapVue)
 Vue.use(VueFab)

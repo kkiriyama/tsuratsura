@@ -1,38 +1,32 @@
 <template>
     <div>
-        <common-header :is-logged-in="isLoggedIn"/>
+        <common-header
+            :is-logged-in="isLoggedIn"
+            mode="other"/>
         <div class="container">
             <h2> About </h2>
-            <h3> プログラムを書いた人 </h3>
             <table align="center" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <td>プログラマー</td>
+                        <td>デザイナー</td>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <th> ハンドルネーム </th>
                         <td> いんぐらむ </td>
-                    </tr>
-                    <tr>
-                        <th> Twitter </th>
-                        <td> @kazuokiriyama_ </td>
-                    </tr>
-                    <tr>
-                        <th> 一言 </th>
-                        <td> 中退したい </td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3> デザインを考えた人 </h3>
-            <table align="center" class="table table-hover">
-                <tbody>
-                    <tr>
-                        <th> ハンドルネーム </th>
                         <td> TEICA </td>
                     </tr>
                     <tr>
                         <th> Twitter </th>
+                        <td> @kazuokiriyama_ </td>
                         <td> @T_E_I_C_A </td>
                     </tr>
                     <tr>
                         <th> 一言 </th>
+                        <td> 中退したい </td>
                         <td> ねこです、よろしくおねがいします </td>
                     </tr>
                 </tbody>
