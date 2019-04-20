@@ -7,17 +7,28 @@ service cloud.firestore {
     	return request.auth.uid == userId;
     }
     function userUID(authorRef) {
-    	return get(authorRef).auth_id
+    	return get(authorRef).data.auth_id
     }
-    
+
+    match /reports/{reportsID} {
+      allow create: if isAuthenticated();
+    }
+
+    match /posts_erai/{postID} {
+      allow read;
+      allow delete: if isUserAuthenticated(userUID(resource.data.author));
+      allow update, create: if isAuthenticated();
+    }
+
     match /users/{userID} {
-      allow create, read: if isAuthenticated();
+      allow read;
+      allow create: if isAuthenticated();
       allow update: if isUserAuthenticated(resource.data.auth_id);
     }
     match /posts/{postId} {
       allow read;
       allow delete: if isUserAuthenticated(userUID(resource.data.author));
-      allow update, create: if isAuthenticated()
+      allow update, create: if isAuthenticated();
     }
   }
 }
