@@ -2,13 +2,17 @@
     <div id="user-info">
         <common-header :is-logged-in="isLoggedIn"/>
         <div class="container">
-            <div class="row"> <div class="col-lg-5 col-top"> <table v-if="!isEditing" class="table table-hover">
+            <div class="row">
+                <div class="col-lg-5 col-top">
+                    <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
                                 <th>ハンドルネーム</th>
                                 <td>{{ visitedUserInfo.username }}</td>
                             </tr>
-                            <tr> <th> Twitter ID </th> <td> {{ visitedUserInfo.twitter }} </td>
+                            <tr>
+                                <th> Twitter ID </th>
+                                <td> {{ visitedUserInfo.twitter }} </td>
                             </tr>
                             <tr>
                                 <th> 自己紹介 </th>
