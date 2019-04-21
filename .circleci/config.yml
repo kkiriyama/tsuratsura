@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
         docker:
-            - image: circleci/node:11
+            - image: circleci/node:11-browsers
         working_directory: ~/repo
         steps:
             - checkout
@@ -10,11 +10,9 @@ jobs:
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
-            - run: sudo add-apt-repository -y ppa:webupd8team/java; sudo apt-get update
-            - run: echo "oracle-java9-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
-            - run: echo "oracle-java9-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
-            - run: sudo apt-get -y install oracle-java9-installer
-            - run: sudo apt-get install oracle-java9-set-default
+            - run: echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee
+            - run: sudo apt-get update
+            - run: sudo apt-get install -t jessie-backports openjdk-8-jdk
             - run:
                 name: test
                 working_directory: app
