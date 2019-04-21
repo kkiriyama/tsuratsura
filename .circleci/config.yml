@@ -10,9 +10,16 @@ jobs:
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
-            - run: echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee --append /etc/apt/sources.list
-            - run: sudo apt-get update
-            - run: sudo apt-get install -t jessie-backports openjdk-8-jdk
+            - run:
+                name: Install java jdk
+                command: |
+                  curl -L -b "oraclelicense=a" -O http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz
+                  sudo mkdir /usr/local/oracle-java-8
+                  sudo tar -zxf jdk-8u181-linux-x64.tar.gz -C /usr/local/oracle-java-8
+                  sudo update-alternatives --install "/usr/bin/java" "java" "/usr/local/oracle-java-8/jdk1.8.0_181/bin/java" 1500
+                  sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/local/oracle-java-8/jdk1.8.0_181/bin/javac" 1500
+                  sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/local/oracle-java-8/jdk1.8.0_181/bin/javaws" 1500
+                  java -version
             - run:
                 name: test
                 working_directory: app
