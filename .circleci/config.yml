@@ -10,7 +10,7 @@ jobs:
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
-            - run: echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee
+            - run: echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee --append /etc/apt/sources.list
             - run: sudo apt-get update
             - run: sudo apt-get install -t jessie-backports openjdk-8-jdk
             - run:
