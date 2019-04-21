@@ -2,10 +2,7 @@
     <div>
         <common-header :is-logged-in="isLoggedIn"/>
         <div class="signin container">
-            <h2>ログイン</h2>
-            <div class="form-horizontal" id="signin">
-                <form @submit.prevent="confirmUserInfo">
-                    <fieldset class="row">
+            <h2>ログイン</h2> <div class="form-horizontal" id="signin"> <form @submit.prevent="confirmUserInfo"> <fieldset class="row">
                         <div class="form-group col-sm-4 signin-form">
                             <div>
                                 <input v-model="email" type="input" class="form-control" id="confirmUsername" placeholder="メールアドレス">
@@ -66,11 +63,10 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
           this.endProcessing()
-          alert('ログインに成功しました')
           this.$router.push('/timeline/tsurai')
         })
-        .catch(error => {
-          alert(error.message)
+        .catch(() => {
+          alert('ログインできません')
           this.endProcessing()
         })
     }

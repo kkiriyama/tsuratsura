@@ -11,7 +11,9 @@ jobs:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
             - run:
-                name: FrontCode lint
+                name: test
                 working_directory: app
                 command: |
                     npm install
+                    npm run lint
+                    npm run e2e
