@@ -22,4 +22,5 @@ jobs:
                 name: test
                 working_directory: app
                 command: |
+                    export DBUS_SESSION_BUS_ADDRESS=/dev/null
                     npm run e2e
