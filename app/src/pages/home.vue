@@ -85,8 +85,7 @@ export default {
   created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
-    const modeCollection = this.mode === 'tsurai' ? 'posts' : 'posts_erai'
-    db.collection(modeCollection)
+    db.collection('posts')
       .onSnapshot(async (querySnapshot) => {
         const newPosts = []
         querySnapshot.forEach((doc) => {
@@ -104,12 +103,27 @@ export default {
             limitedNewPosts.push(doc)
           }
         })
-        if (this.mode === 'tsurai') {
-          await this.$store.dispatch('getTsuraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
-        }
-        if (this.mode === 'erai') {
-          await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
-        }
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+      })
+    db.collection('posts_erai')
+      .onSnapshot(async (querySnapshot) => {
+        const newPosts = []
+        querySnapshot.forEach((doc) => {
+          const docData = doc.data()
+          docData.id = doc.id
+          newPosts.push(docData)
+        })
+        newPosts.sort((a, b) => {
+          if (a.created_at > b.created_at) return -1
+          else return 1
+        })
+        const limitedNewPosts = []
+        newPosts.forEach((doc, idx) => {
+          if (idx < this.maxPosts) {
+            limitedNewPosts.push(doc)
+          }
+        })
+        await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
         this.isLoading = false
       })
   },
