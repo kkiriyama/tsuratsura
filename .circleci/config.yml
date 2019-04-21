@@ -2,15 +2,10 @@ version: 2
 jobs:
     build:
         docker:
-            - image: circleci/node-nightwatch:latest
+            - image: karthikiyengar/node-nightwatch:latest
         working_directory: ~/repo
         steps:
             - checkout
-
-            - run:
-                name: docker setup
-                command: |
-                    docker login -u $DOCKER_USER -p $DOCKER_PASS
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
