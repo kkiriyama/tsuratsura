@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
         docker:
-            - image: karthikiyengar/node-nightwatch:latest
+            - image: karthikiyengar/node:latest
         working_directory: ~/repo
         steps:
             - checkout
