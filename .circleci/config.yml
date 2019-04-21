@@ -12,7 +12,7 @@ jobs:
                     - v1-dependencies-{{ checksum "app/package-json" }}
             - run: echo "deb http://http.debian.net/debian jessie-backports main" | sudo tee
             - run: sudo apt-get update
-            - run: sudo apt-get install -t jessie-backports openjdk-8-jdk
+            - run: sudo apt-get install openjdk-8-jdk
             - run:
                 name: test
                 working_directory: app
