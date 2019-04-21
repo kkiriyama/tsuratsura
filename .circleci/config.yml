@@ -16,6 +16,7 @@ jobs:
                 working_directory: app
                 command: |
                     npm run lint
+            - run: sudo npm i -g vue-cli
             - run:
                 name: test
                 working_directory: app
