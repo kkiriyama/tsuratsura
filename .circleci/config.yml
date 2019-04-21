@@ -22,5 +22,4 @@ jobs:
                 name: test
                 working_directory: app
                 command: |
-                    npm install --save-dev chromedriver
                     npm run e2e
