@@ -1,8 +1,9 @@
 <template>
     <div>
     <common-header
-        :is-logged-in="isLoggedIn"/>
-        <div class="siginup container">
+        :is-logged-in="isLoggedIn"
+        mode="other"/>
+        <div class="signup container">
             <h2> ユーザー登録 </h2>
             <div class="form-horizontal" id="signup">
                 <form @submit.prevent="addUserInfo">
@@ -34,7 +35,8 @@
                         </div>
 
                         <div class="col-md-8 signup-form">
-                            <button :disable="isProcessing" class="button" type="submit">登録</button>
+                            <b-button :disable="isProcessing" variant="info" type="submit">登録</b-button>
+                            <v-icon v-if="isProcessing" name="sync" scale="1.3" spin/>
                         </div>
                     </fieldset>
                 </form>
@@ -49,6 +51,7 @@
 <script>
 import firebase from 'firebase'
 import Header from '@/components/Header'
+import Icon from 'vue-awesome/components/Icon'
 
 const firestore = firebase.firestore()
 
@@ -65,7 +68,8 @@ export default {
     }
   },
   components: {
-    'common-header': Header
+    'common-header': Header,
+    'v-icon': Icon
   },
   created () {
     this.$store.dispatch('getLoginState')
@@ -106,11 +110,15 @@ export default {
             }
           })
           this.endProcessing()
-          alert('登録が正常に完了しました。トップページに移ります。')
-          this.$router.push('/')
+          this.$router.push('/timeline/tsurai')
         })
         .catch(e => {
-          console.error(e)
+          if (e.code === 'auth/invalid-email') {
+            alert('適切なメールアドレスを入力してください')
+          }
+          if (e.code === 'auth/weak-password') {
+            alert('パスワードは6文字以上に設定してください')
+          }
           this.endProcessing()
         })
     }
@@ -119,6 +127,11 @@ export default {
 </script>
 
 <style>
+
+.signup {
+    margin: 100px auto;
+}
+
 .signup-form {
     margin: 10px auto;
 }

@@ -2,24 +2,19 @@ version: 2
 jobs:
     build:
         docker:
-            - image: circleci/node:11
-        working_directory: ~/repo
+            - image: karthikiyengar/node-nightwatch:latest
+        working_directory: ~/tsuratsura
         steps:
             - checkout
-
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "app/package-json" }}
-            - run: echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 boolean true" > debconf.txt
-            - run: sudo debconf-set-selections debconf.txt
-            - run: sudo apt-get install software-properties-common
-            - run: sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
-            - run: sudo apt-get update
-            - run: sudo apt-get install oracle-java8-installer
+                    - v1-dependencies-{{ checksum "app/package.json" }}
             - run:
-                name: test
+                name: npm install
+                working_directory: app
+                command: npm i
+            - run:
+                name: lint
                 working_directory: app
                 command: |
-                    npm install
                     npm run lint
-                    npm run e2e

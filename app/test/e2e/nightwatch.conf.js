@@ -24,14 +24,21 @@ module.exports = {
       silent: true,
       globals: {
         devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port)
-      }
+      },
     },
 
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
         javascriptEnabled: true,
-        acceptSslCerts: true
+        acceptSslCerts: true,
+        chromeOptions: {
+          args: [
+            '--headless',
+            '--no-sandbox',
+            '--disable-dev-shm-usage'
+          ]
+        }
       }
     },
 

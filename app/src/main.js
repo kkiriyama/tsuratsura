@@ -14,6 +14,7 @@ import 'vue-awesome/icons/thumbs-up'
 import 'vue-awesome/icons/laugh-squint'
 import 'vue-awesome/icons/award'
 import 'vue-awesome/icons/user-graduate'
+import 'vue-awesome/icons/sync'
 
 Vue.use(BootstrapVue)
 Vue.use(VueFab)
