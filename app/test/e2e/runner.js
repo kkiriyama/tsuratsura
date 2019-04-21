@@ -15,6 +15,7 @@ devConfigPromise.then(devConfig => {
   server = new DevServer(compiler, devServerOptions)
   const port = devServerOptions.port
   const host = devServerOptions.host
+  console.log(port, host)
   return server.listen(port, host)
 })
 .then(() => {
