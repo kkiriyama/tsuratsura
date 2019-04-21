@@ -27,7 +27,7 @@ jobs:
                 name: start selenium
                 working_directory: app
                 command: |
-                    java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
+                    java -jar selenium-server-standalone-3.5.3.jar
                 background: true
             - run:
                 name: test
