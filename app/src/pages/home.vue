@@ -8,9 +8,8 @@
         </div>
         <now-loading v-if="isLoading"/>
         <posting-button
-            @popPost="popPost()"
-            @toTop="toTop()"
-            @toHome="toHome()"/>
+            class="posting-button"
+            @popPost="popPost()"/>
         <div class="row" v-if="!isLoading">
             <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
                 <post-submit-form
@@ -169,3 +168,14 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.posting-button {
+    position: fixed;
+    z-index: 100;
+    bottom: 48px;
+    right: 48px;
+}
+
+</style>
