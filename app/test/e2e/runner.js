@@ -15,7 +15,6 @@ devConfigPromise.then(devConfig => {
   server = new DevServer(compiler, devServerOptions)
   const port = devServerOptions.port
   const host = devServerOptions.host
-  console.log(port, host)
   return server.listen(port, host)
 })
 .then(() => {
@@ -35,6 +34,7 @@ devConfigPromise.then(devConfig => {
   }
 
   const spawn = require('cross-spawn')
+  console.log("yaaaaaaaay")
   const runner = spawn('./node_modules/.bin/nightwatch', opts, { stdio: 'inherit' })
 
   runner.on('exit', function (code) {
