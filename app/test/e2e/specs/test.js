@@ -10,7 +10,7 @@ module.exports = {
 
     browser
       .url(devServer)
-      .waitForElementVisible('#app', 1000)
+      .waitForElementVisible('#app', 5000)
       .setValue('input[id="confirmUsername"]', 'dummy@email.com')
       .setValue('input[id="confirmPassword"]', 'DummyDummy')
       .click('button[type="submit"]')
