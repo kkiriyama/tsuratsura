@@ -1,14 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 import firebase from 'firebase'
 
 Vue.use(Vuex)
 
 const db = firebase.firestore()
-
-const API_URL = 'https://tsuratsura-0000.firebaseapp.com'
-// const API_URL = 'http://localhost:5001/tsuratsura-0000/us-central1'
 
 const snapshot2PostData = async function (snapshot, mode) {
   const data = Array(snapshot.length)
@@ -96,6 +92,22 @@ const snapshot2PostData = async function (snapshot, mode) {
       data[idx] = {posts: doc, author: authorData, uid: doc.id}
     })
   }
+  return data
+}
+
+const getUser = function (userAuthId) {
+  const userDoc = db.collection('users').where('auth_id', '==', userAuthId)
+  const data = userDoc.get()
+    .then((snapshot) => {
+      let data = {}
+      let index = ''
+      snapshot.forEach((doc) => {
+        data = doc.data()
+        index = doc.id
+      })
+      data.user_id = index
+      return data
+    })
   return data
 }
 
@@ -189,26 +201,14 @@ export default new Vuex.Store({
     async getUserInfoState () {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-          const userData = await axios.get(API_URL + '/getuser?id=' + user.uid)
-          this.commit('setUserInfoState', {data: userData.data.data})
+          const userData = await getUser(user.uid)
+          this.commit('setUserInfoState', {data: userData})
         }
       })
     },
     async getVisitedUserInfoState (state, userAuthId) {
-      (async () => {
-        const visitedUserData = await axios.get(API_URL + '/getuser?id=' + userAuthId)
-        this.commit('setVisitedUserInfoState', {data: visitedUserData.data.data})
-      })().catch(e => console.error(e))
-    },
-    async getPostsWithCondition (state, params) {
-      let queryList = []
-      if (params.email) {
-        queryList.push('email=' + params.email)
-      }
-      const query = '?' + queryList.join('&')
-      let data = await axios.get(API_URL + '/timeline' + query)
-        .catch(e => console.error(e))
-      this.commit('setTimelineWithCondition', {data: data.data})
+      const visitedUserData = await getUser(userAuthId)
+      this.commit('setVisitedUserInfoState', {data: visitedUserData})
     }
   }
 })

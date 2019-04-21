@@ -51,7 +51,8 @@ export default {
         content: this.reportText
       })
         .then(() => {
-          alert('正常に送信できました')
+          alert('正常に送信できました。ご協力ありがとうございます。')
+          this.reportText = ''
           this.isProcessing = false
         })
     }

@@ -147,7 +147,12 @@ export default {
   methods: {
     showMore () {
       this.showLength += 10
-      this.$store.dispatch('getTimeline', {newPosts: undefined, numPosts: this.showLength})
+      if (this.mode === 'tsurai') {
+        this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.showLength})
+      }
+      if (this.mode === 'erai') {
+        this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.showLength})
+      }
     },
     popPost () {
       this.showPostModal = true
