@@ -5,8 +5,7 @@
             mode="other"/>
         <now-loading v-if="isLoading"/>
         <div v-if="!isLoading">
-            <div class="row">
-                <div class="col-lg-4 col-top">
+            <div class="row"> <div class="col-lg-4 col-top">
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>

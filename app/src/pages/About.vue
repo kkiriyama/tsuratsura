@@ -5,7 +5,7 @@
             mode="other"/>
         <div class="container">
             <h2> About </h2>
-            <table align="center" class="table table-hover">
+            <table align="center" class="table">
                 <thead>
                     <tr>
                         <th></th>
