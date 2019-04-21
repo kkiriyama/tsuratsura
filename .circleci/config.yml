@@ -18,9 +18,3 @@ jobs:
                 working_directory: app
                 command: |
                     npm run lint
-            - run:
-                name: test
-                working_directory: app
-                command: |
-                    export DBUS_SESSION_BUS_ADDRESS=/dev/null
-                    npm run e2e
