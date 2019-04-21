@@ -10,6 +10,7 @@ jobs:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
             - run: npm i
+            - run: sudo npm i -g eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard eslint-plugin-vue
             - run:
                 name: lint
                 working_directory: app
