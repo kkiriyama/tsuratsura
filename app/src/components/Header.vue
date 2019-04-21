@@ -40,7 +40,7 @@ export default {
     modeType () {
       if (this.mode === 'tsurai') return 'dark'
       if (this.mode === 'erai') return 'light'
-      return 'warning'
+      return 'dark'
     },
     modeVariant () {
       if (this.mode === 'tsurai') return 'dark'
