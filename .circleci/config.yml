@@ -3,7 +3,7 @@ jobs:
     build:
         docker:
             - image: circleci/node:latest
-        working_directory: ~/repo
+        working_directory: ~/tsuratsura
         steps:
             - checkout
             - restore_cache:
