@@ -34,7 +34,6 @@ devConfigPromise.then(devConfig => {
   }
 
   const spawn = require('cross-spawn')
-  console.log("yaaaaaaaay")
   const runner = spawn('./node_modules/.bin/nightwatch', opts, { stdio: 'inherit' })
 
   runner.on('exit', function (code) {
