@@ -10,16 +10,7 @@ jobs:
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
-<<<<<<< HEAD
             - run: sudo apt install openjdk-11-jdk
-=======
-            - run: echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 boolean true" > debconf.txt
-            - run: sudo debconf-set-selections debconf.txt
-            - run: sudo apt-get install software-properties-common
-            - run: sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
-            - run: sudo apt-get update
-            - run: sudo apt-get install oracle-java8-installer
->>>>>>> d8fadbf9c16ade74c0ca7328cfe8b6dcb32c2b27
             - run:
                 name: test
                 working_directory: app
