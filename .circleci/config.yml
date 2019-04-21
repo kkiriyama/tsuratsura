@@ -10,13 +10,13 @@ jobs:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
             - run: npm i
-            - run: sudo npm i --save eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard eslint-plugin-vue babel-eslint
+            - run: sudo npm i -g eslint eslint-config-standard eslint-friendly-formatter eslint-loader eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard eslint-plugin-vue babel-eslint
             - run:
                 name: lint
                 working_directory: app
                 command: |
                     npm run lint
-            - run: sudo npm i --save webpack webpack-bundle-analyzer webpack-dev-server webpack-merge extract-text-webpack-plugin
+            - run: sudo npm i --save webpack webpack-bundle-analyzer webpack-dev-server webpack-merge extract-text-webpack-plugin eslint-friendly-formatter
             - run:
                 name: test
                 working_directory: app
