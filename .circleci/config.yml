@@ -10,6 +10,7 @@ jobs:
                 keys:
                     - v1-dependencies-{{ checksum "app/package-json" }}
             - run: npm i
+            - run: npm i -g eslint
             - run:
                 name: lint
                 working_directory: app
