@@ -8,7 +8,7 @@ jobs:
             - checkout
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "app/package-json" }}
+                    - v1-dependencies-{{ checksum "app/package.json" }}
             - run:
                 name: npm install
                 working_directory: app
