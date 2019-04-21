@@ -68,8 +68,8 @@ export default {
     confirmUserInfo () {
       this.startProcessing()
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
-          this.$store.dispatch('getVisitedUserInfoState', user.user.uid)
+        .then(async (user) => {
+          await this.$store.dispatch('getVisitedUserInfoState', user.user.uid)
           db.collection('users').doc(this.$store.state.visitedUserInfo.user_id).update({
             last_login: new Date()
           })
