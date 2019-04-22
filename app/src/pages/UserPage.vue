@@ -144,10 +144,29 @@ export default {
         alert('ユーザーネームを入力してください')
         return
       }
+      if (this.visitedUserInfo.username.length > 10) {
+        alert('ユーザーネームは10文字以下にしてください')
+        return
+      }
+      const twitterPattern = /[A-z0-9_]+$/
+      if (this.visitingUserInfo.twitter.length > 30) {
+        alert('Twitter IDが長すぎます')
+        return
+      }
+      const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
+      if (regMatch === null) {
+        alert('Twiiter IDは半角英数字とアンダーバーのみしか入力できません')
+        return
+      }
+      this.visitedUserInfo.twitter = '@' + regMatch[0]
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
-      if (!this.visitedUserInfo.twitter) {
+      if (this.visitedUserInfo.bio > 100) {
+        alert('自己紹介は100文字以下にしてください')
+        return
+      }
+      if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
       db.collection('users').doc(this.visitedUserInfo.user_id).update({
