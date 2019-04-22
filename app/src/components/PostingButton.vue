@@ -1,6 +1,6 @@
 <template>
     <a class="fab" id="fab" @click="clickItem()">
-        <v-icon class="icon" name="pencil-alt" scale="2" color="#ffffff"/>
+        <v-icon class="fab-icon" name="pencil-alt" scale="2" color="#ffffff"/>
     </a>
 </template>
 
@@ -31,7 +31,7 @@ export default {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.12), 0 2px 2px 0 rgba(0,0,0,.24);
 }
 
-.fa-icon {
+.fab-icon {
     margin: 10px auto;
 }
 
