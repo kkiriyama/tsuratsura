@@ -16,11 +16,7 @@
         <small class="text-muted">posted at</small>
         <span>{{ formattedCreatedTime }}</span>
         <div>
-          <stamp 
-            kind="great"  
-            :active="isActive('great')" 
-            :count="num_great" 
-            @click="toggle_great"/>
+          <stamp kind="great" :active="isActive('great')" :count="num_great" @click="toggle_great"/>
           <stamp
             kind="congrat"
             :active="isActive('congrat')"
@@ -50,7 +46,7 @@ export default {
   name: "Timeline",
   components: {
     "v-icon": Icon,
-    "stamp" : Stamp
+    stamp: Stamp
   },
   data() {
     return {};
@@ -162,9 +158,9 @@ export default {
           });
       }
     },
-    isActive(stamp_type) {
+    isActive(stampType) {
       if (this.user_id === undefined) return false;
-      switch (stamp_type) {
+      switch (stampType) {
         case "great":
           return this.post.posts.great_id_list.includes(this.user_id);
         case "congrat":

@@ -8,19 +8,19 @@
 <script>
 import Icon from "vue-awesome/components/Icon";
 
-var icon_table = {
-  "too-bad": { name: "sad-tear", color: "blue" , inactiveColor : "gray" },
-  alright: { name: "hand-holding-heart", color: "pink", inactiveColor : "gray" },
-  "good-job": { name: "thumbs-up", color: "green" , inactiveColor : "gray"},
-  great: { name: "laugh-squint", color: "blue" , inactiveColor : "gray"},
-  congrat: { name: "award", color: "gold" , inactiveColor : "gray"},
-  genius: { name: "user-graduate", color: "green" , inactiveColor : "gray"}
+var iconTable = {
+  "too-bad": { name: "sad-tear", color: "blue", inactiveColor: "gray" },
+  alright: { name: "hand-holding-heart", color: "pink", inactiveColor: "gray" },
+  "good-job": { name: "thumbs-up", color: "green", inactiveColor: "gray" },
+  great: { name: "laugh-squint", color: "blue", inactiveColor: "gray" },
+  congrat: { name: "award", color: "gold", inactiveColor: "gray" },
+  genius: { name: "user-graduate", color: "green", inactiveColor: "gray" }
 };
 
 export default {
   name: "Stamp",
-  components: { 
-    "v-icon": Icon,
+  components: {
+    "v-icon": Icon
   },
   data() {
     return {};
@@ -32,25 +32,33 @@ export default {
     },
     count: {
       type: Number,
-      default : 0
+      default: 0
     },
     active: {
       type: Boolean,
-      default : false
+      default: false
     }
   },
   computed: {
     stampName() {
-      let res = icon_table[this.kind]
-      if(res===undefined){
-        res = { name: "question-square", color: "red" , inactiveColor : "lightpink"}
+      let res = iconTable[this.kind];
+      if (res === undefined) {
+        res = {
+          name: "question-square",
+          color: "red",
+          inactiveColor: "lightpink"
+        };
       }
       return res.name;
     },
     stampColor() {
-      let res = icon_table[this.kind]
-      if(res===undefined){
-        res = { name: "question-square", color: "red" , inactiveColor : "lightpink"}
+      let res = iconTable[this.kind];
+      if (res === undefined) {
+        res = {
+          name: "question-square",
+          color: "red",
+          inactiveColor: "lightpink"
+        };
       }
       return this.active ? res.color : res.inactiveColor;
     }
