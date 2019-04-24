@@ -4,8 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "predeploy": [],
-    "source": "functions"
+    "predeploy": [
+    ]
   },
   "hosting": {
     "predeploy":"npm run build",
@@ -17,12 +17,10 @@
     ],
     "rewrites": [
       {
-        "source": "/timeline",
-        "function": "timeline"
+              "source": "/timeline", "function": "timeline"
       },
       {
-        "source": "/getuser",
-        "function": "getuser"
+              "source": "/getuser", "function": "getuser"
       }
     ]
   }
