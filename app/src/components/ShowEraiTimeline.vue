@@ -2,9 +2,9 @@
     <div>
         <div class="card p-2 mb-2">
             <div class="card-header text-left">
-                <router-link
-                    :to="{name: 'UserPage', params: {id: author_auth_id}}"
-                >{{ post.author.username }}</router-link>
+                <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                    {{ post.author.username }}
+                </router-link>
                 <span v-if="isAuthor" @click="deletePost">
                     <small>削除</small>
                 </span>
@@ -71,8 +71,7 @@ export default {
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
-      return `${d.getFullYear()}年${d.getMonth() +
-        1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
     },
     user_id () {
       return this.$store.state.userInfo.user_id
@@ -95,19 +94,13 @@ export default {
       const idList = this.post.posts.great_id_list
       const index = idList.findIndex(item => item === this.user_id)
       if (index === -1) {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            great_list: firebase.firestore.FieldValue.arrayUnion(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          great_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
       } else {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            great_list: firebase.firestore.FieldValue.arrayRemove(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          great_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
       }
     },
     toggle_congrat () {
@@ -119,19 +112,13 @@ export default {
       const idList = this.post.posts.congrat_id_list
       const index = idList.findIndex(item => item === this.user_id)
       if (index === -1) {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            congrat_list: firebase.firestore.FieldValue.arrayUnion(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          congrat_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
       } else {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            congrat_list: firebase.firestore.FieldValue.arrayRemove(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          congrat_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
       }
     },
     toggle_genius () {
@@ -143,19 +130,13 @@ export default {
       const idList = this.post.posts.genius_id_list
       const index = idList.findIndex(item => item === this.user_id)
       if (index === -1) {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            genius_list: firebase.firestore.FieldValue.arrayUnion(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          genius_list: firebase.firestore.FieldValue.arrayUnion(newRef)
+        })
       } else {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .update({
-            genius_list: firebase.firestore.FieldValue.arrayRemove(newRef)
-          })
+        firestore.collection('posts_erai').doc(this.post.posts.id).update({
+          genius_list: firebase.firestore.FieldValue.arrayRemove(newRef)
+        })
       }
     },
     isActive (stampType) {
@@ -173,16 +154,10 @@ export default {
     deletePost () {
       console.log(this.post.posts_id)
       if (confirm('投稿を削除しますか?')) {
-        firestore
-          .collection('posts_erai')
-          .doc(this.post.posts.id)
-          .delete()
-          .then(() => {
-            alert('投稿が削除されました')
-          })
-          .catch(e =>
-            alert('投稿を削除できませんでした。管理者にお問い合わせください。')
-          )
+        firestore.collection('posts_erai').doc(this.post.posts.id).delete().then(() => {
+          alert('投稿が削除されました')
+        })
+          .catch(e => alert('投稿を削除できませんでした。管理者にお問い合わせください。'))
       }
     }
   }
