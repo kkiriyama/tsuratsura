@@ -16,24 +16,18 @@
                 <small class="text-muted">posted at</small>
                 <span>{{ formattedCreatedTime }}</span>
                 <div>
-                    <stamp
-                        kind="great"
-                        :active="isActive('great')"
-                        :count="num_great"
-                        @click="toggle_great"
-                    />
-                    <stamp
-                        kind="congrat"
-                        :active="isActive('congrat')"
-                        :count="num_congrat"
-                        @click="toggle_congrat"
-                    />
-                    <stamp
-                        kind="genius"
-                        :active="isActive('genius')"
-                        :count="num_genius"
-                        @click="toggle_genius"
-                    />
+                    <span class="stamp" @click="toggle_great">
+                        <v-icon name="laugh-squint" scale="1.5" focusable="true" color="blue"/>
+                        <span>{{ num_great }}</span>
+                    </span>
+                    <span class="stamp" @click="toggle_congrat">
+                        <v-icon name="award" scale="1.5" color="gold"/>
+                        <span>{{ num_congrat }}</span>
+                    </span>
+                    <span class="stamp" @click="toggle_genius">
+                        <v-icon name="user-graduate" scale="1.5" color="green"/>
+                        <span>{{ num_genius }}</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -43,20 +37,20 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 import firebase from 'firebase'
-import Stamp from '@/component/Stamp'
 
 const firestore = firebase.firestore()
 
 export default {
   name: 'Timeline',
   components: {
-    'v-icon': Icon,
-    'stamp': Stamp
+    'v-icon': Icon
   },
   data () {
-    return {}
+    return {
+    }
   },
-  created () {},
+  created () {
+  },
   props: {
     post: {
       type: Object,
@@ -144,18 +138,6 @@ export default {
         })
       }
     },
-    isActive (stampType) {
-      if (this.user_id === undefined) return false
-      switch (stampType) {
-        case 'great':
-          return this.post.posts.great_id_list.includes(this.user_id)
-        case 'congrat':
-          return this.post.posts.congrat_id_list.includes(this.user_id)
-        case 'genius':
-          return this.post.posts.genius_id_list.includes(this.user_id)
-      }
-      return false
-    },
     deletePost () {
       console.log(this.post.posts_id)
       if (confirm('投稿を削除しますか?')) {
@@ -171,14 +153,14 @@ export default {
 
 <style>
 .card {
-  width: 80%;
-  margin: 10px auto;
+    width: 80%;
+    margin: 10px auto;
 }
 .show-newline {
-  white-space: pre-wrap;
-  word-wrap: break-word;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 .stamp {
-  padding: 10px 10px;
+    padding: 10px 10px;
 }
 </style>
