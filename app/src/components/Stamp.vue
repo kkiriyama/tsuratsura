@@ -1,21 +1,12 @@
 <template>
-    <span class="stamp" @click="click()">
-        <v-icon :name="stampName" scale="1.5" :color="stampColor"/>
-        <span>{{ count }}</span>
+    <span @click="toggle-stamp">
+        <v-icon :name="stampKind" scale="1.5" :color="stampColor"/>
+        <span>{{ stampNum }}</span>
     </span>
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon'
-
-const iconTable = {
-  'too-bad': { name: 'sad-tear', color: 'blue', inactiveColor: 'gray' },
-  'alright': { name: 'hand-holding-heart', color: 'pink', inactiveColor: 'gray' },
-  'good-job': { name: 'thumbs-up', color: 'green', inactiveColor: 'gray' },
-  'great': { name: 'laugh-squint', color: 'blue', inactiveColor: 'gray' },
-  'congrat': { name: 'award', color: 'gold', inactiveColor: 'gray' },
-  'genius': { name: 'user-graduate', color: 'green', inactiveColor: 'gray' }
-}
 
 export default {
   name: 'Stamp',
@@ -30,43 +21,24 @@ export default {
       type: String,
       required: true
     },
-    count: {
-      type: Number,
-      default: 0
-    },
-    active: {
-      type: Boolean,
-      default: false
+    post: {
+      type: Object,
+      required: true
     }
   },
-  computed: {
-    stampName () {
-      let res = iconTable[this.kind]
-      if (res === undefined) {
-        res = {
-          name: 'question-square',
-          color: 'red',
-          inactiveColor: 'lightpink'
-        }
-      }
-      return res.name
-    },
-    stampColor () {
-      let res = iconTable[this.kind]
-      if (res === undefined) {
-        res = {
-          name: 'question-square',
-          color: 'red',
-          inactiveColor: 'lightpink'
-        }
-      }
-      return this.active ? res.color : res.inactiveColor
-    }
-  },
-  methods: {
-    click () {
-      this.$emit('click')
+  mounted () {
+    if (this.kind === 'too-bad') {
+      this.stampNum = this.post.posts.that_is_too_bad_list.length
+      this.stampColor = 'blue'
+      this.stampKind = 'sad-tear'
+    } else if (this.kind === 'alright') {
+      this.stampNum = this.post.posts.you_are_alright_list.length
+      this.stampColor = 'pink'
+      this.stampKind = 'hand-holding-heart'
+    } else if (this.kind === 'good-job') {
+      this.stampNum = this.post.posts.good_job_list.length
+      this.stampColor = 'green'
+      this.stampKind = 'thumbs-up'
     }
   }
 }
-</script>
