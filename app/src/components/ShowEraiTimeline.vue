@@ -16,7 +16,12 @@
                 <small class="text-muted">posted at</small>
                 <span>{{ formattedCreatedTime }}</span>
                 <div>
-                    <stamp kind="great" :active="isActive('great')" :count="num_great" @click="toggle_great"/>
+                    <stamp
+                        kind="great"
+                        :active="isActive('great')"
+                        :count="num_great"
+                        @click="toggle_great"
+                    />
                     <stamp
                         kind="congrat"
                         :active="isActive('congrat')"
@@ -38,7 +43,7 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 import firebase from 'firebase'
-import Stamp from './Stamp'
+import Stamp from '@/component/Stamp'
 
 const firestore = firebase.firestore()
 
@@ -46,7 +51,7 @@ export default {
   name: 'Timeline',
   components: {
     'v-icon': Icon,
-    stamp: Stamp
+    'stamp': Stamp
   },
   data () {
     return {}

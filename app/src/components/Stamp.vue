@@ -8,13 +8,13 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 
-var iconTable = {
+const iconTable = {
   'too-bad': { name: 'sad-tear', color: 'blue', inactiveColor: 'gray' },
-  alright: { name: 'hand-holding-heart', color: 'pink', inactiveColor: 'gray' },
+  'alright': { name: 'hand-holding-heart', color: 'pink', inactiveColor: 'gray' },
   'good-job': { name: 'thumbs-up', color: 'green', inactiveColor: 'gray' },
-  great: { name: 'laugh-squint', color: 'blue', inactiveColor: 'gray' },
-  congrat: { name: 'award', color: 'gold', inactiveColor: 'gray' },
-  genius: { name: 'user-graduate', color: 'green', inactiveColor: 'gray' }
+  'great': { name: 'laugh-squint', color: 'blue', inactiveColor: 'gray' },
+  'congrat': { name: 'award', color: 'gold', inactiveColor: 'gray' },
+  'genius': { name: 'user-graduate', color: 'green', inactiveColor: 'gray' }
 }
 
 export default {

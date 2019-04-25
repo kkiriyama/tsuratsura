@@ -43,14 +43,14 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 import firebase from 'firebase'
-import Stamp from './Stamp'
+import Stamp from '@/component/Stamp'
 const firestore = firebase.firestore()
 
 export default {
   name: 'Timeline',
   components: {
     'v-icon': Icon,
-    stamp: Stamp
+    'stamp': Stamp
   },
   data () {
     return {}
