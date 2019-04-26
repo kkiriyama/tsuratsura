@@ -194,21 +194,35 @@ export default new Vuex.Store({
       }
     },
     async getLoginState () {
-      firebase.auth().onAuthStateChanged(user => {
-        this.commit('setLoginState', {loginState: !!user})
+      await new Promise((resolve) => {
+        let unsubscribe = firebase.auth().onAuthStateChanged(user => {
+          this.commit('setLoginState', {loginState: !!user})
+          unsubscribe()
+          resolve()
+        })
       })
     },
     async getUserInfoState () {
-      firebase.auth().onAuthStateChanged(async (user) => {
-        if (user) {
-          const userData = await getUser(user.uid)
-          this.commit('setUserInfoState', {data: userData})
-        }
+      await new Promise((resolve) => {
+        let unsubscribe = firebase.auth().onAuthStateChanged(async user => {
+          if (user) {
+            const userData = await getUser(user.uid)
+            this.commit('setUserInfoState', {data: userData})
+          }
+          unsubscribe()
+          resolve()
+        })
       })
     },
     async getVisitedUserInfoState (state, userAuthId) {
-      const visitedUserData = await getUser(userAuthId)
-      this.commit('setVisitedUserInfoState', {data: visitedUserData})
+      await new Promise((resolve) => {
+        let unsubscribe = firebase.auth().onAuthStateChanged(async user => {
+          const visitedUserData = await getUser(userAuthId)
+          this.commit('setVisitedUserInfoState', {data: visitedUserData})
+          unsubscribe()
+          resolve()
+        })
+      })
     }
   }
 })
