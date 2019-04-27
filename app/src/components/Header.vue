@@ -18,27 +18,27 @@
                 </template>
                 <template>
                     <div class="header-menu-item">
-                        <router-link class="header-char" :to="{name: 'Timeline', params: {mode: 'tsurai'}}">つらいTL</router-link>
+                        <router-link id="tsurai" class="header-char" :to="{name: 'Timeline', params: {mode: 'tsurai'}}">つらいTL</router-link>
                     </div>
                 </template>
                 <template>
                     <div class="header-menu-item">
-                        <router-link class="header-char" :to="{name: 'Timeline', params: {mode: 'erai'}}">えらいTL</router-link>
+                        <router-link id="erai" class="header-char" :to="{name: 'Timeline', params: {mode: 'erai'}}">えらいTL</router-link>
                     </div>
                 </template>
                 <template v-if=isLoggedIn>
                     <div class="header-menu-item">
-                        <router-link class="header-char" :to="{name: 'UserPage', params: {id: userAuthId}}">マイページ</router-link>
+                        <router-link id="mypage" class="header-char" :to="{name: 'UserPage', params: {id: userAuthId}}">マイページ</router-link>
                     </div>
                 </template>
                 <template>
                     <div class="header-menu-item">
-                        <router-link class="header-char" :to="{name: 'About'}">About</router-link>
+                        <router-link id="about" class="header-char" :to="{name: 'About'}">About</router-link>
                     </div>
                 </template>
                 <template v-if=isLoggedIn>
                     <div class="header-menu-item">
-                        <router-link class="header-char" :to="{name: 'Contact'}">Contact</router-link>
+                        <router-link id="contact" class="header-char" :to="{name: 'Contact'}">Contact</router-link>
                     </div>
                 </template>
                 <template>
