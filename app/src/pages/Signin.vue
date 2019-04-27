@@ -50,8 +50,11 @@ export default {
       isProcessing: false
     }
   },
-  created () {
-    this.$store.dispatch('getLoginState')
+  async created () {
+    await this.$store.dispatch('getLoginState')
+    if (this.isLoggedIn) {
+      this.$router.replace('/timeline')
+    }
   },
   computed: {
     isLoggedIn () {

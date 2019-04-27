@@ -18,6 +18,10 @@ const router = new VueRouter({
       redirect: '/signin'
     },
     {
+      path: '/timeline',
+      redirect: '/timeline/tsurai'
+    },
+    {
       path: '/timeline/:mode',
       name: 'Timeline',
       component: Home

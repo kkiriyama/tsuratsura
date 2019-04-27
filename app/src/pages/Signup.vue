@@ -71,8 +71,11 @@ export default {
     'common-header': Header,
     'v-icon': Icon
   },
-  created () {
-    this.$store.dispatch('getLoginState')
+  async created () {
+    await this.$store.dispatch('getLoginState')
+    if (this.isLoggedIn) {
+      this.$router.replace('/timeline')
+    }
   },
   computed: {
     isLoggedIn () {
