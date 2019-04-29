@@ -63,7 +63,8 @@ export default {
   },
   data () {
     return {
-      showLength: 10,
+      showLength: 30,
+      showMoreNum: 10,
       isLoading: true,
       showPostModal: false,
       isMobile: IsMobile.any
@@ -146,20 +147,20 @@ export default {
     }
   },
   methods: {
-    infiniteHandler ($state) {
-      const preLength = this.posts.length
+    infiniteHandler (state) {
+      const prelength = this.posts.length
       this.showMore()
         .then(() => {
-          if (preLength !== this.posts.length) {
-            $state.loaded()
+          if (prelength !== this.posts.length) {
+            state.loaded()
           } else {
-            $state.complete()
+            state.complete()
           }
         })
         .catch(e => alert('データを正常に読み込めませんでした'))
     },
     async showMore () {
-      this.showLength += 10
+      this.showLength += this.showMoreNum
       if (this.mode === 'tsurai') {
         await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.showLength})
       }

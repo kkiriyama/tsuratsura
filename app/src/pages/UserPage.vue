@@ -52,14 +52,14 @@
                                 v-for="(post, index) in userTsuraiPosts"
                                 :key="index"
                                 :post="post"/>
-                            <infinity-loading :identifier="infinityId" @infinite="infiniteHandler"/>
+                            <infinity-loading @infinite="infiniteTsuraiHandler"/>
                         </b-tab>
                         <b-tab title="えらいTL" @click="changeTab()">
                             <show-erai-timeline
                                 v-for="(post, index) in userEraiPosts"
                                 :key="index"
                                 :post="post"/>
-                            <infinity-loading :identifier="infinityId" @infinite="infiniteHandler"/>
+                            <infinity-loading @infinite="infiniteEraiHandler"/>
                         </b-tab>
                     </b-tabs>
                 </div>
@@ -92,8 +92,9 @@ export default {
       isEditing: false,
       isLoading: true,
       editedUserInfo: this.visitedUserInfo,
-      searchTsuraiPostsNum: 100,
-      searchEraiPostsNum: 100,
+      searchTsuraiPostsNum: 30,
+      searchEraiPostsNum: 30,
+      showMoreNum: 100,
       infinityId: 0
     }
   },
@@ -143,42 +144,38 @@ export default {
     }
   },
   methods: {
-    changeTab () {
-      this.infinityId = this.infinityId === 1 ? 0 : 1
-    },
     async showMore () {
       if (this.infinityId === 0) {
-        this.searchTsuraiPostsNum += 100
+        this.searchTsuraiPostsNum += this.showMoreNum
         await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchTsuraiPostsNum})
       } else {
-        this.searchEraiPostsNum += 100
+        this.searchEraiPostsNum += this.showMoreNum
         await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchEraiPostsNum})
       }
     },
-    infiniteHandler ($state) {
-      if (this.infinityId === 0) {
-        const preLength = this.$store.state.postsTsurai.length
-        this.showMore()
-          .then(() => {
-            if (preLength !== this.$store.state.postsTsurai.length) {
-              $state.loaded()
-            } else {
-              $state.complete()
-            }
-          })
-          .catch(e => console.error(e))
-      } else {
-        const preLength = this.$store.state.postsErai.length
-        this.showMore()
-          .then(() => {
-            if (preLength !== this.$store.state.postsErai.length) {
-              $state.loaded()
-            } else {
-              $state.complete()
-            }
-          })
-          .catch(e => alert('データを正常に読み込めませんでした'))
-      }
+    infiniteTsuraiHandler (state) {
+      const preLength = this.$store.state.postsTsurai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsTsurai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => console.error(e))
+    },
+    infiniteEraiHandler (state) {
+      const preLength = this.$store.state.postsErai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsErai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => alert('データを正常に読み込めませんでした'))
     },
     editProfile () {
       this.isEditing = true
