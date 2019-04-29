@@ -47,17 +47,19 @@
                 </div>
                 <div class="col-lg-6 col-top">
                     <b-tabs content-class="mt-2">
-                        <b-tab title="つらいTL" active>
+                        <b-tab title="つらいTL" @click="changeTab()" active>
                             <show-tsurai-timeline
                                 v-for="(post, index) in userTsuraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading :identifier="infinityId" @infinite="infiniteHandler"/>
                         </b-tab>
-                        <b-tab title="えらいTL">
+                        <b-tab title="えらいTL" @click="changeTab()">
                             <show-erai-timeline
                                 v-for="(post, index) in userEraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading :identifier="infinityId" @infinite="infiniteHandler"/>
                         </b-tab>
                     </b-tabs>
                 </div>
@@ -72,8 +74,9 @@ import NowLoading from '@/components/NowLoading'
 import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
 import ShowEraiTimeline from '@/components/ShowEraiTimeline'
 
-import firebase from 'firebase'
+import InfinityLoading from 'vue-infinite-loading'
 
+import firebase from 'firebase'
 const db = firebase.firestore()
 
 export default {
@@ -81,21 +84,25 @@ export default {
     'common-header': Header,
     'show-tsurai-timeline': ShowTsuraiTimeline,
     'show-erai-timeline': ShowEraiTimeline,
-    'now-loading': NowLoading
+    'now-loading': NowLoading,
+    'infinity-loading': InfinityLoading
   },
   data () {
     return {
       isEditing: false,
       isLoading: true,
-      editedUserInfo: this.visitedUserInfo
+      editedUserInfo: this.visitedUserInfo,
+      searchTsuraiPostsNum: 100,
+      searchEraiPostsNum: 100,
+      infinityId: 0
     }
   },
   async created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
-    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: 1000})
-    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: 1000})
+    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
+    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
     this.isLoading = false
   },
   computed: {
@@ -136,6 +143,43 @@ export default {
     }
   },
   methods: {
+    changeTab () {
+      this.infinityId = this.infinityId === 1 ? 0 : 1
+    },
+    async showMore () {
+      if (this.infinityId === 0) {
+        this.searchTsuraiPostsNum += 100
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchTsuraiPostsNum})
+      } else {
+        this.searchEraiPostsNum += 100
+        await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchEraiPostsNum})
+      }
+    },
+    infiniteHandler ($state) {
+      if (this.infinityId === 0) {
+        const preLength = this.$store.state.postsTsurai.length
+        this.showMore()
+          .then(() => {
+            if (preLength !== this.$store.state.postsTsurai.length) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          })
+          .catch(e => console.error(e))
+      } else {
+        const preLength = this.$store.state.postsErai.length
+        this.showMore()
+          .then(() => {
+            if (preLength !== this.$store.state.postsErai.length) {
+              $state.loaded()
+            } else {
+              $state.complete()
+            }
+          })
+          .catch(e => alert('データを正常に読み込めませんでした'))
+      }
+    },
     editProfile () {
       this.isEditing = true
     },
