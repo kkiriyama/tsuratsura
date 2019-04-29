@@ -115,7 +115,7 @@ export default {
       return this.visitedUserID === this.visitingUserInfo.auth_id
     },
     twitterLink () {
-      const twitterPattern = /[A-z0-9_]+$/
+      const twitterPattern = /[a-zA-Z0-9_]+$/
       const basename = this.visitedUserInfo.twitter.match(twitterPattern)[0]
       return 'https://twitter.com/' + basename
     },
