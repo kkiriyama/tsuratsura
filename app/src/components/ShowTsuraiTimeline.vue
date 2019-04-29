@@ -10,15 +10,15 @@
                     <small>削除</small>
                 </span>
                 </div>
-                <div class="text-left dark-012 smalltext">
-                <span>{{ formattedCreatedTime }}</span>
+                <div class="text-left dark-054 smalltext">
+                    <span>{{ formattedCreatedTime }}</span>
                 </div>
             </div>
             <div class="card-body text-left show-newline">
                 <span class="card-text">{{ post.posts.body }}</span>
             </div>
-            <div class="card-footer float-right">
-                <div class="float-right">
+            <div class="card-footer text-right">
+                <div>
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -172,7 +172,7 @@ export default {
 </script>
 
 <style>
-.dark-012{
+.dark-054{
   color: rgba(18,21,37,0.54);
 }
 .smalltext{
