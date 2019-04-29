@@ -148,17 +148,17 @@ export default {
         alert('ユーザーネームは10文字以下にしてください')
         return
       }
-      const twitterPattern = /[A-z0-9_]+$/
       if (this.visitingUserInfo.twitter.length > 30) {
         alert('Twitter IDが長すぎます')
         return
       }
+      const twitterPattern = /[a-zA-Z0-9_]+$/
       const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
-      if (regMatch === null) {
+      if (!!this.visitedUserInfo.twitter && regMatch === null) {
         alert('Twiiter IDは半角英数字とアンダーバーのみしか入力できません')
         return
       }
-      this.visitedUserInfo.twitter = '@' + regMatch[0]
+      this.visitedUserInfo.twitter = !this.visitedUserInfo.twitter ? '' : '@' + regMatch[0]
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
