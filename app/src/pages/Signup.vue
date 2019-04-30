@@ -103,7 +103,7 @@ export default {
         return
       }
       const twitterPattern = /^@[a-zA-Z0-9_]+$/
-      const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
+      const regMatch = this.twitter.match(twitterPattern)
       if (!!this.twitter && regMatch === null) {
         alert('Twiiter IDは1文字目が@でかつ半角英数字とアンダーバーのみしか入力できません')
         return
