@@ -47,14 +47,14 @@
                 </div>
                 <div class="col-lg-6 col-top">
                     <b-tabs content-class="mt-2">
-                        <b-tab title="つらいTL" @click="changeTab()" active>
+                        <b-tab title="つらいTL" active>
                             <show-tsurai-timeline
                                 v-for="(post, index) in userTsuraiPosts"
                                 :key="index"
                                 :post="post"/>
                             <infinity-loading @infinite="infiniteTsuraiHandler"/>
                         </b-tab>
-                        <b-tab title="えらいTL" @click="changeTab()">
+                        <b-tab title="えらいTL">
                             <show-erai-timeline
                                 v-for="(post, index) in userEraiPosts"
                                 :key="index"
