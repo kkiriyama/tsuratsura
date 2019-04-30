@@ -1,20 +1,23 @@
 <template>
     <div>
         <div class="card p-2 mb-2">
-            <div class="card-header text-left">
+            <div class="card-header">
+                <div class="text-left">
                 <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
                     {{ post.author.username }}
                 </router-link>
                 <span v-if="isAuthor" @click="deletePost">
                     <small>削除</small>
                 </span>
+                </div>
+                <div class="text-left dark-054 smalltext">
+                    <span>{{ formattedCreatedTime }}</span>
+                </div>
             </div>
             <div class="card-body text-left show-newline">
                 <span class="card-text">{{ post.posts.body }}</span>
             </div>
             <div class="card-footer text-right">
-                <small class="text-muted">posted at</small>
-                <span>{{ formattedCreatedTime }}</span>
                 <div>
                     <stamp
                         kind="too-bad"
@@ -75,7 +78,7 @@ export default {
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
-      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+      return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}/ ${d.getHours()}:${formattedMinutes}`
     },
     user_id () {
       return this.$store.state.userInfo.user_id
@@ -169,8 +172,14 @@ export default {
 </script>
 
 <style>
+.dark-054{
+  color: rgba(18,21,37,0.54);
+}
+.smalltext{
+    font-size: 10px;
+}
 .card {
-  width: 80%;
+  width: 90%;
   margin: 10px auto;
 }
 .show-newline {
