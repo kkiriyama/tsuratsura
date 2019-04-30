@@ -115,9 +115,9 @@ export default {
       return this.visitedUserID === this.visitingUserInfo.auth_id
     },
     twitterLink () {
-      const twitterPattern = /[a-zA-Z0-9_]+$/
-      const basename = this.visitedUserInfo.twitter.match(twitterPattern)[0]
-      return 'https://twitter.com/' + basename
+      const twitterPattern = /^@([a-zA-Z0-9_]+)$/
+      const basename = this.visitedUserInfo.twitter.match(twitterPattern)
+      return 'https://twitter.com/' + basename[1]
     },
     userTsuraiPosts () {
       const timeline = this.$store.state.postsTsurai
