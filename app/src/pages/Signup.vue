@@ -98,6 +98,17 @@ export default {
         alert('ハンドルネームは10文字以内にしてください')
         return
       }
+      if (this.twitter.length > 30) {
+        alert('Twitter IDが長すぎます')
+        return
+      }
+      const twitterPattern = /^@[a-zA-Z0-9_]+$/
+      const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
+      if (!!this.twitter && regMatch === null) {
+        alert('Twiiter IDは1文字目が@でかつ半角英数字とアンダーバーのみしか入力できません')
+        return
+      }
+      this.twitter = !this.twitter ? '' : regMatch[0]
       this.startProcessing()
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(() => {

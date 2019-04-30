@@ -152,7 +152,7 @@ export default {
         alert('Twitter IDが長すぎます')
         return
       }
-      const twitterPattern = /^@?([a-zA-Z0-9_]+)$/
+      const twitterPattern = /^@[a-zA-Z0-9_]+$/
       const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
       if (!!this.visitedUserInfo.twitter && regMatch === null) {
         alert('Twiiter IDは1文字目が@でかつ半角英数字とアンダーバーのみしか入力できません')
