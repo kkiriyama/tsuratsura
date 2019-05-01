@@ -140,7 +140,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .signup {
     margin: 100px auto;

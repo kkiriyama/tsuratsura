@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="timelineBg">
         <div id="header">
             <common-header
                 :is-logged-in="isLoggedIn"
@@ -9,6 +9,7 @@
         <now-loading v-if="isLoading"/>
         <posting-button
             class="posting-button"
+            :mode="mode"
             @popPost="popPost()"/>
         <div class="row" v-if="!isLoading">
             <div class="col-lg-3" id="submit-post" v-if="isLoggedIn">
@@ -144,6 +145,9 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.auth_id
+    },
+    timelineBg () {
+      return this.mode === 'tsurai' ? 'timeline-background-tsurai' : 'timeline-background-erai'
     }
   },
   methods: {
@@ -184,13 +188,23 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .posting-button {
     position: fixed;
     z-index: 100;
     bottom: 48px;
     right: 48px;
+}
+
+.timeline-background-tsurai {
+  background-color: #030405;
+  height: 100%;
+}
+
+.timeline-background-erai {
+  background-color: rgba(18, 21, 37, 0.12);
+  height: 100%;
 }
 
 </style>

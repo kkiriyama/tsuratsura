@@ -15,7 +15,18 @@ export default {
 </script>
 
 <style>
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+</style>
+
+<style scoped>
 #app {
+  height: 100%;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
