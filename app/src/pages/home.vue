@@ -23,14 +23,14 @@
                     v-for="(post, index) in posts"
                     :key="index"
                     :post="post"/>
-                <button class="button" @click="showMore">もっと見る</button>
+                <infinity-loading @infinite="infiniteHandler"></infinity-loading>
             </div>
             <div class="col-lg-6" id="timeline" v-if="mode==='erai'">
                 <show-erai-timeline
                     v-for="(post, index) in posts"
                     :key="index"
                     :post="post"/>
-                <button class="button" @click="showMore">もっと見る</button>
+                <infinity-loading @infinite="infiniteHandler"></infinity-loading>
             </div>
         </div>
     </div>
@@ -45,6 +45,7 @@ import NowLoading from '@/components/NowLoading'
 import firebase from 'firebase'
 import PostingButton from '@/components/PostingButton'
 import IsMobile from 'ismobilejs'
+import InfinityLoading from 'vue-infinite-loading'
 
 const db = firebase.firestore()
 
@@ -56,12 +57,14 @@ export default {
     'show-erai-timeline': ShowEraiTimeline,
     'common-header': Header,
     'now-loading': NowLoading,
-    'posting-button': PostingButton
+    'posting-button': PostingButton,
+    'infinity-loading': InfinityLoading
+
   },
   data () {
     return {
-      showLength: 10,
-      maxPosts: 1000,
+      showLength: 30,
+      showMoreNum: 10,
       isLoading: true,
       showPostModal: false,
       isMobile: IsMobile.any
@@ -98,11 +101,11 @@ export default {
         })
         const limitedNewPosts = []
         newPosts.forEach((doc, idx) => {
-          if (idx < this.maxPosts) {
+          if (idx < this.showLength) {
             limitedNewPosts.push(doc)
           }
         })
-        await this.$store.dispatch('getTsuraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: limitedNewPosts, numPosts: this.showLength})
       })
     db.collection('posts_erai')
       .onSnapshot(async (querySnapshot) => {
@@ -118,11 +121,11 @@ export default {
         })
         const limitedNewPosts = []
         newPosts.forEach((doc, idx) => {
-          if (idx < this.maxPosts) {
+          if (idx < this.showLength) {
             limitedNewPosts.push(doc)
           }
         })
-        await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.maxPosts})
+        await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.showLength})
         this.isLoading = false
       })
   },
@@ -144,13 +147,25 @@ export default {
     }
   },
   methods: {
-    showMore () {
-      this.showLength += 10
+    infiniteHandler (state) {
+      const prelength = this.posts.length
+      this.showMore()
+        .then(() => {
+          if (prelength !== this.posts.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => alert('データを正常に読み込めませんでした'))
+    },
+    async showMore () {
+      this.showLength += this.showMoreNum
       if (this.mode === 'tsurai') {
-        this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.showLength})
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.showLength})
       }
       if (this.mode === 'erai') {
-        this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.showLength})
+        await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.showLength})
       }
     },
     popPost () {
