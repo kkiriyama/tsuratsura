@@ -78,7 +78,7 @@ export default {
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
-      return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}/ ${d.getHours()}:${formattedMinutes}`
+      return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${formattedMinutes}`
     },
     user_id () {
       return this.$store.state.userInfo.user_id
