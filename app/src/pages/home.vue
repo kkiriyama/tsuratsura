@@ -74,18 +74,19 @@ export default {
   watch: {
     async mode (newMode, oldMode) {
       if (newMode === 'tsurai') {
-        this.isLoading = true
+        this.startLoading()
         await this.$store.dispatch('getTsuraiTimeline')
-        this.isLoading = false
+        this.endLoading()
       }
       if (newMode === 'erai') {
-        this.isLoading = true
+        this.startLoading()
         await this.$store.dispatch('getEraiTimeline')
-        this.isLoading = false
+        this.endLoading()
       }
     }
   },
   created () {
+    this.startLoading()
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     db.collection('posts')
@@ -127,7 +128,7 @@ export default {
           }
         })
         await this.$store.dispatch('getEraiTimeline', {newPosts: limitedNewPosts, numPosts: this.showLength})
-        this.isLoading = false
+        this.endLoading()
       })
   },
   computed: {
@@ -151,6 +152,14 @@ export default {
     }
   },
   methods: {
+    startLoading () {
+      this.isLoading = true
+      document.body.style.height = '100%'
+    },
+    endLoading () {
+      this.isLoading = false
+      document.body.style.height = 'auto'
+    },
     infiniteHandler (state) {
       const prelength = this.posts.length
       this.showMore()
@@ -189,7 +198,6 @@ export default {
 </script>
 
 <style scoped>
-
 .posting-button {
     position: fixed;
     z-index: 100;
@@ -206,5 +214,4 @@ export default {
   background-color: rgba(18, 21, 37, 0.12);
   height: 100%;
 }
-
 </style>
