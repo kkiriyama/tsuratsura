@@ -125,7 +125,10 @@ export default {
     twitterLink () {
       const twitterPattern = /^@([a-zA-Z0-9_]+)$/
       const basename = this.visitedUserInfo.twitter.match(twitterPattern)
-      return 'https://twitter.com/' + basename[1]
+      if (basename !== null) {
+        return 'https://twitter.com/' + basename[1]
+      }
+      return undefined
     },
     userTsuraiPosts () {
       const timeline = this.$store.state.postsTsurai
