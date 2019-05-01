@@ -1,24 +1,21 @@
 <template>
     <div>
-        <div class="card p-2 mb-2">
-            <div class="card-header text-left">
-                <div class="text-left">
-                    <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
+        <div class="card p-2 mb-2 erai-card-color">
+            <div class="card-header erai-card-header">
+                <div class="float-left">
+                  <div class="text-left">
+                    <router-link class="erai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
                         {{ post.author.username }}
                     </router-link>
                     <span v-if="isAuthor" @click="deletePost">
                         <small>削除</small>
                     </span>
+                  </div>
+                  <div class="text-left erai-datetime smalltext">
+                      <span>{{ formattedCreatedTime }}</span>
+                  </div>
                 </div>
-                <div class="text-left dark-054 smalltext">
-                    <span>{{ formattedCreatedTime }}</span>
-                </div>
-            </div>
-            <div class="card-body text-left show-newline">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
-            <div class="card-footer text-right">
-                <div>
+                <div class="float-right">
                     <stamp
                         kind="great"
                         :active="isActive('great')"
@@ -38,6 +35,9 @@
                         @click="toggle_genius"
                     />
                 </div>
+            </div>
+            <div class="card-body text-left show-newline">
+              <span class="card-text">{{ post.posts.body }}</span>
             </div>
         </div>
     </div>
@@ -171,7 +171,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 .dark-054{
   color: rgba(18,21,37,0.54);
 }
@@ -189,4 +190,20 @@ export default {
 .stamp {
   padding: 10px 10px;
 }
+
+.erai-card-color, .erai-username {
+  color: #121525;
+  background-color: #ffffff;
+}
+
+.erai-card-header {
+  background-color: #ffffff;
+}
+
+.border-line {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 0.5px 0 0 0;
+}
+
 </style>

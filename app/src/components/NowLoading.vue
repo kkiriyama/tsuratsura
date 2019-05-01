@@ -1,5 +1,5 @@
 <template>
-    <div class="set-margin">
+    <div class="now-loading">
         <h2> Now Loading ... </h2>
         <v-icon name="sync" scale="3" spin/>
     </div>
@@ -15,8 +15,9 @@ export default {
 }
 </script>
 
-<style>
-.set-margin {
-    margin: 100px auto;
+<style scoped>
+.now-loading {
+  height: 100%;
+  margin: 100px auto;
 }
 </style>

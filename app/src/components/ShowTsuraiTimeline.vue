@@ -1,24 +1,21 @@
 <template>
     <div>
-        <div class="card p-2 mb-2">
-            <div class="card-header">
-                <div class="text-left">
-                <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                    {{ post.author.username }}
-                </router-link>
-                <span v-if="isAuthor" @click="deletePost">
-                    <small>削除</small>
-                </span>
+        <div class="card p-2 mb-2 tsurai-card-color">
+            <div class="card-header tsurai-card-header">
+                <div class="float-left">
+                  <div class="text-left">
+                    <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                        {{ post.author.username }}
+                    </router-link>
+                    <span v-if="isAuthor" @click="deletePost">
+                        <small>削除</small>
+                    </span>
+                  </div>
+                  <div class="tsurai-datetime smalltext">
+                      <span>{{ formattedCreatedTime }}</span>
+                  </div>
                 </div>
-                <div class="text-left dark-054 smalltext">
-                    <span>{{ formattedCreatedTime }}</span>
-                </div>
-            </div>
-            <div class="card-body text-left show-newline">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
-            <div class="card-footer text-right">
-                <div>
+                <div class="float-right">
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -38,6 +35,9 @@
                         @click="toggle_good_job"
                     />
                 </div>
+            </div>
+            <div class="card-body text-left show-newline border-line">
+                <span class="card-text">{{ post.posts.body }}</span>
             </div>
         </div>
     </div>
@@ -171,9 +171,9 @@ export default {
 }
 </script>
 
-<style>
-.dark-054{
-  color: rgba(18,21,37,0.54);
+<style scoped>
+.tsurai-datetime{
+  color: rgba(255,255,255,0.7);
 }
 .smalltext{
     font-size: 10px;
@@ -189,4 +189,20 @@ export default {
 .stamp {
   padding: 10px 10px;
 }
+
+.tsurai-card-color, .tsurai-username {
+  color: #ffffff;
+  background-color: #121525;
+}
+
+.tsurai-card-header {
+  background-color: #121525;
+}
+
+.border-line {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 0.5px 0 0 0;
+}
+
 </style>
