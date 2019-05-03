@@ -5,7 +5,9 @@
             mode="other"/>
         <now-loading v-if="isLoading"/>
         <div v-if="!isLoading">
-            <div class="row"> <div class="col-lg-4 col-top">
+            <div class="row">
+                <div class="col-lg-4 col-top">
+                    <img :src="visitedUserInfo.icon_URL" width=60%>
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
@@ -23,7 +25,7 @@
                         </tbody>
                         <button v-if="isMyPage" type="button" @click="editProfile()">編集</button>
                     </table>
-                    <form v-if="isEditing" @submit.prevent="editUserInfo">
+                    <form v-if="isEditing">
                         <fieldset class="row">
                             <table class="table">
                                 <tbody>
@@ -40,8 +42,9 @@
                                         <input v-model="visitedUserInfo.bio" type="textarea" class="form-control" id="editBio">
                                     </tr>
                                 </tbody>
-                                <button v-if="isMyPage" type="button" @click="completeEdit()">完了</button>
                             </table>
+                            <image-upload-form :user-id="visitingUserInfo.user_id"/>
+                            <button v-if="isMyPage" type="button" class="btn btn-info" @click="completeEdit()">完了</button>
                         </fieldset>
                     </form>
                 </div>
@@ -71,6 +74,7 @@ import Header from '@/components/Header'
 import NowLoading from '@/components/NowLoading'
 import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
 import ShowEraiTimeline from '@/components/ShowEraiTimeline'
+import ImageUploadForm from '@/components/ImageUploadForm'
 
 import firebase from 'firebase'
 
@@ -81,7 +85,8 @@ export default {
     'common-header': Header,
     'show-tsurai-timeline': ShowTsuraiTimeline,
     'show-erai-timeline': ShowEraiTimeline,
-    'now-loading': NowLoading
+    'now-loading': NowLoading,
+    'image-upload-form': ImageUploadForm
   },
   data () {
     return {
@@ -175,6 +180,7 @@ export default {
         bio: this.visitedUserInfo.bio
       })
         .then(() => {
+          this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
           alert('プロフィールが正常に更新されました')
         })
       this.isEditing = false

@@ -2,6 +2,7 @@
     <div>
         <div class="card p-2 mb-2">
             <div class="card-header text-left">
+                <img :src="iconURL" width=40px height=40px>
                 <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
                     {{ post.author.username }}
                 </router-link>
@@ -80,6 +81,9 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    iconURL () {
+      return this.post.author.icon_URL
     },
     author_auth_id () {
       return this.post.author.auth_id
