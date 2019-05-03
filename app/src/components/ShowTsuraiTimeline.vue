@@ -3,8 +3,8 @@
         <div class="card p-2 mb-2 tsurai-card-color">
             <div class="card-header tsurai-card-header">
                 <div class="float-left">
-                  <img :src="iconURL" width=40px height=40px>
                   <div class="text-left">
+                    <img :src="iconURL" width=40px height=40px>
                     <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
                         {{ post.author.username }}
                     </router-link>
@@ -12,7 +12,7 @@
                         <small>削除</small>
                     </span>
                   </div>
-                  <div class="tsurai-datetime smalltext">
+                  <div class="text-left tsurai-datetime">
                       <span>{{ formattedCreatedTime }}</span>
                   </div>
                 </div>
@@ -178,18 +178,20 @@ export default {
 <style scoped>
 .tsurai-datetime{
   color: rgba(255,255,255,0.7);
+  font-size: 10px;
+  margin: 5px 0 0 0;
 }
-.smalltext{
-    font-size: 10px;
-}
+
 .card {
   width: 90%;
   margin: 10px auto;
 }
+
 .show-newline {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
 .stamp {
   padding: 10px 10px;
 }
