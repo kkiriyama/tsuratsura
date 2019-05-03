@@ -90,7 +90,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .signin {
     margin: 100px auto;

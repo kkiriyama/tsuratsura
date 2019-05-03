@@ -1,22 +1,21 @@
 <template>
     <div>
-        <div class="card p-2 mb-2">
-            <div class="card-header text-left">
-                <img :src="iconURL" width=40px height=40px>
-                <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                    {{ post.author.username }}
-                </router-link>
-                <span v-if="isAuthor" @click="deletePost">
-                    <small>削除</small>
-                </span>
-            </div>
-            <div class="card-body text-left show-newline">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
-            <div class="card-footer text-right">
-                <small class="text-muted">posted at</small>
-                <span>{{ formattedCreatedTime }}</span>
-                <div>
+        <div class="card p-2 mb-2 tsurai-card-color">
+            <div class="card-header tsurai-card-header">
+                <div class="float-left">
+                  <div class="text-left">
+                    <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                        {{ post.author.username }}
+                    </router-link>
+                    <span v-if="isAuthor" @click="deletePost">
+                        <small>削除</small>
+                    </span>
+                  </div>
+                  <div class="tsurai-datetime smalltext">
+                      <span>{{ formattedCreatedTime }}</span>
+                  </div>
+                </div>
+                <div class="float-right">
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -36,6 +35,9 @@
                         @click="toggle_good_job"
                     />
                 </div>
+            </div>
+            <div class="card-body text-left show-newline border-line">
+                <span class="card-text">{{ post.posts.body }}</span>
             </div>
         </div>
     </div>
@@ -76,7 +78,7 @@ export default {
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
-      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+      return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${formattedMinutes}`
     },
     user_id () {
       return this.$store.state.userInfo.user_id
@@ -172,9 +174,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.tsurai-datetime{
+  color: rgba(255,255,255,0.7);
+}
+.smalltext{
+    font-size: 10px;
+}
 .card {
-  width: 80%;
+  width: 90%;
   margin: 10px auto;
 }
 .show-newline {
@@ -184,4 +192,20 @@ export default {
 .stamp {
   padding: 10px 10px;
 }
+
+.tsurai-card-color, .tsurai-username {
+  color: #ffffff;
+  background-color: #121525;
+}
+
+.tsurai-card-header {
+  background-color: #121525;
+}
+
+.border-line {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 0.5px 0 0 0;
+}
+
 </style>

@@ -1,11 +1,11 @@
 <template>
     <div class="header-char" :class="headerBg">
-        <div class="title">
+        <div class="title" :class="headerContent">
             <span>TsuraTsura</span>
         </div>
         <div id="nav-drawer">
             <input id="nav-input" type="checkbox" class="nav-unshown">
-            <label id="nav-open" for="nav-input"><span></span></label>
+            <label id="nav-open" :class="headerContent" for="nav-input"><span></span></label>
             <label class="nav-unshown" id="nav-close" for="nav-input"></label>
             <div id="nav-content">
                 <template v-if=!isLoggedIn>
@@ -73,6 +73,11 @@ export default {
       if (this.mode === 'tsurai') return 'header-bg-tsurai'
       if (this.mode === 'erai') return 'header-bg-erai'
       return 'header-bg-other'
+    },
+    headerContent () {
+      if (this.mode === 'tsurai') return 'header-content-tsurai'
+      if (this.mode === 'erai') return 'header-content-erai'
+      return 'header-content-other'
     }
   },
   methods: {
@@ -87,7 +92,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 #nav-drawer {
     position: relative;
@@ -113,11 +118,23 @@ export default {
   height: 3px;
   width: 25px;
   border-radius: 3px;
-  background: #555;
   display: block;
   content: '';
   cursor: pointer;
 }
+
+#nav-open.header-content-tsurai span, #nav-open.header-content-tsurai span:before, #nav-open.header-content-tsurai span:after {
+  background: #ffffff;
+}
+
+#nav-open.header-content-erai span, #nav-open.header-content-erai span:before, #nav-open.header-content-erai span:after {
+  background: #121525;
+}
+
+#nav-open.header-content-other span, #nav-open.header-content-other span:before, #nav-open.header-content-other span:after {
+  background: #121525;
+}
+
 #nav-open span:before {
   bottom: -8px;
 }
@@ -179,7 +196,7 @@ export default {
 }
 
 .header-bg-tsurai {
-    background-color: #7892d6;
+    background-color: #425c9e;
 }
 
 .header-bg-erai {
@@ -188,6 +205,18 @@ export default {
 
 .header-bg-other {
     background-color: rgba(18, 21, 37, 0.26);
+}
+
+.header-content-tsurai {
+    color: #ffffff;
+}
+
+.header-content-erai {
+    color: #121525;
+}
+
+.header-content-other {
+    color: #121525;
 }
 
 </style>

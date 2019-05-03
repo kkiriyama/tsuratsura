@@ -5,29 +5,29 @@
                 <fieldset>
                     <div class="form-group row">
                         <div class="col-md-4 offset-md-4">
-                            <textarea v-model="text" class="form-control form-margin" rows=5 id="inputText" :placeholder="placeholderMassage"></textarea>
+                            <textarea v-model="text" :class="postFormStyle" class="form-control form-margin" rows=5 id="inputText" :placeholder="placeholderMassage"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 col-mdhhoffset-2">
-                            <button :disabled="isProcessing" type="submit" class="btn btn-primary center-block" @click="$emit('close')">投稿</button>
+                            <button :disabled="isProcessing" type="submit" :class="postButtonStyle" class="btn center-block" @click="$emit('close')">投稿</button>
                         </div>
                     </div>
                 </fieldset>
             </form>
-            <button class="btn btn-primary center-block" @click="$emit('close')">閉じる</button>
+            <button class="btn btn-danger center-block" @click="$emit('close')">閉じる</button>
         </div>
         <div class="form-horizontal" id="post" v-if="!isMobile">
             <form @submit.prevent="sendPost">
                 <fieldset>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <textarea v-model="text" class="form-control" rows=3 id="inputText" :placeholder=placeholderMassage></textarea>
+                            <textarea v-model="text" :class="postFormStyle" class="form-control" rows=6 id="inputText" :placeholder=placeholderMassage></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12 col-mdhhoffset-2">
-                            <button :disabled="isProcessing" type="submit" class="btn btn-primary center-block">投稿</button>
+                            <button :disabled="isProcessing" type="submit" :class="postButtonStyle" class="btn center-block">投稿</button>
                         </div>
                     </div>
                 </fieldset>
@@ -78,6 +78,12 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    postFormStyle () {
+      return this.mode === 'tsurai' ? 'post-form-tsurai' : 'post-form-erai'
+    },
+    postButtonStyle () {
+      return this.mode === 'tsurai' ? 'post-btn-tsurai' : 'post-btn-erai'
     }
   },
   methods: {
@@ -146,7 +152,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .submit-post-form {
     margin: 20px 20px;
 }
@@ -165,7 +171,7 @@ export default {
     z-index: -1;
 }
 .is-open {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     top: 0;
     right: 0;
@@ -176,4 +182,41 @@ export default {
     opacity: 1;
     z-index: 100;
 }
+
+.post-form-tsurai, .post-form-tsurai:focus {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.post-form-erai, .post-form-erai:focus {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #979797;
+  color: #121525;
+  background-color: #ffffff;
+}
+
+.post-form-tsurai::placeholder {
+  color: #ffffff;
+}
+
+.post-form-erai::placeholder {
+  color: #121525;
+}
+
+.post-btn-tsurai {
+  background-color: #7892d6;
+  color: #ffffff;
+}
+
+.post-btn-erai {
+  background-color: #f4a55f;
+  color: #ffffff;
+}
+
 </style>
