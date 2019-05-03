@@ -55,12 +55,14 @@
                                 v-for="(post, index) in userTsuraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading @infinite="infiniteTsuraiHandler"/>
                         </b-tab>
                         <b-tab title="えらいTL">
                             <show-erai-timeline
                                 v-for="(post, index) in userEraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading @infinite="infiniteEraiHandler"/>
                         </b-tab>
                     </b-tabs>
                 </div>
@@ -76,8 +78,9 @@ import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
 import ShowEraiTimeline from '@/components/ShowEraiTimeline'
 import ImageUploadForm from '@/components/ImageUploadForm'
 
-import firebase from 'firebase'
+import InfinityLoading from 'vue-infinite-loading'
 
+import firebase from 'firebase'
 const db = firebase.firestore()
 
 export default {
@@ -86,21 +89,26 @@ export default {
     'show-tsurai-timeline': ShowTsuraiTimeline,
     'show-erai-timeline': ShowEraiTimeline,
     'now-loading': NowLoading,
-    'image-upload-form': ImageUploadForm
+    'image-upload-form': ImageUploadForm,
+    'infinity-loading': InfinityLoading
   },
   data () {
     return {
       isEditing: false,
       isLoading: true,
-      editedUserInfo: this.visitedUserInfo
+      editedUserInfo: this.visitedUserInfo,
+      searchTsuraiPostsNum: 30,
+      searchEraiPostsNum: 30,
+      showMoreNum: 100,
+      infinityId: 0
     }
   },
   async created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
-    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: 1000})
-    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: 1000})
+    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
+    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
     this.isLoading = false
   },
   computed: {
@@ -141,6 +149,39 @@ export default {
     }
   },
   methods: {
+    async showMore () {
+      if (this.infinityId === 0) {
+        this.searchTsuraiPostsNum += this.showMoreNum
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchTsuraiPostsNum})
+      } else {
+        this.searchEraiPostsNum += this.showMoreNum
+        await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchEraiPostsNum})
+      }
+    },
+    infiniteTsuraiHandler (state) {
+      const preLength = this.$store.state.postsTsurai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsTsurai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => console.error(e))
+    },
+    infiniteEraiHandler (state) {
+      const preLength = this.$store.state.postsErai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsErai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => alert('データを正常に読み込めませんでした'))
+    },
     editProfile () {
       this.isEditing = true
     },
@@ -153,17 +194,17 @@ export default {
         alert('ユーザーネームは10文字以下にしてください')
         return
       }
-      const twitterPattern = /[A-z0-9_]+$/
       if (this.visitingUserInfo.twitter.length > 30) {
         alert('Twitter IDが長すぎます')
         return
       }
+      const twitterPattern = /^@[a-zA-Z0-9_]+$/
       const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
-      if (regMatch === null) {
-        alert('Twiiter IDは半角英数字とアンダーバーのみしか入力できません')
+      if (!!this.visitedUserInfo.twitter && regMatch === null) {
+        alert('Twiiter IDは1文字目が@でかつ半角英数字とアンダーバーのみしか入力できません')
         return
       }
-      this.visitedUserInfo.twitter = '@' + regMatch[0]
+      this.visitedUserInfo.twitter = !this.visitedUserInfo.twitter ? '' : regMatch[0]
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
@@ -195,7 +236,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .col-top {
     margin: 20px 20px;
 }

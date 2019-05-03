@@ -16,7 +16,7 @@ module.exports = {
       .setValue('@inputUsername', 'dummy@email.com')
       .setValue('@inputPassword', 'DummyDummy')
       .send()
-    
+
     tsuraiTimelinePage
       .waitForElementVisible('@timeline', 5000)
       .waitForElementVisible('@card', 5000)
@@ -34,7 +34,7 @@ module.exports = {
 
     loginPage
       .waitForElementVisible('@inputUsername', 5000)
-    
+
     browser.end()
   }
 }
