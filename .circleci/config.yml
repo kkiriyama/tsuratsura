@@ -2,16 +2,19 @@ version: 2
 jobs:
     build:
         docker:
-            - image: circleci/node:11
-        working_directory: ~/repo
+            - image: karthikiyengar/node-nightwatch:latest
+        working_directory: ~/tsuratsura
         steps:
             - checkout
-
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "app/package-json" }}
+                    - v1-dependencies-{{ checksum "app/package.json" }}
             - run:
-                name: FrontCode lint
+                name: npm install
+                working_directory: app
+                command: npm i
+            - run:
+                name: lint
                 working_directory: app
                 command: |
-                    npm install
+                    npm run lint

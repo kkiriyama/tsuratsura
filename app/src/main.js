@@ -6,17 +6,13 @@ import router from './router.js'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Croppa from 'vue-croppa'
 import store from './store'
-import VueFab from 'vue-float-action-button'
-import 'vue-awesome/icons/sad-tear'
-import 'vue-awesome/icons/hand-holding-heart'
-import 'vue-awesome/icons/thumbs-up'
-import 'vue-awesome/icons/laugh-squint'
-import 'vue-awesome/icons/award'
-import 'vue-awesome/icons/user-graduate'
+import 'vue-awesome/icons/sync'
+import 'vue-awesome/icons/pencil-alt'
 
 Vue.use(BootstrapVue)
-Vue.use(VueFab)
+Vue.use(Croppa)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

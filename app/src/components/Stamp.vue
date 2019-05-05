@@ -1,44 +1,75 @@
 <template>
-    <span @click="toggle-stamp">
-        <v-icon :name="stampKind" scale="1.5" :color="stampColor"/>
-        <span>{{ stampNum }}</span>
+    <span class="stamp" @click="click()">
+        <component
+            :is="stampComponent"
+            :width="width"
+            :height="height"
+            :icon-color="stampColor"/>
+        <span>{{ count }}</span>
     </span>
 </template>
 
 <script>
-import Icon from 'vue-awesome/components/Icon'
+import TooBad from '@/components/icon/TooBad'
+import AllRight from '@/components/icon/AllRight'
+import Congrat from '@/components/icon/Congrat'
+import Great from '@/components/icon/Great'
+import GoodJob from '@/components/icon/GoodJob'
+import Genius from '@/components/icon/Genius'
+
+const iconTable = {
+  'too-bad': { component: TooBad, color: '#7892d6', inactiveColor: 'gray' },
+  'alright': { component: AllRight, color: '#bd4f6c', inactiveColor: 'gray' },
+  'good-job': { component: GoodJob, color: '#51a3a3', inactiveColor: 'gray' },
+  'great': { component: Great, color: '#f4a55f', inactiveColor: 'gray' },
+  'congrat': { component: Congrat, color: '#bd4f6c', inactiveColor: 'gray' },
+  'genius': { component: Genius, color: '#51a3a3', inactiveColor: 'gray' }
+}
 
 export default {
   name: 'Stamp',
   components: {
-    'v-icon': Icon
+    TooBad,
+    AllRight,
+    Congrat,
+    Great,
+    GoodJob,
+    Genius
   },
   data () {
-    return {}
+    return {
+      width: 20,
+      height: 20
+    }
   },
   props: {
     kind: {
       type: String,
       required: true
     },
-    post: {
-      type: Object,
-      required: true
+    count: {
+      type: Number,
+      default: 0
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
   },
-  mounted () {
-    if (this.kind === 'too-bad') {
-      this.stampNum = this.post.posts.that_is_too_bad_list.length
-      this.stampColor = 'blue'
-      this.stampKind = 'sad-tear'
-    } else if (this.kind === 'alright') {
-      this.stampNum = this.post.posts.you_are_alright_list.length
-      this.stampColor = 'pink'
-      this.stampKind = 'hand-holding-heart'
-    } else if (this.kind === 'good-job') {
-      this.stampNum = this.post.posts.good_job_list.length
-      this.stampColor = 'green'
-      this.stampKind = 'thumbs-up'
+  computed: {
+    stampComponent () {
+      const res = iconTable[this.kind]
+      return res.component
+    },
+    stampColor () {
+      let res = iconTable[this.kind]
+      return this.active ? res.color : res.inactiveColor
+    }
+  },
+  methods: {
+    click () {
+      this.$emit('click')
     }
   }
 }
+</script>

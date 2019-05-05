@@ -1,34 +1,44 @@
 <template>
     <div>
-        <div class="card p-2 mb-2">
-            <div class="card-header text-left">
-                <router-link :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                    {{ post.author.username }}
-                </router-link>
-                <span v-if="isAuthor" @click="deletePost">
-                    <small>削除</small>
-                </span>
-            </div>
-            <div class="card-body text-left show-newline">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
-            <div class="card-footer text-right">
-                <small class="text-muted">posted at</small>
-                <span>{{ formattedCreatedTime }}</span>
-                <div>
-                    <span class="stamp" @click="toggle_too_bad">
-                        <v-icon name="sad-tear" scale="1.5" focusable="true" color="blue"/>
-                        <span>{{ num_that_is_too_bad }}</span>
+        <div class="card p-2 mb-2 tsurai-card-color">
+            <div class="card-header tsurai-card-header">
+                <div class="float-left">
+                  <div class="text-left">
+                    <img :src="iconURL" width=40px height=40px>
+                    <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                        {{ post.author.username }}
+                    </router-link>
+                    <span v-if="isAuthor" @click="deletePost">
+                        <small>削除</small>
                     </span>
-                    <span class="stamp" @click="toggle_alright">
-                        <v-icon name="hand-holding-heart" scale="1.5" color="pink"/>
-                        <span>{{ num_you_are_alright }}</span>
-                    </span>
-                    <span class="stamp" @click="toggle_good_job">
-                        <v-icon name="thumbs-up" scale="1.5" color="green"/>
-                        <span>{{ num_good_job }}</span>
-                    </span>
+                  </div>
+                  <div class="text-left tsurai-datetime">
+                      <span>{{ formattedCreatedTime }}</span>
+                  </div>
                 </div>
+                <div class="float-right">
+                    <stamp
+                        kind="too-bad"
+                        :active="isActive('too-bad')"
+                        :count="num_that_is_too_bad"
+                        @click="toggle_too_bad"
+                    />
+                    <stamp
+                        kind="alright"
+                        :active="isActive('alright')"
+                        :count="num_you_are_alright"
+                        @click="toggle_alright"
+                    />
+                    <stamp
+                        kind="good-job"
+                        :active="isActive('good-job')"
+                        :count="num_good_job"
+                        @click="toggle_good_job"
+                    />
+                </div>
+            </div>
+            <div class="card-body text-left show-newline border-line">
+                <span class="card-text">{{ post.posts.body }}</span>
             </div>
         </div>
     </div>
@@ -37,20 +47,19 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 import firebase from 'firebase'
-
+import Stamp from '@/components/Stamp'
 const firestore = firebase.firestore()
 
 export default {
   name: 'Timeline',
   components: {
-    'v-icon': Icon
+    'v-icon': Icon,
+    'stamp': Stamp
   },
   data () {
-    return {
-    }
+    return {}
   },
-  created () {
-  },
+  created () {},
   props: {
     post: {
       type: Object,
@@ -70,10 +79,13 @@ export default {
     formattedCreatedTime () {
       const d = new Date(this.post.posts.created_at * 1)
       const formattedMinutes = ('00' + d.getMinutes()).slice(-2)
-      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日 ${d.getHours()}:${formattedMinutes}`
+      return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${formattedMinutes}`
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    iconURL () {
+      return this.post.author.icon_URL
     },
     author_auth_id () {
       return this.post.author.auth_id
@@ -138,6 +150,18 @@ export default {
         })
       }
     },
+    isActive (stampType) {
+      if (this.user_id === undefined) return false
+      switch (stampType) {
+        case 'too-bad':
+          return this.post.posts.too_bad_id_list.includes(this.user_id)
+        case 'alright':
+          return this.post.posts.alright_id_list.includes(this.user_id)
+        case 'good-job':
+          return this.post.posts.good_job_id_list.includes(this.user_id)
+      }
+      return false
+    },
     deletePost () {
       console.log(this.post.posts_id)
       if (confirm('投稿を削除しますか?')) {
@@ -151,16 +175,40 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.tsurai-datetime{
+  color: rgba(255,255,255,0.7);
+  font-size: 10px;
+  margin: 5px 0 0 0;
+}
+
 .card {
-    width: 80%;
-    margin: 10px auto;
+  width: 90%;
+  margin: 10px auto;
 }
+
 .show-newline {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
+
 .stamp {
-    padding: 10px 10px;
+  padding: 10px 10px;
 }
+
+.tsurai-card-color, .tsurai-username {
+  color: #ffffff;
+  background-color: #121525;
+}
+
+.tsurai-card-header {
+  background-color: #121525;
+}
+
+.border-line {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.3);
+  border-width: 0.5px 0 0 0;
+}
+
 </style>

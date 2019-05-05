@@ -12,7 +12,7 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --fix --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "npm run e2e && node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -28,9 +28,11 @@
     "material-design-icons-iconfont": "^4.0.5",
     "vue": "^2.5.2",
     "vue-awesome": "^3.5.1",
+    "vue-croppa": "^1.3.8",
     "vue-fab": "^2.3.1",
     "vue-fixed-header": "^3.1.3",
     "vue-float-action-button": "^0.6.0",
+    "vue-infinite-loading": "^2.4.4",
     "vue-router": "^3.0.1",
     "vuetify": "^1.5.12",
     "vuex": "^3.1.0"
@@ -51,7 +53,7 @@
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.22.0",
     "chalk": "^2.0.1",
-    "chromedriver": "^2.27.2",
+    "chromedriver": "^2.36.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.11",
@@ -70,7 +72,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.0.4",
     "jest-serializer-vue": "^0.3.0",
-    "nightwatch": "^0.9.12",
+    "nightwatch": "^1.0.19",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
@@ -80,6 +82,7 @@
     "postcss-url": "^7.2.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.1.0",
+    "selenium": "^2.20.0",
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",

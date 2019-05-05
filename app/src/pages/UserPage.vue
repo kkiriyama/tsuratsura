@@ -5,7 +5,9 @@
             mode="other"/>
         <now-loading v-if="isLoading"/>
         <div v-if="!isLoading">
-            <div class="row"> <div class="col-lg-4 col-top">
+            <div class="row">
+                <div class="col-lg-4 col-top">
+                    <img :src="visitedUserInfo.icon_URL" width=60%>
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
@@ -23,7 +25,7 @@
                         </tbody>
                         <button v-if="isMyPage" type="button" @click="editProfile()">編集</button>
                     </table>
-                    <form v-if="isEditing" @submit.prevent="editUserInfo">
+                    <form v-if="isEditing">
                         <fieldset class="row">
                             <table class="table">
                                 <tbody>
@@ -40,8 +42,9 @@
                                         <input v-model="visitedUserInfo.bio" type="textarea" class="form-control" id="editBio">
                                     </tr>
                                 </tbody>
-                                <button v-if="isMyPage" type="button" @click="completeEdit()">完了</button>
                             </table>
+                            <image-upload-form :user-id="visitingUserInfo.user_id"/>
+                            <button v-if="isMyPage" type="button" class="btn btn-info" @click="completeEdit()">完了</button>
                         </fieldset>
                     </form>
                 </div>
@@ -52,12 +55,14 @@
                                 v-for="(post, index) in userTsuraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading @infinite="infiniteTsuraiHandler"/>
                         </b-tab>
                         <b-tab title="えらいTL">
                             <show-erai-timeline
                                 v-for="(post, index) in userEraiPosts"
                                 :key="index"
                                 :post="post"/>
+                            <infinity-loading @infinite="infiniteEraiHandler"/>
                         </b-tab>
                     </b-tabs>
                 </div>
@@ -71,9 +76,11 @@ import Header from '@/components/Header'
 import NowLoading from '@/components/NowLoading'
 import ShowTsuraiTimeline from '@/components/ShowTsuraiTimeline'
 import ShowEraiTimeline from '@/components/ShowEraiTimeline'
+import ImageUploadForm from '@/components/ImageUploadForm'
+
+import InfinityLoading from 'vue-infinite-loading'
 
 import firebase from 'firebase'
-
 const db = firebase.firestore()
 
 export default {
@@ -81,21 +88,27 @@ export default {
     'common-header': Header,
     'show-tsurai-timeline': ShowTsuraiTimeline,
     'show-erai-timeline': ShowEraiTimeline,
-    'now-loading': NowLoading
+    'now-loading': NowLoading,
+    'image-upload-form': ImageUploadForm,
+    'infinity-loading': InfinityLoading
   },
   data () {
     return {
       isEditing: false,
       isLoading: true,
-      editedUserInfo: this.visitedUserInfo
+      editedUserInfo: this.visitedUserInfo,
+      searchTsuraiPostsNum: 30,
+      searchEraiPostsNum: 30,
+      showMoreNum: 100,
+      infinityId: 0
     }
   },
   async created () {
     this.$store.dispatch('getLoginState')
     this.$store.dispatch('getUserInfoState')
     this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
-    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: 1000})
-    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: 1000})
+    await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
+    await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchPostsNum})
     this.isLoading = false
   },
   computed: {
@@ -136,6 +149,39 @@ export default {
     }
   },
   methods: {
+    async showMore () {
+      if (this.infinityId === 0) {
+        this.searchTsuraiPostsNum += this.showMoreNum
+        await this.$store.dispatch('getTsuraiTimeline', {newPosts: undefined, numPosts: this.searchTsuraiPostsNum})
+      } else {
+        this.searchEraiPostsNum += this.showMoreNum
+        await this.$store.dispatch('getEraiTimeline', {newPosts: undefined, numPosts: this.searchEraiPostsNum})
+      }
+    },
+    infiniteTsuraiHandler (state) {
+      const preLength = this.$store.state.postsTsurai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsTsurai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => console.error(e))
+    },
+    infiniteEraiHandler (state) {
+      const preLength = this.$store.state.postsErai.length
+      this.showMore()
+        .then(() => {
+          if (preLength !== this.$store.state.postsErai.length) {
+            state.loaded()
+          } else {
+            state.complete()
+          }
+        })
+        .catch(e => alert('データを正常に読み込めませんでした'))
+    },
     editProfile () {
       this.isEditing = true
     },
@@ -144,10 +190,29 @@ export default {
         alert('ユーザーネームを入力してください')
         return
       }
+      if (this.visitedUserInfo.username.length > 10) {
+        alert('ユーザーネームは10文字以下にしてください')
+        return
+      }
+      if (this.visitingUserInfo.twitter.length > 30) {
+        alert('Twitter IDが長すぎます')
+        return
+      }
+      const twitterPattern = /^@[a-zA-Z0-9_]+$/
+      const regMatch = this.visitedUserInfo.twitter.match(twitterPattern)
+      if (!!this.visitedUserInfo.twitter && regMatch === null) {
+        alert('Twiiter IDは1文字目が@でかつ半角英数字とアンダーバーのみしか入力できません')
+        return
+      }
+      this.visitedUserInfo.twitter = !this.visitedUserInfo.twitter ? '' : regMatch[0]
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
-      if (!this.visitedUserInfo.twitter) {
+      if (this.visitedUserInfo.bio > 100) {
+        alert('自己紹介は100文字以下にしてください')
+        return
+      }
+      if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
       db.collection('users').doc(this.visitedUserInfo.user_id).update({
@@ -156,6 +221,7 @@ export default {
         bio: this.visitedUserInfo.bio
       })
         .then(() => {
+          this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
           alert('プロフィールが正常に更新されました')
         })
       this.isEditing = false
@@ -170,7 +236,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .col-top {
     margin: 20px 20px;
 }
