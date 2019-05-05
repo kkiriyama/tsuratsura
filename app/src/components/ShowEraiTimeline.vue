@@ -37,8 +37,8 @@
                     />
                 </div>
             </div>
-            <div class="card-body text-left show-newline">
-              <span class="card-text">{{ post.posts.body }}</span>
+            <div class="card-body text-left show-newline border-line">
+                <span class="card-text">{{ post.posts.body }}</span>
             </div>
         </div>
     </div>
@@ -176,13 +176,14 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 
-.dark-054{
-  color: rgba(18,21,37,0.54);
-}
 .erai-datetime {
-  padding: 5px 0 0 0;
-  font-size: 10px;
+  margin: -10px 0 0 0;
+  padding: 0 0 0 52px;
+  color: rgba(18,21,37,0.54);
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
 }
 .card {
   width: 90%;
@@ -192,13 +193,23 @@ export default {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
 .stamp {
   padding: 10px 10px;
 }
 
-.erai-card-color, .erai-username {
+.erai-card-color {
   color: #121525;
   background-color: #ffffff;
+  font-family: 'M PLUS 1p', sans-serif;
+}
+
+.erai-username {
+  margin-left: 8px;
+  color: #121525;
+  background-color: #ffffff;
+  font-weight: 900;
+  font-family: 'Lato', 'M PLUS 1p', sans-serif;
 }
 
 .erai-card-header {
@@ -207,8 +218,8 @@ export default {
 
 .border-line {
   border-style: solid;
-  border-color: rgba(255, 255, 255, 0.3);
-  border-width: 0.5px 0 0 0;
+  border-color: rgba(18, 21, 37, 0.12);
+  border-width: 1px 0 0 0;
 }
 
 </style>

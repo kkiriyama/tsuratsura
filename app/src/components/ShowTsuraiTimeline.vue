@@ -176,15 +176,21 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
+
 .tsurai-datetime{
+  margin: -10px 0 0 0;
+  padding: 0 0 0 52px;
   color: rgba(255,255,255,0.7);
-  font-size: 10px;
+  font-size: 0.8rem;
   margin: 5px 0 0 0;
+  font-family: 'Lato', sans-serif;
 }
 
 .card {
   width: 90%;
   margin: 10px auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .show-newline {
@@ -196,9 +202,18 @@ export default {
   padding: 10px 10px;
 }
 
-.tsurai-card-color, .tsurai-username {
+.tsurai-card-color {
   color: #ffffff;
   background-color: #121525;
+  font-family: 'M PLUS 1p', sans-serif;
+}
+
+.tsurai-username {
+  margin-left: 8px;
+  color: #ffffff;
+  background-color: #121525;
+  font-weight: 900;
+  font-family: 'Lato', 'M PLUS 1p', sans-serif;
 }
 
 .tsurai-card-header {
@@ -208,7 +223,7 @@ export default {
 .border-line {
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.3);
-  border-width: 0.5px 0 0 0;
+  border-width: 2px 0 0 0;
 }
 
 </style>
