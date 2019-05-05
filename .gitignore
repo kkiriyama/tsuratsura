@@ -69,3 +69,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# static files
+app/static/
+
+# test logs
+app/test/e2e/reports/

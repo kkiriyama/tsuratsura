@@ -4,6 +4,7 @@
             <div class="card-header erai-card-header">
                 <div class="float-left">
                   <div class="text-left">
+                    <img :src="iconURL" width=40px height=40px>
                     <router-link class="erai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
                         {{ post.author.username }}
                     </router-link>
@@ -11,7 +12,7 @@
                         <small>削除</small>
                     </span>
                   </div>
-                  <div class="text-left erai-datetime smalltext">
+                  <div class="text-left erai-datetime">
                       <span>{{ formattedCreatedTime }}</span>
                   </div>
                 </div>
@@ -82,6 +83,9 @@ export default {
     },
     user_id () {
       return this.$store.state.userInfo.user_id
+    },
+    iconURL () {
+      return this.post.author.icon_URL
     },
     author_auth_id () {
       return this.post.author.auth_id
@@ -176,8 +180,9 @@ export default {
 .dark-054{
   color: rgba(18,21,37,0.54);
 }
-.smalltext{
-    font-size: 10px;
+.erai-datetime {
+  padding: 5px 0 0 0;
+  font-size: 10px;
 }
 .card {
   width: 90%;
