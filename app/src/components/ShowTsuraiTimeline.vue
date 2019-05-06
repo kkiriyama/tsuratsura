@@ -2,19 +2,23 @@
     <div>
         <div class="card p-2 mb-2 tsurai-card-color">
             <div class="card-header tsurai-card-header">
-                <div class="float-left">
-                  <div class="text-left">
-                    <img :src="iconURL" width=40px height=40px>
-                    <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                        {{ post.author.username }}
-                    </router-link>
-                    <span v-if="isAuthor" @click="deletePost">
+                <div class="wrapper">
+                    <div class="content">
+                        <img :src="iconURL" width=40px height=40px>
+                    </div>
+                    <div class="content">
+                        <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                           {{ post.author.username }}
+                        </router-link>
+                        <div class="tsurai-datetime">
+                            <span>{{ formattedCreatedTime }}</span>
+                        </div>
+                    </div>
+                    <div class="content" style="margin-left:8px;">
+                        <span v-if="isAuthor" @click="deletePost">
                         <small>削除</small>
-                    </span>
-                  </div>
-                  <div class="text-left tsurai-datetime">
-                      <span>{{ formattedCreatedTime }}</span>
-                  </div>
+                        </span>
+                    </div>
                 </div>
                 <div class="float-right">
                     <stamp
@@ -28,7 +32,7 @@
                         :active="isActive('alright')"
                         :count="num_you_are_alright"
                         @click="toggle_alright"
-                    />
+                        />
                     <stamp
                         kind="good-job"
                         :active="isActive('good-job')"
@@ -37,9 +41,9 @@
                     />
                 </div>
             </div>
-            <div class="card-body text-left show-newline border-line">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
+              <div class="card-body text-left show-newline border-line">
+                  <span class="card-text">{{ post.posts.body }}</span>
+              </div>
         </div>
     </div>
 </template>
@@ -178,15 +182,6 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 
-.tsurai-datetime{
-  margin: -10px 0 0 0;
-  padding: 0 0 0 52px;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.8rem;
-  margin: 5px 0 0 0;
-  font-family: 'Lato', sans-serif;
-}
-
 .card {
   width: 90%;
   margin: 10px auto;
@@ -198,8 +193,18 @@ export default {
   word-wrap: break-word;
 }
 
+.wrapper{
+  overflow: hidden;
+}
+
+.content{
+  float: left;
+  text-align: left;
+  margin: 8px 0 8px 0;
+}
+
 .stamp {
-  padding: 10px 10px;
+  padding: 0px 4px;
 }
 
 .tsurai-card-color {
@@ -209,11 +214,18 @@ export default {
 }
 
 .tsurai-username {
-  margin-left: 8px;
+  margin-left: 12px;
   color: #ffffff;
   background-color: #121525;
   font-weight: 900;
   font-family: 'Lato', 'M PLUS 1p', sans-serif;
+}
+
+.tsurai-datetime{
+  margin-left: 12px;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
 }
 
 .tsurai-card-header {
