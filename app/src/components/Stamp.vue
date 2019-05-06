@@ -1,12 +1,14 @@
 <template>
-    <span class="stamp" @click="click()">
+    <div class="float-left" style="padding-left:12px; ">
+      <span class="stamp" @click="click()">
         <component
             :is="stampComponent"
             :width="width"
             :height="height"
             :icon-color="stampColor"/>
-        <span>{{ count }}</span>
-    </span>
+      </span>
+      <br><span style="color:rgba(255, 255, 255, 0.7); padding-right:4px;">{{ count }}</span>
+    </div>
 </template>
 
 <script>

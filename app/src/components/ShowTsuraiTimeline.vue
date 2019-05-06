@@ -19,8 +19,7 @@
                         <small>削除</small>
                         </span>
                     </div>
-                </div>
-                <div class="float-right">
+                   <div class="float-right" style="margin-top:8px;">
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -39,6 +38,7 @@
                         :count="num_good_job"
                         @click="toggle_good_job"
                     />
+                  </div>
                 </div>
             </div>
               <div class="card-body text-left show-newline border-line">
@@ -183,8 +183,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 
 .card {
-  width: 90%;
-  margin: 10px auto;
+  margin: 20px auto;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -204,7 +203,7 @@ export default {
 }
 
 .stamp {
-  padding: 0px 4px;
+  margin: 0px 8px;
 }
 
 .tsurai-card-color {
