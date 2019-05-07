@@ -1,5 +1,5 @@
 <template>
-    <div class="float-left" style="padding-left:12px; ">
+    <div class="stamp-layout">
       <span class="stamp" @click="click()">
         <component
             :is="stampComponent"
@@ -7,7 +7,7 @@
             :height="height"
             :icon-color="stampColor"/>
       </span>
-      <br><span style="color:rgba(255, 255, 255, 0.7); padding-right:4px;">{{ count }}</span>
+      <br><span class="stamp-counter">{{ count }}</span>
     </div>
 </template>
 
@@ -75,3 +75,15 @@ export default {
   }
 }
 </script>
+<style>
+.stamp-layout{
+  padding-left:12px;
+  float: left;
+}
+
+.stamp-counter{
+  color:rgba(255, 255, 255, 0.7);
+  padding-right:4px;
+}
+
+</style>

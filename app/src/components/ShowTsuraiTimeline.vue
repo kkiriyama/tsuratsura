@@ -14,12 +14,12 @@
                             <span>{{ formattedCreatedTime }}</span>
                         </div>
                     </div>
-                    <div class="content" style="margin-left:8px;">
+                    <div class="content delete-button">
                         <span v-if="isAuthor" @click="deletePost">
                         <small>削除</small>
                         </span>
                     </div>
-                   <div class="float-right" style="margin-top:8px;">
+                   <div class="float-right stamp-box">
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -200,6 +200,14 @@ export default {
   float: left;
   text-align: left;
   margin: 8px 0 8px 0;
+}
+
+.delete-button{
+  margin-left:8px;
+}
+
+.stamp-box{
+  margin-top:8px;
 }
 
 .stamp {
