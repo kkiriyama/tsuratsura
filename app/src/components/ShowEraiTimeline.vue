@@ -2,21 +2,24 @@
     <div>
         <div class="card p-2 mb-2 erai-card-color">
             <div class="card-header erai-card-header">
-                <div class="float-left">
-                  <div class="text-left">
-                    <img :src="iconURL" width=40px height=40px>
-                    <router-link class="erai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                        {{ post.author.username }}
-                    </router-link>
-                    <span v-if="isAuthor" @click="deletePost">
+                <div class="wrapper">
+                    <div class="content">
+                        <img :src="iconURL" width=40px height=40px>
+                    </div>
+                    <div class="content">
+                        <router-link class="erai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                           {{ post.author.username }}
+                        </router-link>
+                        <div class="erai-datetime">
+                            <span>{{ formattedCreatedTime }}</span>
+                        </div>
+                    </div>
+                    <div class="content delete-button">
+                        <span v-if="isAuthor" @click="deletePost">
                         <small>削除</small>
-                    </span>
-                  </div>
-                  <div class="text-left erai-datetime">
-                      <span>{{ formattedCreatedTime }}</span>
-                  </div>
-                </div>
-                <div class="float-right">
+                        </span>
+                    </div>
+                  <div class="float-right stamp-box">
                     <stamp
                         kind="great"
                         :active="isActive('great')"
@@ -35,7 +38,8 @@
                         :count="num_genius"
                         @click="toggle_genius"
                     />
-                </div>
+                  </div>
+              </div>
             </div>
             <div class="card-body text-left show-newline border-line">
                 <span class="card-text">{{ post.posts.body }}</span>
@@ -178,24 +182,36 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 
-.erai-datetime {
-  margin: -10px 0 0 0;
-  padding: 0 0 0 52px;
-  color: rgba(18,21,37,0.54);
-  font-size: 0.8rem;
-  font-family: 'Lato', sans-serif;
-}
 .card {
-  width: 90%;
-  margin: 10px auto;
+  margin: 20px auto;
 }
+
 .show-newline {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
 
+.wrapper{
+  overflow: hidden;
+}
+
+.content{
+  float: left;
+  text-align: left;
+  margin: 8px 0 8px 0;
+}
+
+.delete-button{
+  margin-left:8px;
+}
+
+.stamp-box{
+  margin-top:8px;
+  color:rgba(18, 21, 37, 0.54);
+}
+
 .stamp {
-  padding: 10px 10px;
+  margin: 0px 8px;
 }
 
 .erai-card-color {
@@ -210,6 +226,13 @@ export default {
   background-color: #ffffff;
   font-weight: 900;
   font-family: 'Lato', 'M PLUS 1p', sans-serif;
+}
+
+.erai-datetime {
+  margin-left:12px;
+  color: rgba(18,21,37,0.54);
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
 }
 
 .erai-card-header {

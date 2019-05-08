@@ -82,7 +82,7 @@ export default {
 }
 
 .stamp-counter{
-  color:rgba(255, 255, 255, 0.7);
+  color: #7892d6;
   padding-right:4px;
 }
 
