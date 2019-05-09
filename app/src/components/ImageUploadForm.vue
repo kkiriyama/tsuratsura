@@ -6,7 +6,6 @@
                 :placeholder-font-size="fontSize"
                 :file-size-limit="maxFileSize"
                 />
-            <button class="btn btn-success" @click="uploadCroppedImage()">アップロード</button>
         </div>
     </div>
 </template>
@@ -32,6 +31,7 @@ export default {
   methods: {
     uploadCroppedImage () {
       this.iconCroppa.generateBlob((blob) => {
+        if (!blob) return
         const fileName = this.userId + '.' + blob.type.split('/')[1]
         const newFile = new File([blob], fileName, {type: blob.type})
         const storageRef = firebase.storage().ref().child(`/icons/${newFile.name}`)
@@ -41,9 +41,8 @@ export default {
               'icon_URL': downloadURL
             })
           })
-          alert('画像がアップロードされました!')
         })
-          .catch(e => alert('アップロードできませんでした'))
+          .catch(e => alert('画像をアップロードできませんでした'))
       })
     }
   }
