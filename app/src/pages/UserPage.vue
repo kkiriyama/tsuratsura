@@ -7,7 +7,7 @@
         <div v-if="!isLoading">
             <div class="row">
                 <div class="col-lg-4 col-top">
-                    <img :src="visitedUserInfo.icon_URL" width=60%>
+                    <img :src="iconURL" width=60%>
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
@@ -43,7 +43,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <image-upload-form :user-id="visitingUserInfo.user_id"/>
+                            <image-upload-form ref="ImageUploadForm" :user-id="visitingUserInfo.user_id"/>
                             <button v-if="isMyPage" type="button" class="btn btn-info" @click="completeEdit()">完了</button>
                         </fieldset>
                     </form>
@@ -100,7 +100,8 @@ export default {
       searchTsuraiPostsNum: 30,
       searchEraiPostsNum: 30,
       showMoreNum: 100,
-      infinityId: 0
+      infinityId: 0,
+      iconURL: this.visitedUserInfo.icon_URL
     }
   },
   async created () {
@@ -215,6 +216,7 @@ export default {
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
+      this.$refs.ImageUploadForm.uploadCroppedImage()
       db.collection('users').doc(this.visitedUserInfo.user_id).update({
         username: this.visitedUserInfo.username,
         twitter: this.visitedUserInfo.twitter,
@@ -224,6 +226,7 @@ export default {
           this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
           alert('プロフィールが正常に更新されました')
         })
+      this.iconURL = this.visitedUserInfo.icon_URL + `?${new Date()}`
       this.isEditing = false
     }
   },
