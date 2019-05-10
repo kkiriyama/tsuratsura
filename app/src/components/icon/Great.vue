@@ -6,7 +6,7 @@
         aria-labelledby="great"
         role="presentation">
 
-    <title>too_bad</title>
+    <title>great</title>
     <g :fill="iconColor">
         <g id="layer_2" data-name="layer 2">
             <g id="layer_1-2" data-name="layer 1"><path class="cls-1" d="M10,0A10,10,0,1,0,20,10,10,10,0,0,0,10,0Zm3.75,5.167a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,13.75,5.167Zm-7.5,0a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,6.25,5.167ZM10,16.667a5.665,5.665,0,0,1-5.649-5.243A.4.4,0,0,1,4.756,11s3.144.36,5.244.36S15.244,11,15.244,11a.4.4,0,0,1,.4.422A5.665,5.665,0,0,1,10,16.667Z"/>
