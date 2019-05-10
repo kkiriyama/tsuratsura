@@ -2,21 +2,24 @@
     <div>
         <div class="card p-2 mb-2 tsurai-card-color">
             <div class="card-header tsurai-card-header">
-                <div class="float-left">
-                  <div class="text-left">
-                    <img :src="iconURL" width=40px height=40px>
-                    <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
-                        {{ post.author.username }}
-                    </router-link>
-                    <span v-if="isAuthor" @click="deletePost">
+                <div class="wrapper">
+                    <div class="content">
+                        <img :src="iconURL" width=40px height=40px>
+                    </div>
+                    <div class="content">
+                        <router-link class="tsurai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
+                           {{ post.author.username }}
+                        </router-link>
+                        <div class="tsurai-datetime">
+                            <span>{{ formattedCreatedTime }}</span>
+                        </div>
+                    </div>
+                    <div class="content delete-button">
+                        <span v-if="isAuthor" @click="deletePost">
                         <small>削除</small>
-                    </span>
-                  </div>
-                  <div class="text-left tsurai-datetime">
-                      <span>{{ formattedCreatedTime }}</span>
-                  </div>
-                </div>
-                <div class="float-right">
+                        </span>
+                    </div>
+                   <div class="float-right stamp-box">
                     <stamp
                         kind="too-bad"
                         :active="isActive('too-bad')"
@@ -28,18 +31,19 @@
                         :active="isActive('alright')"
                         :count="num_you_are_alright"
                         @click="toggle_alright"
-                    />
+                        />
                     <stamp
                         kind="good-job"
                         :active="isActive('good-job')"
                         :count="num_good_job"
                         @click="toggle_good_job"
                     />
+                  </div>
                 </div>
             </div>
-            <div class="card-body text-left show-newline border-line">
-                <span class="card-text">{{ post.posts.body }}</span>
-            </div>
+              <div class="card-body text-left show-newline border-line">
+                  <span class="card-text">{{ post.posts.body }}</span>
+              </div>
         </div>
     </div>
 </template>
@@ -103,15 +107,11 @@ export default {
 </script>
 
 <style scoped>
-.tsurai-datetime{
-  color: rgba(255,255,255,0.7);
-  font-size: 10px;
-  margin: 5px 0 0 0;
-}
+@import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 
 .card {
-  width: 90%;
-  margin: 10px auto;
+  margin: 20px auto;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .show-newline {
@@ -119,13 +119,47 @@ export default {
   word-wrap: break-word;
 }
 
-.stamp {
-  padding: 10px 10px;
+.wrapper{
+  overflow: hidden;
 }
 
-.tsurai-card-color, .tsurai-username {
+.content{
+  float: left;
+  text-align: left;
+  margin: 8px 0 8px 0;
+}
+
+.delete-button{
+  margin-left:8px;
+}
+
+.stamp-box{
+  margin-top:8px;
+}
+
+.stamp {
+  margin: 0px 8px;
+}
+
+.tsurai-card-color {
   color: #ffffff;
   background-color: #121525;
+  font-family: 'M PLUS 1p', sans-serif;
+}
+
+.tsurai-username {
+  margin-left: 12px;
+  color: #ffffff;
+  background-color: #121525;
+  font-weight: 900;
+  font-family: 'Lato', 'M PLUS 1p', sans-serif;
+}
+
+.tsurai-datetime{
+  margin-left: 12px;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.8rem;
+  font-family: 'Lato', sans-serif;
 }
 
 .tsurai-card-header {
@@ -135,7 +169,7 @@ export default {
 .border-line {
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.3);
-  border-width: 0.5px 0 0 0;
+  border-width: 2px 0 0 0;
 }
 
 </style>

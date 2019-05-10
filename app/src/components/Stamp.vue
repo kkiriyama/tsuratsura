@@ -1,12 +1,14 @@
 <template>
-    <span class="stamp" @click="click()">
+    <div class="stamp-layout">
+      <span class="stamp" @click="click()">
         <component
             :is="stampComponent"
             :width="width"
             :height="height"
             :icon-color="stampColor"/>
-        <span>{{ count }}</span>
-    </span>
+      </span>
+      <br><span :style="stampCounter">{{ count }}</span>
+    </div>
 </template>
 
 <script>
@@ -18,12 +20,12 @@ import GoodJob from '@/components/icon/GoodJob'
 import Genius from '@/components/icon/Genius'
 
 const iconTable = {
-  'too-bad': { component: TooBad, color: '#7892d6', inactiveColor: 'gray' },
-  'alright': { component: AllRight, color: '#bd4f6c', inactiveColor: 'gray' },
-  'good-job': { component: GoodJob, color: '#51a3a3', inactiveColor: 'gray' },
-  'great': { component: Great, color: '#f4a55f', inactiveColor: 'gray' },
-  'congrat': { component: Congrat, color: '#bd4f6c', inactiveColor: 'gray' },
-  'genius': { component: Genius, color: '#51a3a3', inactiveColor: 'gray' }
+  'too-bad': { component: TooBad, color: '#7892d6', inactiveColor: 'gray', numColor: 'rgba(255, 255, 255, 0.7)' },
+  'alright': { component: AllRight, color: '#bd4f6c', inactiveColor: 'gray', numColor: 'rgba(255, 255, 255, 0.7)' },
+  'good-job': { component: GoodJob, color: '#51a3a3', inactiveColor: 'gray', numColor: 'rgba(255, 255, 255, 0.7)' },
+  'great': { component: Great, color: '#f4a55f', inactiveColor: 'gray', numColor: 'rgba(18, 21, 37, 0.54)' },
+  'congrat': { component: Congrat, color: '#bd4f6c', inactiveColor: 'gray', numColor: 'rgba(18, 21, 37, 0.54)' },
+  'genius': { component: Genius, color: '#51a3a3', inactiveColor: 'gray', numColor: 'rgba(18, 21, 37, 0.54)' }
 }
 
 export default {
@@ -39,7 +41,11 @@ export default {
   data () {
     return {
       width: 20,
-      height: 20
+      height: 20,
+      stampCounter: {
+        color: this.stampCounterColor,
+        paddingRight: '4px'
+      }
     }
   },
   props: {
@@ -64,6 +70,10 @@ export default {
     stampColor () {
       let res = iconTable[this.kind]
       return this.active ? res.color : res.inactiveColor
+    },
+    stampCounterColor () {
+      const res = iconTable[this.kind]
+      return res.stampColor
     }
   },
   methods: {
@@ -73,3 +83,11 @@ export default {
   }
 }
 </script>
+<style>
+
+.stamp-layout{
+  padding-left:12px;
+  float: left;
+}
+
+</style>

@@ -4,7 +4,7 @@
             :is-logged-in="isLoggedIn"
             mode="other"/>
         <div class="container">
-            <h2> About </h2>
+            <h1> About </h1>
             <table align="center" class="table">
                 <thead>
                     <tr>
@@ -22,7 +22,7 @@
                     <tr>
                         <th> Twitter </th>
                         <td> @kazuokiriyama_ </td>
-                        <td> @T_E_I_C_A </td>
+                        <td> @teiflower </td>
                     </tr>
                     <tr>
                         <th> 一言 </th>

@@ -21,9 +21,10 @@ html {
 </style>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Lato|M+PLUS+1p');
 #app {
   height: 100%;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', 'M PLUS 1p', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
