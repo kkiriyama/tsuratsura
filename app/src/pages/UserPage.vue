@@ -16,7 +16,7 @@
                             </tr>
                             <tr>
                                 <th> Twitter ID </th>
-                                <td> {{ visitedUserInfo.twitter }} </td>
+                                <td><a :href="twitterLink"> {{ visitedUserInfo.twitter }} </a></td>
                             </tr>
                             <tr>
                                 <th> 自己紹介 </th>
@@ -126,6 +126,14 @@ export default {
     },
     isMyPage () {
       return this.visitedUserID === this.visitingUserInfo.auth_id
+    },
+    twitterLink () {
+      const twitterPattern = /^@([a-zA-Z0-9_]+)$/
+      const basename = this.visitedUserInfo.twitter.match(twitterPattern)
+      if (basename !== null) {
+        return 'https://twitter.com/' + basename[1]
+      }
+      return undefined
     },
     userTsuraiPosts () {
       const timeline = this.$store.state.postsTsurai
