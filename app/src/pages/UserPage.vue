@@ -185,7 +185,7 @@ export default {
     editProfile () {
       this.isEditing = true
     },
-    completeEdit () {
+    async completeEdit () {
       if (!this.visitedUserInfo.username) {
         alert('ユーザーネームを入力してください')
         return
@@ -215,16 +215,20 @@ export default {
       if (!this.visitedUserInfo.bio) {
         this.visitedUserInfo.bio = ''
       }
-      this.$refs.ImageUploadForm.uploadCroppedImage()
-      db.collection('users').doc(this.visitedUserInfo.user_id).update({
-        username: this.visitedUserInfo.username,
-        twitter: this.visitedUserInfo.twitter,
-        bio: this.visitedUserInfo.bio
-      })
-        .then(() => {
-          this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
-          alert('プロフィールが正常に更新されました')
+      try {
+        let resultURL = await this.$refs.ImageUploadForm.uploadCroppedImage()
+        this.visitedUserInfo.icon_URL = resultURL
+        await db.collection('users').doc(this.visitedUserInfo.user_id).update({
+          username: this.visitedUserInfo.username,
+          twitter: this.visitedUserInfo.twitter,
+          bio: this.visitedUserInfo.bio
         })
+      } catch (e) {
+        alert('エラー：' + e)
+        return
+      }
+      this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
+      alert('プロフィールが正常に更新されました')
       this.isEditing = false
     }
   },

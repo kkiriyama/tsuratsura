@@ -29,21 +29,22 @@ export default {
     }
   },
   methods: {
-    uploadCroppedImage () {
-      this.iconCroppa.generateBlob((blob) => {
-        if (!blob) return
-        const fileName = this.userId + '.' + blob.type.split('/')[1]
-        const newFile = new File([blob], fileName, {type: blob.type})
-        const storageRef = firebase.storage().ref().child(`/icons/${newFile.name}`)
-        storageRef.put(newFile).then((snapshot) => {
-          snapshot.ref.getDownloadURL().then(downloadURL => {
-            db.collection('users').doc(this.userId).update({
-              'icon_URL': downloadURL
-            })
-          })
+    async uploadCroppedImage () {
+      let blob = await new Promise((resolve) => this.iconCroppa.generateBlob(resolve))
+      if (!blob) return
+      const fileName = this.userId + '.' + blob.type.split('/')[1]
+      const newFile = new File([blob], fileName, {type: blob.type})
+      const storageRef = firebase.storage().ref().child(`/icons/${newFile.name}`)
+      try {
+        let snapshot = await storageRef.put(newFile)
+        let downloadURL = await snapshot.ref.getDownloadURL()
+        await db.collection('users').doc(this.userId).update({
+          'icon_URL': downloadURL
         })
-          .catch(e => alert('画像をアップロードできませんでした'))
-      })
+        return downloadURL
+      } catch (e) {
+        alert('画像をアップロードできませんでした')
+      }
     }
   }
 }
