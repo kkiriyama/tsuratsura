@@ -221,7 +221,7 @@ export default {
 }
 
 .erai-username {
-  margin-left: 8px;
+  margin-left: 12px;
   color: #121525;
   background-color: #ffffff;
   font-weight: 900;
