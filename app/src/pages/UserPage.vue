@@ -7,7 +7,7 @@
         <div v-if="!isLoading">
             <div class="row">
                 <div class="col-lg-4 col-top">
-                    <img :src="iconURL" width=60%>
+                    <img :src="visitedUserInfo.icon_URL" width=60%>
                     <table v-if="!isEditing" class="table table-hover">
                         <tbody>
                             <tr>
@@ -100,8 +100,7 @@ export default {
       searchTsuraiPostsNum: 30,
       searchEraiPostsNum: 30,
       showMoreNum: 100,
-      infinityId: 0,
-      iconURL: this.visitedUserInfo.icon_URL
+      infinityId: 0
     }
   },
   async created () {
@@ -226,7 +225,6 @@ export default {
           this.$store.dispatch('getVisitedUserInfoState', this.visitedUserID)
           alert('プロフィールが正常に更新されました')
         })
-      this.iconURL = this.visitedUserInfo.icon_URL + `?${new Date()}`
       this.isEditing = false
     }
   },
