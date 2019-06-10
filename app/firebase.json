@@ -4,8 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "predeploy": [
-    ]
+    "predeploy": [],
+    "source": "functions"
   },
   "hosting": {
     "public": "dist",
@@ -13,14 +13,9 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-              "source": "/timeline", "function": "timeline"
-      },
-      {
-              "source": "/getuser", "function": "getuser"
-      }
     ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }
