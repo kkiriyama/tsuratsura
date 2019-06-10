@@ -89,12 +89,6 @@ export default {
     }
   },
   methods: {
-    startProcessing () {
-      this.isProcessing = true
-    },
-    endProcessing () {
-      this.isProcessing = false
-    },
     addUserInfo () {
       if (this.password !== this.passwordConfirm) {
         alert('パスワードを確認してください')

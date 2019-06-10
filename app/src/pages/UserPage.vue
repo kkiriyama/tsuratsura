@@ -23,7 +23,7 @@
                                 <td> {{ visitedUserInfo.bio }} </td>
                             </tr>
                         </tbody>
-                        <button v-if="isMyPage" type="button" @click="editProfile()">編集</button>
+                        <b-button v-if="isMyPage" type="button" @click="editProfile()">編集</b-button>
                     </table>
                     <form v-if="isEditing">
                         <fieldset class="row">
@@ -44,7 +44,7 @@
                                 </tbody>
                             </table>
                             <image-upload-form ref="ImageUploadForm" :user-id="visitingUserInfo.user_id"/>
-                            <button v-if="isMyPage" type="button" class="btn btn-info" @click="completeEdit()">完了</button>
+                            <b-button v-if="isMyPage" type="button" class="btn btn-info" @click="completeEdit()">完了</b-button>
                         </fieldset>
                     </form>
                 </div>

@@ -25,8 +25,8 @@
             <p> アカウントをお持ちではないですか？
                 <router-link to="/signup">登録</router-link>
             </p>
-            <b-button :disable="isProcessing" variant="danger" @click="signInWithGoogle">Googleでログイン</b-button>
-            <b-button :disable="isProcessing" variant="primary" @click="signInWithTwitter">Twitterでログイン</b-button>
+            <b-button :disable="isProcessing" variant="danger" @click="signInWithGoogle()">Googleでログイン</b-button>
+            <b-button :disable="isProcessing" variant="primary" @click="signInWithTwitter()">Twitterでログイン</b-button>
         </div>
     </div>
 </template>
@@ -68,12 +68,6 @@ export default {
     }
   },
   methods: {
-    startProcessing () {
-      this.isProcessing = true
-    },
-    endProcessing () {
-      this.isProcessing = false
-    },
     confirmUserInfo () {
       this.startProcessing()
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
@@ -86,7 +80,6 @@ export default {
           this.$router.push('/timeline/tsurai')
         })
         .catch((e) => {
-          console.error(e)
           alert('ログインできません')
           this.endProcessing()
         })
