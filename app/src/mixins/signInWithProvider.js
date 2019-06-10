@@ -16,7 +16,7 @@ export const signInWithProvider = {
         let isFirstLogin = true
         await firestore.collection('users').get().then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            if (doc.data.auth_id === result.user.uid) isFirstLogin = false
+            if (doc.data().auth_id === result.user.uid) isFirstLogin = false
           })
         })
         if (isFirstLogin) {
@@ -41,7 +41,7 @@ export const signInWithProvider = {
         let isFirstLogin = true
         firestore.collection('users').get().then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            if (doc.data.auth_id === result.user.uid) isFirstLogin = false
+            if (doc.data().auth_id === result.user.uid) isFirstLogin = false
           })
         })
         if (isFirstLogin) {
