@@ -93,7 +93,8 @@ export default {
       return this.$store.state.userInfo.user_id
     },
     iconURL () {
-      return this.post.author.icon_URL
+      if (this.post.author.icon_URL !== '') return this.post.author.icon_URL
+      return '/static/dummyicon/dummyicon' + String(this.author_auth_id.charCodeAt(0) % 12 + 1) + '.png'
     },
     author_auth_id () {
       return this.post.author.auth_id

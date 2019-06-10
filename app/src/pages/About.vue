@@ -26,7 +26,7 @@
                     </b-card-text>
                     <b-link href="https://twitter.com/teiflower" class="card-link"> @teiflower </b-link>
                 </b-card>
-                <b-card
+                <!-- <b-card
                     title="Lenqth"
                     sub-title="プログラマー"
                     style="max-width: 100rem;"
@@ -35,7 +35,7 @@
                         hogehoge
                     </b-card-text>
                     <b-link href="https://twitter.com/lenqth" class="card-link"> @lenqth </b-link>
-                </b-card>
+                </b-card> -->
             </b-card-group>
             <p> 一緒に開発してくれる人を募集しています！ </p>
         </div>
