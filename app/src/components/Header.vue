@@ -1,9 +1,6 @@
 <template>
     <div class="header-char" :class="headerBg">
-        <div class="title">
-          <component
-            :is=logoComponent />
-        </div>
+        <component style="margin: 15px;" :is=logoComponent />
         <div id="nav-drawer">
             <input id="nav-input" type="checkbox" class="nav-unshown">
             <label id="nav-open" :class="headerContent" for="nav-input"><span></span></label>
