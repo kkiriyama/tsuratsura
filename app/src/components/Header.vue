@@ -1,7 +1,8 @@
 <template>
     <div class="header-char" :class="headerBg">
-        <div class="title" :class="headerContent">
-            <span>TsuraTsura</span>
+        <div class="title">
+          <component
+            :is=logoComponent />
         </div>
         <div id="nav-drawer">
             <input id="nav-input" type="checkbox" class="nav-unshown">
@@ -53,6 +54,8 @@
 
 <script>
 import firebase from 'firebase'
+import whiteLogo from '@/components/logo/whiteLogo'
+import blackLogo from '@/components/logo/blackLogo'
 
 export default {
   props: {
@@ -78,6 +81,10 @@ export default {
       if (this.mode === 'tsurai') return 'header-content-tsurai'
       if (this.mode === 'erai') return 'header-content-erai'
       return 'header-content-other'
+    },
+    logoComponent () {
+      if (this.mode === 'tsurai') return whiteLogo
+      return blackLogo
     }
   },
   methods: {
