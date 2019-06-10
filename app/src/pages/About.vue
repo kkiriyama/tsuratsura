@@ -4,34 +4,40 @@
             :is-logged-in="isLoggedIn"
             mode="other"/>
         <div class="container">
-            <h1> About </h1>
-            <table align="center" class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <td>プログラマー</td>
-                        <td>デザイナー</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th> ハンドルネーム </th>
-                        <td> いんぐらむ </td>
-                        <td> TEICA </td>
-                    </tr>
-                    <tr>
-                        <th> Twitter </th>
-                        <td> @kazuokiriyama_ </td>
-                        <td> @teiflower </td>
-                    </tr>
-                    <tr>
-                        <th> 一言 </th>
-                        <td> 中退したい </td>
-                        <td> ねこです、よろしくおねがいします </td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>開発に協力してくれる方を随時募集しています！</p>
+            <h1 style="margin: 30px;"> About </h1>
+            <b-card-group deck>
+                <b-card
+                    title="いんぐらむ"
+                    sub-title="プログラマー"
+                    style="max-width: 100rem;"
+                    class="mb-2">
+                    <b-card-text>
+                        このSNSを作りはじめた人です。
+                    </b-card-text>
+                    <b-link href="https://twitter.com/kazuokiriyama_" class="card-link"> @kazuokiriyama_ </b-link>
+                </b-card>
+                <b-card
+                    title="TEICA"
+                    sub-title="デザイナー"
+                    style="max-width: 100rem;"
+                    class="mb-2">
+                    <b-card-text>
+                        ねこです、よろしくお願いします。
+                    </b-card-text>
+                    <b-link href="https://twitter.com/teiflower" class="card-link"> @teiflower </b-link>
+                </b-card>
+                <b-card
+                    title="Lenqth"
+                    sub-title="プログラマー"
+                    style="max-width: 100rem;"
+                    class="mb-2">
+                    <b-card-text>
+                        hogehoge
+                    </b-card-text>
+                    <b-link href="https://twitter.com/lenqth" class="card-link"> @lenqth </b-link>
+                </b-card>
+            </b-card-group>
+            <p> 一緒に開発してくれる人を募集しています！ </p>
         </div>
     </div>
 </template>
