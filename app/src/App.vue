@@ -6,7 +6,7 @@
 
 <script>
 import firebase from 'firebase'
-const serviceAccount = require('./.firebaseconfig/apiconfig.json')
+import serviceAccount from '@/.firebaseconfig/apiconfig'
 firebase.initializeApp(serviceAccount)
 
 export default {
