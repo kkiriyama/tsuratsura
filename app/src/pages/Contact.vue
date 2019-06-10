@@ -4,13 +4,15 @@
             :is-logged-in="isLoggedIn"
             mode="other"/>
         <div class="container">
-            <h2>Contact</h2>
+            <h1 style="margin: 30px;"> Contact </h1>
             <p>バグの報告・要望・改善要求などを書いてください。</p>
             <p>報告はログインしているユーザーのみが行なえます。</p>
             <form @submit.prevent="report">
                 <fieldset class="row">
-                    <textarea v-model="reportText" class="form-control" id="reportText" placeholder="報告内容"/>
-                    <button :disable="isProcessing" class="button" type="submit">完了</button>
+                  <div class="col-lg-6 offset-lg-3">
+                    <textarea v-model="reportText" class="form-control" id="reportText" rows=5 placeholder="報告内容"/>
+                    <b-button :disable="isProcessing" style="margin: 10px;" class="button" type="submit">完了</b-button>
+                  </div>
                 </fieldset>
             </form>
         </div>
