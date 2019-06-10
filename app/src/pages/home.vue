@@ -19,6 +19,7 @@
                     :show-modal="showPostModal"
                     @close="closeModal()"/>
             </div>
+            <div class="col-lg-3" v-if="!isLoggedIn" />
             <div class="col-lg-6" id="timeline" v-if="mode==='tsurai'">
                 <show-tsurai-timeline
                     v-for="(post, index) in posts"
