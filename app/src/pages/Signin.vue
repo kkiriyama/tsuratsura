@@ -25,6 +25,8 @@
             <p> アカウントをお持ちではないですか？
                 <router-link to="/signup">登録</router-link>
             </p>
+            <b-button :disable="isProcessing" variant="danger" @click="signInWithGoogle">Googleでログイン</b-button>
+            <b-button :disable="isProcessing" variant="primary" @click="signInWithTwitter">Twitterでログイン</b-button>
         </div>
     </div>
 </template>
@@ -34,6 +36,7 @@
 import firebase from 'firebase'
 import Header from '@/components/Header'
 import Icon from 'vue-awesome/components/Icon'
+import { signInWithProvider } from '@/mixins/signInWithProvider'
 
 const db = firebase.firestore()
 
@@ -43,6 +46,9 @@ export default {
     'common-header': Header,
     'v-icon': Icon
   },
+  mixins: [
+    signInWithProvider
+  ],
   data () {
     return {
       email: '',
