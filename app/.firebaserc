@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "tsuratsura-0000"
+    "default": "tsuratsura-0000",
+    "production": "sorehatsurai"
   }
 }
