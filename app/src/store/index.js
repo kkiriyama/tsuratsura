@@ -7,7 +7,7 @@ Vue.use(Vuex)
 const db = firebase.firestore()
 
 const snapshot2PostData = async function (snapshot, mode) {
-  const data = Array(snapshot.length)
+  const data = Array(0)
   const authorPromiseList = []
   snapshot.forEach((doc) => {
     authorPromiseList.push(doc.author.get())
@@ -20,6 +20,7 @@ const snapshot2PostData = async function (snapshot, mode) {
     snapshot.forEach((doc, idx) => {
       const author = authorList[idx]
       const authorData = author.data()
+      if (authorData === undefined) return
       authorData.user_id = author.id
 
       // それはつらいスタンプ
@@ -51,13 +52,14 @@ const snapshot2PostData = async function (snapshot, mode) {
         goodJobUserList.push(userId)
       }
       doc.good_job_id_list = goodJobUserList
-      data[idx] = {posts: doc, author: authorData, uid: doc.id}
+      data.push({posts: doc, author: authorData, uid: doc.id})
     })
   }
   if (mode === 'erai') {
     snapshot.forEach((doc, idx) => {
       const author = authorList[idx]
       const authorData = author.data()
+      if (authorData === undefined) return
       authorData.user_id = author.id
 
       // すごいスタンプ
@@ -89,7 +91,7 @@ const snapshot2PostData = async function (snapshot, mode) {
         geniusUserList.push(userId)
       }
       doc.genius_id_list = geniusUserList
-      data[idx] = {posts: doc, author: authorData, uid: doc.id}
+      data.push({posts: doc, author: authorData, uid: doc.id})
     })
   }
   return data
