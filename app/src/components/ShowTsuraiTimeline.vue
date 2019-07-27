@@ -71,7 +71,7 @@ export default {
   ],
   data () {
     return {
-      twiUrl: `https://twitter.com/intent/tweet?text=${this.post.posts.body}&hashtags=今日のえらい&url=https://sorehatsurai.firebaseapp.com`
+      twiUrl: `https://twitter.com/intent/tweet?text=${this.post.posts.body}&hashtags=今日のつらい&url=https://sorehatsurai.firebaseapp.com`
     }
   },
   created () {},
