@@ -44,6 +44,9 @@
               <div class="card-body text-left show-newline border-line">
                   <span class="card-text">{{ post.posts.body }}</span>
               </div>
+              <div v-if="isAuthor" class="card-footer">
+                <a :href=twiUrl target="_blank"><twitter-icon/></a>
+              </div>
         </div>
     </div>
 </template>
@@ -51,6 +54,7 @@
 <script>
 import Icon from 'vue-awesome/components/Icon'
 import Stamp from '@/components/Stamp'
+import TwitterIcon from '@/components/icon/Twitter'
 import { postDeletable } from '@/mixins/postDeletable'
 import { stampHandler } from '@/mixins/stampHandler'
 
@@ -58,14 +62,17 @@ export default {
   name: 'Timeline',
   components: {
     'v-icon': Icon,
-    'stamp': Stamp
+    'stamp': Stamp,
+    'twitter-icon': TwitterIcon
   },
   mixins: [
     postDeletable,
     stampHandler
   ],
   data () {
-    return {}
+    return {
+      twiUrl: `https://twitter.com/intent/tweet?text=${this.post.posts.body}&hashtags=今日のつらい&url=https://sorehatsurai.firebaseapp.com`
+    }
   },
   created () {},
   props: {
