@@ -1,68 +1,30 @@
-# TsuraTsura
+# tsuratsura-pwa
 
-## 開発
+> A Vue.js project
 
-前提
-- Node.js
-- npm
-- Git
-- SSHによるGitHubへの接続
+## Build Setup
 
 ``` bash
-# このレポジトリを自分のパソコンにコピー
-git clone git@github.com:kkiriyama/tsuratsura.git
-
-# プロジェクトの中に移動
-cd tsuratsura
-
-# 必要なパッケージをインストール
+# install dependencies
 npm install
 
-# 編集用にブランチを作成
-git checkout -b ブランチ名
-
-# 開発用サーバーを起動
+# serve with hot reload at localhost:8080
 npm run dev
 
-# 編集したファイルをコミットできる状態にする
-git add <編集したファイル>
-
-# 変更をコミット
-git commit -m "コミットメッセージ"
-
-# 変更をGitHubにプッシュ
-git push origin 編集したブランチ名
-```
-
-## テスト
-
-```bash
-# ブラウザを自動操作するe2eテスト
-npm run e2e
-```
-
-## ビルド
-
-```bash
-# masterブランチに移る
-git checkout master
-
-# 最新の状態に
-git pull origin master
-
-# 本番環境用のファイルを作成(同時にテストが自動で走ります)
+# build for production with minification
 npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
 
-## デプロイ
-
-前提
-- firebase
-
-```bash
-# 最終確認
-firebase serve
-
-# デプロイ
-firebase deploy
-```
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

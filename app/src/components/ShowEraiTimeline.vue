@@ -4,7 +4,7 @@
             <div class="card-header erai-card-header">
                 <div class="wrapper">
                     <div class="content">
-                        <img :src="iconURL" width=40px height=40px>
+                        <img v-lazy="iconURL" width="40px" height="40px"/>
                     </div>
                     <div class="content">
                         <router-link class="erai-username" :to="{name: 'UserPage', params: {id: author_auth_id}}">
@@ -69,11 +69,6 @@ export default {
     postDeletable,
     stampHandler
   ],
-  data () {
-    return {
-      twiUrl: `https://twitter.com/intent/tweet?text=${this.post.posts.body}&hashtags=今日のえらい&url=https://sorehatsurai.firebaseapp.com`
-    }
-  },
   created () {},
   props: {
     post: {
@@ -82,6 +77,9 @@ export default {
     }
   },
   computed: {
+    twiUrl () {
+      return `https://twitter.com/intent/tweet?text=${this.post.posts.body}&hashtags=今日のえらい&url=https://sorehatsurai.firebaseapp.com`
+    },
     num_great () {
       return this.post.posts.great_list.length
     },

@@ -1,0 +1,15 @@
+{
+  "name": "TsuratTsura",
+  "short_name": "TsuraTsura",
+  "icons": [
+    {
+      "src": "/static/dummyicon/dummyicon1.png",
+      "sizes": "1251x1251",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#4DBA87"
+}

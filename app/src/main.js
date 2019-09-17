@@ -10,7 +10,9 @@ import Croppa from 'vue-croppa'
 import store from './store'
 import 'vue-awesome/icons/sync'
 import 'vue-awesome/icons/pencil-alt'
+import VueLazyload from 'vue-lazyload'
 
+Vue.use(VueLazyload)
 Vue.use(BootstrapVue)
 Vue.use(Croppa)
 Vue.config.productionTip = false
