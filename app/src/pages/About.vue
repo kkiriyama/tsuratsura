@@ -5,6 +5,23 @@
             mode="other"/>
         <div class="container">
             <h1 style="margin: 30px;"> About </h1>
+            <div class="container container-about">
+                <p class="about-sentence">このページは「つらい人の、つらい人による、つらい人のためのSNS」を目指して作られたSNS、「TsuraTsura」です。
+                </p>
+                <p class="about-sentence">「つらいTL」では今日あったつらいことを投稿してみましょう。しばらくすれば他のユーザーから
+                    「それはつらい」「よしよし」「頑張ったね」（左から順に）のスタンプが届くことでしょう。
+                </p>
+                <p class="about-sentence">「えらいTL」では今日成し遂げたえらいことを（どんなに些細なことでも！）投稿してみましょう。
+                    他のユーザーから「すごい！」「おめでとう！」「天才か？」（左から順に）のスタンプが届くことでしょう。
+                </p>
+                <p class="about-sentence">
+                    このSNSはお互いのつらいこと、えらいことを共有することに特化しています。ダイレクトメッセージ、画像投稿、リプライ、誰がスタンプを押したかの確認
+                    などは悩んだ末に実装しない方針をとりました。
+                </p>
+                <p class="about-sentence">
+                    匿名性の高い空間で、穏やかに、ひっそりとささやかな交流がなされることを願っています。
+                </p>
+            </div>
             <b-card-group deck>
                 <b-card
                     title="いんぐらむ"
@@ -59,3 +76,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.about-sentence {
+    margin: 40px;
+}
+
+.container-about {
+    width: 80%;
+}
+</style>
