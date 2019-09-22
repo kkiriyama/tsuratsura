@@ -79,10 +79,10 @@ export default {
 
 <style scoped>
 .about-sentence {
-    margin: 40px;
+    margin: 40px 10px;
 }
 
 .container-about {
-    width: 80%;
+    width: 95%;
 }
 </style>
